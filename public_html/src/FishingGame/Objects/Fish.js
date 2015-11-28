@@ -1,11 +1,21 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/*
+ * @auth: Caleb Larson
+ * @file: Fish.js
+ * @date: 11-27-15
+ * @brief: Base fish class which will be inherited from
  */
 
-function Fish(renderableObj) {
+/*jslint node: true, vars: true */
+/*global gEngine: false, GameObject: false */
 
+function Fish(renderableObj) {
+    GameObject.call(this, renderableObj);
+    this.mMoveRate = 5;
+    this.mIsHooked = false;
 }
 
+gEngine.Core.inheritPrototype(Fish, GameObject);
 
+Fish.prototype.update = function () {
+    // insert fish updating here
+};
