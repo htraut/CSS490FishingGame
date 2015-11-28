@@ -13,6 +13,7 @@
 function Fish(renderableObj) {
     GameObject.call(this, renderableObj);
     this.mStatus = 0;
+    this.mScore = 1;
 }
 gEngine.Core.inheritPrototype(Fish, GameObject);
 
@@ -26,16 +27,28 @@ Fish.prototype.update = function () {
     if(this.mStatus === Fish.eStatus.eCollideRight || this.mStatus === Fish.eStatus.eCollideLeft){
         this.reverseMovement();
     }
-    if(this.mStatus && Fish.eStatus.eHooked !== 1){
-        this.mRenderComponent.getXform().incXPosBy(this.mMoveRate);
+    if(Fish.eStatus.eHooked !== this.mStatus){
+        this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }
 };
 
+Fish.prototype.getStatus = function () {
+    return this.mStatus;
+};
+
 Fish.prototype.reverseMovement = function () {
-    this.mMoveRate *= -1;
+    this.mSpeed *= -1;
 };
 
 Fish.prototype.updateStatus = function (status){
     this.mStatus |= status;
+};
+
+Fish.prototype.setScore = function (value){
+    this.mScore = value;
+};
+
+Fish.prototype.getScore = function (value){
+    return this.mScore;
 };
 
