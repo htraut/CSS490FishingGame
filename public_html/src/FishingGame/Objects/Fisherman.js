@@ -9,14 +9,15 @@
 
 'use strict';
 
-function Fisherman(renderableObj) {
+function Fisherman(texture) {
     this.kDelta = 0.5;
     
-    renderableObj.setColor([1,1,1,0]);
-    renderableObj.getXform().setPosition(0,0);
-    renderableObj.getXform().setSize(6,13);
-    renderableObj.setElementPixelPositions(0, 120, 0, 180);
-    GameObject.call(this, renderableObj);
+    this.mFisherman = new SpriteRenderable(texture);
+    this.mFisherman.setColor([1,1,1,0]);
+    this.mFisherman.getXform().setPosition(0,0);
+    this.mFisherman.getXform().setSize(6,13);
+    this.mFisherman.setElementPixelPositions(0, 120, 0, 180);
+    GameObject.call(this, this.mFisherman);
 }
 gEngine.Core.inheritPrototype(Fisherman, GameObject);
 
