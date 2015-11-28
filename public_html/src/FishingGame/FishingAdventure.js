@@ -38,28 +38,19 @@ FishingAdventure.prototype.initialize = function () {
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 FishingAdventure.prototype.draw = function () {
-    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
-    
-    this.mCamera.setupViewProjection();
-    this.mMsg.setText("This is splash Screen");
-    this.mMsg.getXform().setPosition(10, 55);
-    this.mMsg.draw(this.mCamera);
-    this.mMsg.setText("Press <Space Bar> to start fishing!");
-    this.mMsg.getXform().setPosition(10, 45);
-    this.mMsg.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingAdventure.prototype.update = function () {
     // select which character to work with
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
-        gEngine.GameLoop.stop();
-    }
+    //if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
+    gEngine.GameLoop.stop();
+    
 };
 
 
 FishingAdventure.prototype.unloadScene = function() {
-    var nextLevel = new GameLevel_01("Level1");  // next level to be loaded
+    var nextLevel = new StartScreen("Level1");  // next level to be loaded
     gEngine.Core.startScene(nextLevel);
 };
