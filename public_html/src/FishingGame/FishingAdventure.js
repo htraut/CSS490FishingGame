@@ -27,7 +27,7 @@ FishingAdventure.prototype.initialize = function () {
         2
     );
     
-    this.mCamera.setBackgroundColor([0.5, 0.5, 0.9, 1]);
+    this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
 
     this.mMsg = new FontRenderable("This is splash screen");
     this.mMsg.setColor([1, 0, 0, 1]);
