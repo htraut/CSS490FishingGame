@@ -19,7 +19,7 @@ function Spawner(camera){
  * @amount: the amount to spawn
  * @type: the object type to be spawned
  */
-Spawner.prototype.populate = function (amount, type, renderableObj){
+Spawner.prototype.populate = function (amount, type, texture){
     
     if(amount === 0) return;
     if(type === null) return;
@@ -33,14 +33,15 @@ Spawner.prototype.populate = function (amount, type, renderableObj){
     for(i; i < amount; i++){
         switch(type){
             case "Fish":
-                object = new Fish(renderableObj);
+                object = new Fish(texture);
+                object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*10) + 1);
                 h = Math.floor((Math.random()*10) + 1);
                 objXform.setSize(w, h);
                 object.setScore(w * h);
                 x = this._generateXPos();
-                y = this._generatYPos();
+                y = this._generateYPos();
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
@@ -68,10 +69,11 @@ Spawner.prototype._generateYPos = function(){
     var dir = Math.round(Math.random());
     var y;
     var disp = Math.random();
-    if(dir === 1 && (this.mLocation[0] + (this.mHeight/2)) < 0){
+    if(dir === 1 && (this.mLocation[0] + (this.mHeight/2)) < -15){
         y = (this.mLocation[0] + (this.mHeight/2))*disp;
     }else{
         y = (this.mLocation[0] - (this.mHeight/2))*disp;
+        y += 10;
     }
     return y;
 };
