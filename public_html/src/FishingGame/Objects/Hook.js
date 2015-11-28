@@ -14,9 +14,9 @@ function Hook(texture) {
     
     this.mHook = new SpriteRenderable(texture);
     this.mHook.setColor([1,1,1,0]);
-    this.mHook.getXform().setPosition(-15, -15);
-    this.mHook.getXform().setSize(13,6);
-    this.mHook.setElementPixelPositions(35, 80, 350, 370);
+    this.mHook.getXform().setPosition(0, -8);
+    this.mHook.getXform().setSize(6,6);
+    this.mHook.setElementPixelPositions(35, 95, 315, 350);
     GameObject.call(this, this.mHook);
     this.mLength = 20;
     this.mStatus = 0;
@@ -25,14 +25,20 @@ function Hook(texture) {
 gEngine.Core.inheritPrototype(Hook, GameObject);
 
 Hook.prototype.update = function (){
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)){
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W) || this.mStatus === 1){
         if(this.getXform().getYPos() < 0){
-            this.getXform().incXPosBy(this.mSpeed);
+            this.getXform().incYPosBy(this.mSpeed);
+            this.mStatus = 1;
+        }else{
+            this.mStatus = 0;
         }
     }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)){
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.S) || this.mStatus === 2){
         if(this.getXform().getYPos() > (this.mLength * (-1))){
-            this.getXform().incXPosBy(-this.mSpeed);
+            this.getXform().incYPosBy(-this.mSpeed);
+            this.mStatus = 2;
+        }else{
+            this.mStatus = 0;
         }
     }
 };
