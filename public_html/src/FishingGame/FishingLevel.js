@@ -21,6 +21,7 @@ function FishingLevel() {
     this.mFish = null;
     this.mFishSpawner = null;
     this.mBG = null;
+    this.mHook = null;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -68,6 +69,7 @@ FishingLevel.prototype.initialize = function () {
     
     
     this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
+    this.mHook = new Hook(this.kSpriteNames);
     
 };
 
@@ -78,6 +80,7 @@ FishingLevel.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
     this.mBoat.draw(this.mCamera);
+    this.mHook.draw(this.mCamera);
     var i = 0;
     for(i; i< this.mFish.length; i++){
         this.mFish[i].draw(this.mCamera);
@@ -89,6 +92,7 @@ FishingLevel.prototype.draw = function () {
 // anything from this function!
 FishingLevel.prototype.update = function () {
     this.mBoat.update();
+    this.mHook.update();
     // select which character to work with
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
