@@ -37,11 +37,25 @@ Spawner.prototype.populate = function (amount, type, texture){
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*10) + 1);
-                h = Math.floor((Math.random()*10) + 1);
+                h = w * Math.random();
+                h += 1;
                 objXform.setSize(w, h);
                 object.setScore(w * h);
-                x = this._generateXPos();
-                y = this._generateYPos();
+                x = this._generateXPos(Math.round(Math.random()));
+                y = this._generateYPos(0) - 5;
+                objXform.setPosition(x, y);
+                population.push(object);
+                continue;
+            case "Cloud":
+                object = new Cloud(texture);
+                object.setSpeed(0.1);
+                objXform = object.getXform();
+                w = Math.floor((Math.random()*10) + 1);
+                h = w * 0.5;
+                objXform.setSize(w, h);
+                x = this._generateXPos(Math.round(Math.random()));
+                y = this._generateYPos(1);
+                y += 15;
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
@@ -53,27 +67,26 @@ Spawner.prototype.populate = function (amount, type, texture){
     return population;
 };
 
-Spawner.prototype._generateXPos = function(){
-    var dir = Math.round(Math.random());
+Spawner.prototype._generateXPos = function(value){
+    var dir = value;
     var x;
-    var disp = Math.random();
+    var disp = Math.floor((Math.random()*10)+1)/10;
     if(dir === 1){
-        x = (this.mLocation[0] + (this.mWidth/2))*disp;
+        x = (this.mLocation[0] + (this.mWidth/3))*disp;
     }else{
-         x = (this.mLocation[0] - (this.mWidth/2))*disp;
+         x = (this.mLocation[0] - (this.mWidth/3))*disp;
     }
     return x;
 };
 
-Spawner.prototype._generateYPos = function(){
-    var dir = Math.round(Math.random());
+Spawner.prototype._generateYPos = function(value){
+    var dir = value;
     var y;
-    var disp = Math.random();
-    if(dir === 1 && (this.mLocation[0] + (this.mHeight/2)) < -15){
-        y = (this.mLocation[0] + (this.mHeight/2))*disp;
+    var disp = Math.floor((Math.random()*10)+1)/10;
+    if(dir === 1){
+        y = (this.mLocation[0] + (this.mHeight/3))*disp;
     }else{
-        y = (this.mLocation[0] - (this.mHeight/2))*disp;
-        y += 10;
+        y = (this.mLocation[0] - (this.mHeight/3))*disp;
     }
     return y;
 };

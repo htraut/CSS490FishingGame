@@ -19,7 +19,8 @@ function FishingLevel() {
     this.mMsg = null;
     this.mBoat = null;
     this.mFish = null;
-    this.mFishSpawner = null;
+    this.mCloud = null;
+    this.mSpawner = null;
     this.mBG = null;
     this.mHook = null;
 }
@@ -62,8 +63,9 @@ FishingLevel.prototype.initialize = function () {
     //this.mFish = new Fish(this.kSpriteNames);
     //this.mFish.setSpeed(0.1);
     
-    this.mFishSpawner = new Spawner(this.mCamera);
-    this.mFish = this.mFishSpawner.populate(3, "Fish", this.kSpriteNames);
+    this.mSpawner = new Spawner(this.mCamera);
+    this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
+    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
     
     
     
@@ -81,11 +83,13 @@ FishingLevel.prototype.draw = function () {
     this.mBG.draw(this.mCamera);
     this.mBoat.draw(this.mCamera);
     this.mHook.draw(this.mCamera);
-    var i = 0;
-    for(i; i< this.mFish.length; i++){
+    var i;
+    for(i = 0; i< this.mFish.length; i++){
         this.mFish[i].draw(this.mCamera);
     }
-    
+    for(i = 0; i< this.mCloud.length; i++){
+        this.mCloud[i].draw(this.mCamera);
+    }
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -98,10 +102,13 @@ FishingLevel.prototype.update = function () {
         gEngine.GameLoop.stop();
     }
     
-    var i = 0;
-    for(i; i< this.mFish.length; i++){
+    var i;
+    for(i = 0; i< this.mFish.length; i++){
         this.mFish[i].statusCheck(this.mBG, this.mBoat);
         this.mFish[i].update();
+    }
+    for(i = 0; i< this.mCloud.length; i++){
+        this.mCloud[i].update();
     }
 };
 
