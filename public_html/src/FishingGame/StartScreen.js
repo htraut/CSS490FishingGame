@@ -25,9 +25,9 @@ StartScreen.prototype.initialize = function () {
         2
     );
     
-    this.mCamera.setBackgroundColor([0.5, 0.5, 0.9, 1]);
+    this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
 
-    this.mMsg = new FontRenderable("This is splash screen");
+    this.mMsg = new FontRenderable("");
     this.mMsg.setColor([1, 0, 0, 1]);
     this.mMsg.getXform().setPosition(10, 50);
     this.mMsg.setTextHeight(5);
@@ -60,6 +60,6 @@ StartScreen.prototype.update = function () {
 };
 
 StartScreen.prototype.unloadScene = function() {
-    var nextLevel = new GameOver("GameOver");  // next level to be loaded
+    var nextLevel = new FishingLevel("FishingLevel");  // next level to be loaded
     gEngine.Core.startScene(nextLevel);
 };

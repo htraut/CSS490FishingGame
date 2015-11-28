@@ -27,7 +27,7 @@ FishingAdventure.prototype.initialize = function () {
         2
     );
     
-    this.mCamera.setBackgroundColor([0.5, 0.5, 0.9, 1]);
+    this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
 
     this.mMsg = new FontRenderable("This is splash screen");
     this.mMsg.setColor([1, 0, 0, 1]);
@@ -51,6 +51,10 @@ FishingAdventure.prototype.update = function () {
 
 
 FishingAdventure.prototype.unloadScene = function() {
+<<<<<<< HEAD
+    var nextLevel = new FishingLevel("FishingLevel");  // next level to be loaded
+=======
     var nextLevel = new StartScreen("Level1");  // next level to be loaded
+>>>>>>> origin/master
     gEngine.Core.startScene(nextLevel);
 };
