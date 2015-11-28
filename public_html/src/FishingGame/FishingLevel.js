@@ -45,7 +45,7 @@ FishingLevel.prototype.initialize = function () {
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
-    this.mBoat = new SpriteRenderable(this.kSpriteNames);
+    this.mBoat = new FishingBoat(this.kSpriteNames);
     this.mBoat.setColor([1, 1, 1, 0]);
     this.mBoat.getXform().setPosition(50, 50);
     this.mBoat.getXform().setSize(10, 5);
@@ -63,6 +63,7 @@ FishingLevel.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
+    this.mBoat.update();
     // select which character to work with
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
