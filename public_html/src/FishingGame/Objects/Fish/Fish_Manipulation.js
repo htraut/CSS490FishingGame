@@ -25,10 +25,10 @@ Fish.prototype.statusCheck = function(theBG, theHook){
         hookCenter = theHook.getXform().getPosition();
         fishXform.setPosition(hookCenter[0], hookCenter[1]);
     }
-    if(fishBB.boundCollideStatus(BGBB) === 2){
+    if(fishBB.boundCollideStatus(BGBB) === 13){
         this.updateStatus(Fish.eStatus.eCollideRight);
     }
-    if(fishBB.boundCollideStatus(BGBB) === 1){
+    if(fishBB.boundCollideStatus(BGBB) === 14){
         this.updateStatus(Fish.eStatus.eCollideLeft);
     }
 };
