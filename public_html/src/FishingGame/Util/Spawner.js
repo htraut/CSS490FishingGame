@@ -7,7 +7,7 @@
  */
 
 
-/* global Camera */
+/* global Camera, Fish */
 
 function Spawner(camera){
     this.mLocation = camera.getWCCenter();
