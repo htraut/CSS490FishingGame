@@ -68,7 +68,7 @@ Spawner.prototype._generateYPos = function(){
     var dir = Math.round(Math.random());
     var y;
     var disp = Math.random();
-    if(dir === 1){
+    if(dir === 1 && (this.mLocation[0] + (this.mHeight/2)) < 0){
         y = (this.mLocation[0] + (this.mHeight/2))*disp;
     }else{
         y = (this.mLocation[0] - (this.mHeight/2))*disp;
