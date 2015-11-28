@@ -10,14 +10,15 @@
 
 'use strict';
 
-function FishingBoat(renderableObj){
+function FishingBoat(texture){
     this.kDelta = 0.5;
     
-    renderableObj.setColor([1,1,1,0]);
-    renderableObj.getXform().setPosition(0,0);
-    renderableObj.getXform().setSize(13,6);
-    renderableObj.setElementPixelPositions(320, 490, 0, 170);
-    GameObject.call(this, renderableObj);
+    this.mBoat = new SpriteRenderable(texture);
+    this.mBoat.setColor([1,1,1,0]);
+    this.mBoat.getXform().setPosition(0,0);
+    this.mBoat.getXform().setSize(13,6);
+    this.mBoat.setElementPixelPositions(320, 490, 0, 170);
+    GameObject.call(this, this.mBoat);
 }
 gEngine.Core.inheritPrototype(FishingBoat, GameObject);
 
