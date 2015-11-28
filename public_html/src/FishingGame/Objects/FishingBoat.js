@@ -17,7 +17,7 @@ function FishingBoat(texture){
     this.mBoat.setColor([1,1,1,0]);
     this.mBoat.getXform().setPosition(0,0);
     this.mBoat.getXform().setSize(13,6);
-    this.mBoat.setElementPixelPositions(320, 490, 0, 170);
+    this.mBoat.setElementPixelPositions(35, 90, 450, 470);
     GameObject.call(this, this.mBoat);
 }
 gEngine.Core.inheritPrototype(FishingBoat, GameObject);

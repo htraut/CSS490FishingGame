@@ -19,6 +19,7 @@ function FishingLevel() {
     this.mMsg = null;
     this.mBoat = null;
     this.mFish = null;
+    this.mFishSpawner = null;
     this.mBG = null;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
@@ -57,9 +58,14 @@ FishingLevel.prototype.initialize = function () {
     tempFish.getXform().setSize(10, 5);
     tempFish.setElementPixelPositions(35, 90, 450, 470);*/
     
-    this.mFish = new Fish(this.kSpriteNames);
+    //this.mFish = new Fish(this.kSpriteNames);
+    //this.mFish.setSpeed(0.1);
     
-    this.mFish.setSpeed(0.1);
+    this.mFishSpawner = new Spawner(this.mCamera);
+    this.mFish = this.mFishSpawner.populate(3, "Fish", this.kSpriteNames);
+    
+    
+    
     
     this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
     
@@ -72,7 +78,10 @@ FishingLevel.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
     this.mBoat.draw(this.mCamera);
-    this.mFish.draw(this.mCamera);
+    var i = 0;
+    for(i; i< this.mFish.length; i++){
+        this.mFish[i].draw(this.mCamera);
+    }
     
 };
 
@@ -85,7 +94,10 @@ FishingLevel.prototype.update = function () {
         gEngine.GameLoop.stop();
     }
     
-    this.mFish.statusCheck(this.mBG, this.mBoat);
-    this.mFish.update();
+    var i = 0;
+    for(i; i< this.mFish.length; i++){
+        this.mFish[i].statusCheck(this.mBG, this.mBoat);
+        this.mFish[i].update();
+    }
 };
 
