@@ -12,16 +12,20 @@
 function FishingLevel() {
     //Sprites
     this.kSpriteNames = "assets/sprite_names.png";
+    this.kBG = "assets/water.png";
     
     // The camera to view the scene
     this.mCamera = null;
     this.mMsg = null;
     this.mBoat = null;
+    this.mFish = null;
+    this.mBG = null;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSpriteNames);
+    gEngine.Textures.loadTexture(this.kBG);
 };
 
 FishingLevel.prototype.unloadScene = function() {
@@ -37,7 +41,7 @@ FishingLevel.prototype.initialize = function () {
     
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(50, 50), // position of the camera
+        vec2.fromValues(0, 0), // position of the camera
         100,                        // width of camera
         [0, 0, 1280, 960],         // viewport (orgX, orgY, width, height)
         2
@@ -47,9 +51,23 @@ FishingLevel.prototype.initialize = function () {
     
     this.mBoat = new FishingBoat(this.kSpriteNames);
     this.mBoat.setColor([1, 1, 1, 0]);
-    this.mBoat.getXform().setPosition(50, 50);
+    this.mBoat.getXform().setPosition(0, 0);
     this.mBoat.getXform().setSize(10, 5);
     this.mBoat.setElementPixelPositions(35, 90, 450, 470);
+    this.mBoat = new FishingBoat(this.mBoat);
+    
+    var tempFish = new SpriteRenderable(this.kSpriteNames);
+    tempFish.setColor([1, 1, 1, 0]);
+    tempFish.getXform().setPosition(0, -10);
+    tempFish.getXform().setSize(10, 5);
+    tempFish.setElementPixelPositions(35, 90, 450, 470);
+    
+    this.mFish = new Fish(tempFish);
+    
+    this.mFish.setSpeed(0.01);
+    
+    this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -57,7 +75,10 @@ FishingLevel.prototype.initialize = function () {
 FishingLevel.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     this.mCamera.setupViewProjection();
+    this.mBG.draw(this.mCamera);
     this.mBoat.draw(this.mCamera);
+    this.mFish.draw(this.mCamera);
+    
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -68,5 +89,8 @@ FishingLevel.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
     }
+    
+    this.mFish.statusCheck(this.mBG, this.mBoat);
+    this.mFish.update();
 };
 
