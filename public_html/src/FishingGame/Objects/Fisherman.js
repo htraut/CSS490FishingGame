@@ -7,6 +7,8 @@
 
 /* global GameObject, gEngine */
 
+'use strict';
+
 function Fisherman(texture) {
     this.kDelta = 0.5;
     
