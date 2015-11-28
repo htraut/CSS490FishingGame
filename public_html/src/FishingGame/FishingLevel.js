@@ -49,16 +49,15 @@ FishingLevel.prototype.initialize = function () {
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
-    var poo = new SpriteRenderable(this.kSpriteNames);
-    this.mBoat = new FishingBoat(poo);
-    
+    this.mBoat = new FishingBoat(this.kSpriteNames);
+    /*
     var tempFish = new SpriteRenderable(this.kSpriteNames);
     tempFish.setColor([1, 1, 1, 0]);
     tempFish.getXform().setPosition(0, -10);
     tempFish.getXform().setSize(10, 5);
-    tempFish.setElementPixelPositions(35, 90, 450, 470);
+    tempFish.setElementPixelPositions(35, 90, 450, 470);*/
     
-    this.mFish = new Fish(tempFish);
+    this.mFish = new Fish(this.kSpriteNames);
     
     this.mFish.setSpeed(0.1);
     
