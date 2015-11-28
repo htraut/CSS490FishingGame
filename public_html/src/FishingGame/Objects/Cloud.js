@@ -8,6 +8,8 @@
 
 /* global GameObject, gEngine */
 
+'use strict';
+
 function Cloud(texture) {
     this.kDelta = 0.5;
     
