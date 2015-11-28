@@ -23,16 +23,10 @@ function FishingBoat(texture){
 gEngine.Core.inheritPrototype(FishingBoat, GameObject);
 
 FishingBoat.prototype.update = function () {
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)){
-        this.getXform().incYPosBy(this.kDelta);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.S)){
-        this.getXform().incYPosBy(-this.kDelta);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.A)){
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
         this.getXform().incXPosBy(-this.kDelta);
     }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.D)){
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
         this.getXform().incXPosBy(this.kDelta);
     }
 };

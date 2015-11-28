@@ -24,9 +24,14 @@ Fish.eStatus = Object.freeze({
 });
 
 Fish.prototype.update = function () {
-    if(this.mStatus === Fish.eStatus.eCollideRight || this.mStatus === Fish.eStatus.eCollideLeft){
-        this.reverseMovement();
+    if(this.mStatus === Fish.eStatus.eCollideRight){
+        this.mSpeed *= -1;
+        this.mStatus = 0;
+    }else if(this.mStatus === Fish.eStatus.eCollideLeft){
+        this.mSpeed *= -1;
+        this.mStatus = 0;
     }
+    
     if(Fish.eStatus.eHooked !== this.mStatus){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }
@@ -34,10 +39,6 @@ Fish.prototype.update = function () {
 
 Fish.prototype.getStatus = function () {
     return this.mStatus;
-};
-
-Fish.prototype.reverseMovement = function () {
-    this.mSpeed *= -1;
 };
 
 Fish.prototype.updateStatus = function (status){
