@@ -50,7 +50,7 @@ FishingLevel.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(0, 0), // position of the camera
         100,                        // width of camera
-        [0, 0, 1280, 960],         // viewport (orgX, orgY, width, height)
+        [0, 0, 960, 720],         // viewport (orgX, orgY, width, height)
         2
     );
     
@@ -62,17 +62,14 @@ FishingLevel.prototype.initialize = function () {
     this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(3, "Shark", this.kSpriteNames);
-    
-    
-    
-    
-    this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
+
+    this.mBG = new TextureObject(this.kBG, 0, 0, 150, 150);
     this.mHook = new Hook(this.kSpriteNames);
     
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 1, 1]);
     this.mMsg.getXform().setPosition(1, 14);
-    this.mMsg.setTextHeight(3);
+    this.mMsg.setTextHeight(2);
     this.mLives = 3;
     this.mScore = 0;
 };
