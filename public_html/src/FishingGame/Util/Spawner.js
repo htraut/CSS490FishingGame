@@ -18,6 +18,7 @@ function Spawner(camera){
 /*
  * @amount: the amount to spawn
  * @type: the object type to be spawned
+ * @texture: the sprite sheet for the object
  */
 Spawner.prototype.populate = function (amount, type, texture){
     
@@ -46,6 +47,20 @@ Spawner.prototype.populate = function (amount, type, texture){
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
+            case "Shark":
+                object = new Shark(texture);
+                object.setSpeed(0.1);
+                objXform = object.getXform();
+                w = Math.floor((Math.random()*10) + 1);
+                h = w * Math.random();
+                h += 1;
+                objXform.setSize(w, h);
+                object.setScore(0);
+                x = this._generateXPos(Math.round(Math.random()));
+                y = this._generateYPos(0) - 5;
+                objXform.setPosition(x, y);
+                population.push(object);
+                continue;
             case "Cloud":
                 object = new Cloud(texture);
                 object.setSpeed(0.1);
@@ -67,6 +82,10 @@ Spawner.prototype.populate = function (amount, type, texture){
     return population;
 };
 
+/*
+ * Coordinates a generated around the camera's center
+ * @value: 0 for x coordinate to the left, 1 for x coordinate to the right
+ */
 Spawner.prototype._generateXPos = function(value){
     var dir = value;
     var x;
@@ -79,6 +98,9 @@ Spawner.prototype._generateXPos = function(value){
     return x;
 };
 
+/*
+ * @value: 0 for y coordinate below, 1 for y coordinate above
+ */
 Spawner.prototype._generateYPos = function(value){
     var dir = value;
     var y;

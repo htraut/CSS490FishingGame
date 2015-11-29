@@ -5,7 +5,7 @@
  * @brief: Scene for gameplay
  */
 
-/* global Scene, gEngine, vec2 */
+/* global Scene, gEngine, vec2, Shark */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
@@ -19,6 +19,7 @@ function FishingLevel() {
     this.mMsg = null;
     this.mBoat = null;
     this.mFish = null;
+    this.mShark = null;
     this.mCloud = null;
     this.mSpawner = null;
     this.mBG = null;
@@ -57,6 +58,7 @@ FishingLevel.prototype.initialize = function () {
     this.mSpawner = new Spawner(this.mCamera);
     this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
+    this.mShark = this.mSpawner.populate(3, "Shark", this.kSpriteNames);
     
     
     
@@ -81,6 +83,9 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mCloud.length; i++){
         this.mCloud[i].draw(this.mCamera);
     }
+    for(i = 0; i< this.mShark.length; i++){
+        this.mShark[i].draw(this.mCamera);
+    }
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -103,6 +108,13 @@ FishingLevel.prototype.update = function () {
     }
     for(i = 0; i < this.mCloud.length; i++){
         this.mCloud[i].update();
+    }
+    for(i = 0; i< this.mShark.length; i++){
+        if(this.mShark[i].getStatus !== Shark.eStatus.eChase){
+            this.mShark[i].statusCheck(this.mBG, this.mBoat);
+        }
+        this.mShark[i].chase(this.mHook);
+        this.mShark[i].update();
     }
 };
 
