@@ -61,6 +61,20 @@ Spawner.prototype.populate = function (amount, type, texture){
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
+            case "Angler":
+                object = new AnglerFish(texture);
+                object.setSpeed(0.1);
+                objXform = object.getXform();
+                w = Math.floor((Math.random()*10) + 1);
+                h = w * Math.random();
+                h += 1;
+                objXform.setSize(w, h);
+                object.setScore(0);
+                x = this._generateXPos(Math.round(Math.random()));
+                y = this._generateYPos(0) - 5;
+                objXform.setPosition(x, y);
+                population.push(object);
+                continue;    
             case "Cloud":
                 object = new Cloud(texture);
                 object.setSpeed(0.1);
