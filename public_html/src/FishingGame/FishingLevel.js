@@ -6,7 +6,7 @@
  * @brief: Scene for gameplay
  */
 
-/* global Scene, gEngine, vec2, Fish, Shark */
+/* global Scene, gEngine, vec2, Fish, Shark, Angler, AnglerFish */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
@@ -21,6 +21,7 @@ function FishingLevel() {
     this.mBoat = null;
     this.mFish = null;
     this.mShark = null;
+    this.mAngler = null;
     this.mCloud = null;
     this.mSpawner = null;
     this.mBG = null;
@@ -64,6 +65,7 @@ FishingLevel.prototype.initialize = function () {
     this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(3, "Shark", this.kSpriteNames);
+    this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
     
     this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
     this.mHook = new Hook(this.kSpriteNames);
@@ -94,6 +96,9 @@ FishingLevel.prototype.draw = function () {
     }
     for(i = 0; i< this.mShark.length; i++){
         this.mShark[i].draw(this.mCamera);
+    }
+    for(i = 0; i< this.mAngler.length; i++){
+        this.mAngler[i].draw(this.mCamera);
     }
     this.mMsg.draw(this.mCamera);
 };
@@ -131,6 +136,14 @@ FishingLevel.prototype.update = function () {
         this.mShark[i].chase(this.mHook);
         this.mShark[i].update();
     }
+    for(i = 0; i< this.mAngler.length; i++){
+        if(this.mAngler[i].getStatus !== AnglerFish.eStatus.eRunAway){
+            this.mAngler[i].statusCheck(this.mBG, this.mBoat);
+        }
+        this.mAngler[i].chase(this.mHook);
+        this.mAngler[i].update();
+    }
+    
     var msg = "";
     this.updateText(msg);
 };
