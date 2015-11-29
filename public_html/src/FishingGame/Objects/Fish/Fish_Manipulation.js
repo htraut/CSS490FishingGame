@@ -38,27 +38,34 @@ Fish.prototype.statusCheck = function(theBG, theHook){
 
 Fish.prototype.chase = function(hook){
     var hookPos = hook.getXform().getPosition();
+    var result = vec2.create();
     if(hook.getStatus() === 0 && this.getStatus() === Shark.eStatus.eChase) {  
         this.updateStatus(Fish.eStatus.eDespawn);
         return; //Reeled in
     }
-    this.updateStatus(Shark.eStatus.eChase);
-    this.rotateObjPointTo(hookPos, this.mRotateRate);
-    var pos = this.getXform().getPosition();
-    vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
+    var dir = vec2.create();
+    vec2.subtract(dir, hookPos, this.getXform().getPosition());
+    var len = vec2.length(dir);
+    if(len > this.mChaseDist){
+        return; //Too far, don't care
+    }else if(this.pixelTouches(hook, result)){
+        this.updateStatus(Fish.eStatus.eHooked);
+        return;
+    }else{
+        this.updateStatus(Shark.eStatus.eChase);
+        this.rotateObjPointTo(hookPos, this.mRotateRate);
+        var pos = this.getXform().getPosition();
+        vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
+    }
 };
 
 Fish.prototype.despawn = function (theBG){
     if(this.getStatus() !== Fish.eStatus.eDespawn) return;
     var fishBB = this.getBBox();
     var BGBB = theBG.getBBox();
-    var jump = 5;
-    
     if(fishBB.boundCollideStatus(BGBB) === BoundingBox.eboundCollideStatus.eOutside){
         return true;
     }
-   
-
     return false; //not out of sight yet
 };
 

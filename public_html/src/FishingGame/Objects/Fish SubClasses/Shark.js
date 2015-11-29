@@ -6,7 +6,7 @@
  */
 
 
-/* global GameObject, gEngine, Fish */
+/* global GameObject, gEngine, Fish, vec2 */
 
 'use strict';
 
@@ -14,19 +14,17 @@ function Shark(texture){
     
     Fish.call(this, texture);
     this.mFish.setElementPixelPositions(35, 100, 250, 270);
-    this.mChaseDist = 10;
+    this.mChaseDist = 15;
     this.mRotateRate = 0.3;
     this.mSpeed = 1.5;
 }
 gEngine.Core.inheritPrototype(Shark, Fish);
 
 Shark.eStatus = Object.freeze({
-    eChase: 8,
-    eKill: 10
+    eChase: 8
 });
 
 Shark.prototype.update = function (){
-    
     if(this.mStatus === Fish.eStatus.eDespawn){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }else{

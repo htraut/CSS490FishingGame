@@ -25,10 +25,12 @@ function FishingLevel() {
     this.mSpawner = null;
     this.mBG = null;
     this.mHook = null;
-    this.mHooks = null;
+    //this.mHooks = null;
     //Status Variables
     this.mLives = null;
     this.mScore = null;
+    this.mInvuln = false;
+    this.mCount = 0;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -63,8 +65,8 @@ FishingLevel.prototype.initialize = function () {
     this.mSpawner = new Spawner(this.mCamera);
     this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
-    this.mShark = this.mSpawner.populate(3, "Shark", this.kSpriteNames);
-    this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
+    this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
+    //this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
     
     this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
     this.mHook = new Hook(this.kSpriteNames);
@@ -96,15 +98,25 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mShark.length; i++){
         this.mShark[i].draw(this.mCamera);
     }
+    /*
     for(i = 0; i< this.mAngler.length; i++){
         this.mAngler[i].draw(this.mCamera);
     }
+    */
     this.mMsg.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
+    if(this.mLives <= 0) gEngine.GameLoop.stop();
+    if(this.mInvuln === true && this.mCount <= 180){ //180/60 = 3 seconds
+        this.mCount++;
+    }else{
+        this.mInvuln = false;
+        this.mCount = 0;
+    }
+    
     this.mHook.update();
     this.mBoat.update(this.mHook);
     
@@ -112,7 +124,6 @@ FishingLevel.prototype.update = function () {
     this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.update();
     
-    // select which character to work with
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
     }
@@ -129,13 +140,28 @@ FishingLevel.prototype.update = function () {
     for(i = 0; i < this.mCloud.length; i++){
         this.mCloud[i].update();
     }
-    for(i = 0; i< this.mShark.length; i++){
-        if(this.mShark[i].getStatus !== Shark.eStatus.eChase){
-            this.mShark[i].statusCheck(this.mBG, this.mBoat);
+    for(i = 0; i < this.mShark.length; i++){
+        if(this.mShark[i].getStatus() !== Shark.eStatus.eChase){
+            this.mShark[i].statusCheck(this.mBG, this.mHook);
+            this.mShark[i].update();
         }
         this.mShark[i].chase(this.mHook);
-        this.mShark[i].update();
+        if(this.mShark[i].getStatus() === Fish.eStatus.eHooked){
+            if(!this.mInvuln){
+               this.mLives -= 1;
+               this.mInvuln = true;
+            }
+            this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
+        }
+        if(this.mShark[i].getStatus() === Fish.eStatus.eDespawn){
+            this.mShark[i].update();
+            if(this.mShark[i].despawn(this.mBG)) {
+                this.mShark.splice(i, 1);
+            }
+        }
+        
     }
+    /*
     for(i = 0; i< this.mAngler.length; i++){
         if(this.mAngler[i].getStatus !== AnglerFish.eStatus.eRunAway){
             this.mAngler[i].statusCheck(this.mBG, this.mBoat);
@@ -143,6 +169,7 @@ FishingLevel.prototype.update = function () {
         this.mAngler[i].chase(this.mHook);
         this.mAngler[i].update();
     }
+    */
     
     var msg = "";
     this.updateText(msg);
