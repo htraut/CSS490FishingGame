@@ -123,6 +123,7 @@ FishingLevel.prototype.update = function () {
         this.mFish[i].statusCheck(this.mBG, this.mHook);
         this.mFish[i].update();
         if((this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
+            this.mScore += this.mFish[i].getScore();
             this.mFish.splice(i, 1);
         }
     }
