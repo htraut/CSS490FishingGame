@@ -24,6 +24,9 @@ function FishingLevel() {
     this.mSpawner = null;
     this.mBG = null;
     this.mHook = null;
+    //Status Variables
+    this.mLives = null;
+    this.mScore = null;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -66,6 +69,12 @@ FishingLevel.prototype.initialize = function () {
     this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
     this.mHook = new Hook(this.kSpriteNames);
     
+    this.mMsg = new FontRenderable("Status Message");
+    this.mMsg.setColor([0, 0, 1, 1]);
+    this.mMsg.getXform().setPosition(1, 14);
+    this.mMsg.setTextHeight(3);
+    this.mLives = 3;
+    this.mScore = 0;
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -86,6 +95,7 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mShark.length; i++){
         this.mShark[i].draw(this.mCamera);
     }
+    this.mMsg.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -119,5 +129,17 @@ FishingLevel.prototype.update = function () {
         this.mShark[i].chase(this.mHook);
         this.mShark[i].update();
     }
+    var msg = "";
+    this.updateText(msg);
 };
 
+FishingLevel.prototype.updateText = function (msg) {
+    var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
+    var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
+    this.mMsg.getXform().setPosition(textX,textY);
+    msg += "Hooks Left: " + this.mLives + 
+            " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
+            " Score: " + this.mScore;
+            
+    this.mMsg.setText(msg);
+};
