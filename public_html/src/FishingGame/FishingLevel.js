@@ -25,6 +25,10 @@ function FishingLevel() {
     this.mSpawner = null;
     this.mBG = null;
     this.mHook = null;
+    this.mHooks = null;
+    //Status Variables
+    this.mLives = null;
+    this.mScore = null;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -61,11 +65,15 @@ FishingLevel.prototype.initialize = function () {
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(3, "Shark", this.kSpriteNames);
     
-    
-    
-    
     this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
     this.mHook = new Hook(this.kSpriteNames);
+    
+    this.mMsg = new FontRenderable("Status Message");
+    this.mMsg.setColor([0, 0, 1, 1]);
+    this.mMsg.getXform().setPosition(1, 14);
+    this.mMsg.setTextHeight(2);
+    this.mLives = 3;
+    this.mScore = 0;
     
 };
 
