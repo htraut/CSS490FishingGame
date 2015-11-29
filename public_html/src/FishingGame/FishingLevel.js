@@ -39,8 +39,8 @@ FishingLevel.prototype.unloadScene = function() {
 
 FishingLevel.prototype.initialize = function () {
     // set ambient lighting
-    //gEngine.DefaultResources.setGlobalAmbientColor([0.2, 0.2, 0.2, 1]);
-    //gEngine.DefaultResources.setGlobalAmbientIntensity(0.2);
+    gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1]);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     
     // Step A: set up the cameras
     this.mCamera = new Camera(
@@ -53,15 +53,6 @@ FishingLevel.prototype.initialize = function () {
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
     this.mBoat = new FishingBoat(this.kSpriteNames);
-    /*
-    var tempFish = new SpriteRenderable(this.kSpriteNames);
-    tempFish.setColor([1, 1, 1, 0]);
-    tempFish.getXform().setPosition(0, -10);
-    tempFish.getXform().setSize(10, 5);
-    tempFish.setElementPixelPositions(35, 90, 450, 470);*/
-    
-    //this.mFish = new Fish(this.kSpriteNames);
-    //this.mFish.setSpeed(0.1);
     
     this.mSpawner = new Spawner(this.mCamera);
     this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
@@ -78,7 +69,7 @@ FishingLevel.prototype.initialize = function () {
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 FishingLevel.prototype.draw = function () {
-    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+    //gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
     this.mBoat.draw(this.mCamera);
