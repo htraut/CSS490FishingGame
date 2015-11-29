@@ -6,7 +6,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, Fish*/
+/*global gEngine, Fish, vec2, Shark*/
 
 "use strict";
 
@@ -36,5 +36,24 @@ Fish.prototype.statusCheck = function(theBG, theHook){
     }
 };
 
+Fish.prototype.chase = function(hook){
+    var hookPos = hook.getXform().getPosition();
+    if(hookPos[1] >= -1) {  
+        return; //Reeled in
+    }
+    var dir = vec2.create();
+    vec2.subtract(dir, hookPos, this.getXform().getPosition());
+    var len = vec2.length(dir);
+    if(len > this.mChaseDist) {
+        return; //Too far away, don't care
+    }
+    this.updateStatus(Shark.eStatus.eChase);
+    this.rotateObjPointTo(hookPos, this.mRotateRate);
+    var pos = this.getXform().getPosition();
+    vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
+};
 
+Fish.prototype.despawn = function (){
+
+};
 
