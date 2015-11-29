@@ -1,8 +1,9 @@
 /*
- * @auth: Herbert Traut
- * @file: Shark.js
+ * @auth: Joey Guinasso
+ * @file: AnglerFish.js
  * @date: 11-28-15
- * @brief: Shark which chases fishing hook when the hook is nearby
+ * @brief: AnglerFish is a fish with a light on its head that gives the player
+ *         a longer fishing line if caught.
  */
 
 
@@ -10,22 +11,20 @@
 
 'use strict';
 
-function Shark(texture){
-    
+function AnglerFish(texture){
     Fish.call(this, texture);
-    this.mFish.setElementPixelPositions(35, 100, 250, 270);
+    this.mFish.setElementPixelPositions(35, 160, 285, 305);
     this.mChaseDist = 10;
-    this.mRotateRate = 0.3;
+    this.mRotateRate = 1;
     this.mSpeed = 1.5;
 }
-gEngine.Core.inheritPrototype(Shark, Fish);
+gEngine.Core.inheritPrototype(AnglerFish, Fish);
 
-Shark.eStatus = Object.freeze({
-    eChase: 8,
-    eKill: 10
+AnglerFish.eStatus = Object.freeze({
+    eChase: 8
 });
 
-Shark.prototype.update = function (){
+AnglerFish.prototype.update = function (){
     
     if(this.mStatus === Fish.eStatus.eDespawn){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
@@ -40,4 +39,3 @@ Shark.prototype.update = function (){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }
 };
-
