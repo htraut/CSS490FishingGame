@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * @auth: Joey Guinasso
  * @file: FishingLevel.js
@@ -121,5 +122,17 @@ FishingLevel.prototype.update = function () {
         this.mShark[i].chase(this.mHook);
         this.mShark[i].update();
     }
+    var msg = "";
+    this.updateText(msg);
 };
 
+FishingLevel.prototype.updateText = function (msg) {
+    var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
+    var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
+    this.mMsg.getXform().setPosition(textX,textY);
+    msg += "Hooks Left: " + this.mLives + 
+            " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
+            " Score: " + this.mScore;
+            
+    this.mMsg.setText(msg);
+};

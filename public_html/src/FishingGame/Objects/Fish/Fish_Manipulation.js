@@ -38,7 +38,8 @@ Fish.prototype.statusCheck = function(theBG, theHook){
 
 Fish.prototype.chase = function(hook){
     var hookPos = hook.getXform().getPosition();
-    if(hookPos[1] >= -1) {  
+    if(false){//hook.getStatus() === 0) {  
+        this.updateStatus(Fish.eStatus.eDespawn);
         return; //Reeled in
     }
     var dir = vec2.create();
@@ -53,7 +54,22 @@ Fish.prototype.chase = function(hook){
     vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
 };
 
-Fish.prototype.despawn = function (){
+Fish.prototype.despawn = function (theBG){
+    if(this.getStatus() !== Fish.eStatus.eDespawn) return;
+    var fishBB = this.getBBox();
+    var BGBB = theBG.getBBox();
+    var jump = 5;
+    
+    if(fishBB.boundCollideStatus(BGBB) === 13){
+        this.getXform().incXPosBy(jump); //right
+        return true; //out of sight
+    }
+    if(fishBB.boundCollideStatus(BGBB) === 14){
+       this.getXform().incXPosBy(-jump); //left
+       return true; //out of sight
+    }
 
+    return false; //not out of sight yet
 };
+
 
