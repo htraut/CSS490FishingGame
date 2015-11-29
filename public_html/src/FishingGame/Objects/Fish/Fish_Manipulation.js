@@ -25,7 +25,7 @@ Fish.prototype.statusCheck = function(theBG, theHook){
         hookCenter = theHook.getXform().getPosition();
         fishXform.setPosition(hookCenter[0], hookCenter[1]);
         if(hookCenter[1] > -0.5){
-            this.updateStatus(Fish.eStatus.eCaught);
+            this.updateStatus(Fish.eStatus.eDespawn);
         }
     }
     if(fishBB.boundCollideStatus(BGBB) === 13){

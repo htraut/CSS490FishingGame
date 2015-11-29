@@ -5,7 +5,7 @@
  * @brief: Scene for gameplay
  */
 
-/* global Scene, gEngine, vec2, Shark */
+/* global Scene, gEngine, vec2, Fish */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
@@ -102,7 +102,7 @@ FishingLevel.prototype.update = function () {
     for(i = 0; i < this.mFish.length; i++){
         this.mFish[i].statusCheck(this.mBG, this.mHook);
         this.mFish[i].update();
-        if((this.mFish[i].getStatus() & 6) === 6){
+        if((this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             this.mFish.splice(i, 1);
         }
     }

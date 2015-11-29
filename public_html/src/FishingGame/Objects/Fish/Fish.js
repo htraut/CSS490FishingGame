@@ -27,7 +27,7 @@ Fish.eStatus = Object.freeze({
     eHooked: 1,
     eCollideRight: 2,
     eCollideLeft: 4,
-    eCaught: 6
+    eDespawn: 6
 });
 
 Fish.prototype.update = function () {
