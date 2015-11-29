@@ -12,7 +12,7 @@
 function FishingLevel() {
     //Sprites
     this.kSpriteNames = "assets/sprite_names.png";
-    this.kBG = "assets/water.png";
+    this.kBG = "assets/FishingBG.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -42,18 +42,18 @@ FishingLevel.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1]);
     gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     
-    // Step A: set up the cameras
-    this.mCamera = new Camera(
-        vec2.fromValues(0, 0), // position of the camera
-        100,                        // width of camera
-        [0, 0, 1280, 960],         // viewport (orgX, orgY, width, height)
-        2
-    );
-    
-    this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
     this.mBoat = new FishingBoat(this.kSpriteNames);
+    var camX = this.mBoat.getXform().getXPos();
+    var camY = this.mBoat.getXform().getYPos();
     
+    this.mCamera = new Camera(
+        vec2.fromValues(0, 0), // position of the camera
+        80,                        // width of camera
+        [camX, camY, 1280, 960],         // viewport (orgX, orgY, width, height)
+        2
+    );
+    this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     this.mSpawner = new Spawner(this.mCamera);
     this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
@@ -69,7 +69,7 @@ FishingLevel.prototype.initialize = function () {
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 FishingLevel.prototype.draw = function () {
-    //gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
     this.mBoat.draw(this.mCamera);
@@ -88,6 +88,15 @@ FishingLevel.prototype.draw = function () {
 FishingLevel.prototype.update = function () {
     this.mBoat.update();
     this.mHook.update();
+    
+    this.mCamera.panWith(this.mBoat.getXform(), 0.7);
+    this.mCamera.update();
+    //this.mCamera.clampAtBoundary(this.mBoat.getXform(), 1);
+    /*
+    var camX = this.mBoat.getXform().getXPos();
+    var camY = this.mBoat.getXform().getYPos();
+    this.mCamera.setWCCenter(camX,camY);
+    */
     // select which character to work with
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
