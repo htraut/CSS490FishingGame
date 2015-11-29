@@ -26,7 +26,8 @@ gEngine.Core.inheritPrototype(Fish, GameObject);
 Fish.eStatus = Object.freeze({
     eHooked: 1,
     eCollideRight: 2,
-    eCollideLeft: 4
+    eCollideLeft: 4,
+    eCaught: 6
 });
 
 Fish.prototype.update = function () {
@@ -55,7 +56,7 @@ Fish.prototype.setScore = function (value){
     this.mScore = value;
 };
 
-Fish.prototype.getScore = function (value){
+Fish.prototype.getScore = function (){
     return this.mScore;
 };
 

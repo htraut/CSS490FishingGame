@@ -87,18 +87,21 @@ FishingLevel.prototype.draw = function () {
 // anything from this function!
 FishingLevel.prototype.update = function () {
     this.mBoat.update();
-    this.mHook.update();
+    this.mHook.update(this.mBoat);
     // select which character to work with
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
     }
     
     var i;
-    for(i = 0; i< this.mFish.length; i++){
-        this.mFish[i].statusCheck(this.mBG, this.mBoat);
+    for(i = 0; i < this.mFish.length; i++){
+        this.mFish[i].statusCheck(this.mBG, this.mHook);
         this.mFish[i].update();
+        if((this.mFish[i].getStatus() & 6) === 6){
+            this.mFish.splice(i, 1);
+        }
     }
-    for(i = 0; i< this.mCloud.length; i++){
+    for(i = 0; i < this.mCloud.length; i++){
         this.mCloud[i].update();
     }
 };
