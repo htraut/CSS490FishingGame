@@ -22,11 +22,8 @@ function FishingBoat(texture){
 }
 gEngine.Core.inheritPrototype(FishingBoat, GameObject);
 
-FishingBoat.prototype.update = function () {
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
-        this.getXform().incXPosBy(-this.kDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
-        this.getXform().incXPosBy(this.kDelta);
-    }
+FishingBoat.prototype.update = function (hook) {
+    var hookX = hook.getXform().getXPos();
+    
+    this.getXform().setXPos(hookX);
 };

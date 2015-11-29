@@ -45,7 +45,7 @@ FishingLevel.prototype.initialize = function () {
     
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(0, 0), // position of the camera
+        vec2.fromValues(0, -5), // position of the camera
         100,                        // width of camera
         [0, 0, 1280, 960],         // viewport (orgX, orgY, width, height)
         2
@@ -91,9 +91,11 @@ FishingLevel.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
-    this.mBoat.update();
-    this.mHook.update(this.mBoat);
-    this.mCamera.panWith(this.mHook.getXform(), 0.7);
+    this.mHook.update();
+    this.mBoat.update(this.mHook);
+    
+    //this.mCamera.panWith(this.mHook.getXform(), 0.1);
+    this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.update();
     
     // select which character to work with
