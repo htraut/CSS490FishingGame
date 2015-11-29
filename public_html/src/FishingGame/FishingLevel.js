@@ -5,7 +5,7 @@
  * @brief: Scene for gameplay
  */
 
-/* global Scene, gEngine, vec2, Fish */
+/* global Scene, gEngine, vec2, Fish, Shark */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
@@ -93,6 +93,9 @@ FishingLevel.prototype.draw = function () {
 FishingLevel.prototype.update = function () {
     this.mBoat.update();
     this.mHook.update(this.mBoat);
+    this.mCamera.panWith(this.mHook.getXform(), 0.7);
+    this.mCamera.update();
+    
     // select which character to work with
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
