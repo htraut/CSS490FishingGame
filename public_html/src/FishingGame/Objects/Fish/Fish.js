@@ -60,3 +60,7 @@ Fish.prototype.getScore = function (){
     return this.mScore;
 };
 
+Fish.prototype.resetStatus = function(){
+    this.mStatus = 0;
+};
+

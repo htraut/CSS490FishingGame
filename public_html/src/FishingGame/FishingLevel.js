@@ -140,25 +140,20 @@ FishingLevel.prototype.update = function () {
         this.mCloud[i].update();
     }
     for(i = 0; i < this.mShark.length; i++){
-        if(this.mShark[i].getStatus() !== Shark.eStatus.eChase){
-            this.mShark[i].statusCheck(this.mBG, this.mHook);
-            this.mShark[i].update();
-        }
-        this.mShark[i].chase(this.mHook);
-        if(this.mShark[i].getStatus() === Fish.eStatus.eHooked){
-            if(!this.mInvuln){
-               this.mLives -= 1;
-               this.mInvuln = true;
-            }
-            this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
-        }
         if(this.mShark[i].getStatus() === Fish.eStatus.eDespawn){
-            this.mShark[i].update();
-            if(this.mShark[i].despawn(this.mBG)) {
+            if(this.mShark[i].despawn(this.mBG)){
                 this.mShark.splice(i, 1);
             }
+        }else if(this.mShark[i].getStatus() === (Fish.eStatus.eHooked | Shark.eStatus.eChase)){
+            this.mShark[i].resetStatus();
+            this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
+            if(!this.mInvuln){
+                this.mLives -= 1;
+                this.mInvuln = true;
+            }
+        }else{
+            this.mShark[i].chase(this.mBG, this.mHook);
         }
-        
     }
     /*
     for(i = 0; i< this.mAngler.length; i++){

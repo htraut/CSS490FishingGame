@@ -11,8 +11,7 @@
 "use strict";
 
 Fish.prototype.statusCheck = function(theBG, theHook){
-    var fishBB = this.getBBox();
-    var BGBB = theBG.getBBox();
+
     var result = vec2.create();
     var fishXform = null;
     var hookCenter = null;
@@ -28,45 +27,59 @@ Fish.prototype.statusCheck = function(theBG, theHook){
             this.updateStatus(Fish.eStatus.eDespawn);
         }
     }
-    if(fishBB.boundCollideStatus(BGBB) === 13){
-        this.updateStatus(Fish.eStatus.eCollideRight);
-    }
-    if(fishBB.boundCollideStatus(BGBB) === 14){
-        this.updateStatus(Fish.eStatus.eCollideLeft);
-    }
+    
+    this.bounce(theBG);
 };
 
-Fish.prototype.chase = function(hook){
+Fish.prototype.chase = function(theBG, hook){
     var hookPos = hook.getXform().getPosition();
     var result = vec2.create();
-    if(hook.getStatus() === 0 && this.getStatus() === Shark.eStatus.eChase) {  
-        this.updateStatus(Fish.eStatus.eDespawn);
-        return; //Reeled in
-    }
+
     var dir = vec2.create();
     vec2.subtract(dir, hookPos, this.getXform().getPosition());
     var len = vec2.length(dir);
     if(len > this.mChaseDist){
+        this.resetStatus();
+        this.bounce(theBG);
         return; //Too far, don't care
     }else if(this.pixelTouches(hook, result)){
         this.updateStatus(Fish.eStatus.eHooked);
         return;
-    }else{
-        this.updateStatus(Shark.eStatus.eChase);
-        this.rotateObjPointTo(hookPos, this.mRotateRate);
-        var pos = this.getXform().getPosition();
-        vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
+    }else{ // chase the hook
+        if(hookPos[1] < -0.5){
+            this.updateStatus(Shark.eStatus.eChase);
+            this.rotateObjPointTo(hookPos, this.mRotateRate);
+            var pos = this.getXform().getPosition();
+            vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), Math.abs(this.getSpeed()));
+        }else{
+            this.resetStatus();
+            this.updateStatus(Fish.eStatus.eDespawn);
+        }
     }
 };
 
 Fish.prototype.despawn = function (theBG){
-    if(this.getStatus() !== Fish.eStatus.eDespawn) return;
+    this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     var fishBB = this.getBBox();
     var BGBB = theBG.getBBox();
     if(fishBB.boundCollideStatus(BGBB) === BoundingBox.eboundCollideStatus.eOutside){
         return true;
     }
     return false; //not out of sight yet
+};
+
+Fish.prototype.bounce = function(theBG){
+    var fishBB = this.getBBox();
+    var BGBB = theBG.getBBox();
+    
+    if(fishBB.boundCollideStatus(BGBB) === 13){
+        this.updateStatus(Fish.eStatus.eCollideRight);
+    }
+    if(fishBB.boundCollideStatus(BGBB) === 14){
+        this.updateStatus(Fish.eStatus.eCollideLeft);
+    }
+    
+    this.update();
 };
 
 

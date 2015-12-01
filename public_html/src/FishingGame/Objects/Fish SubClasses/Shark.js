@@ -25,17 +25,13 @@ Shark.eStatus = Object.freeze({
 });
 
 Shark.prototype.update = function (){
-    if(this.mStatus === Fish.eStatus.eDespawn){
-        this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
-    }else{
-        if(this.mStatus === Fish.eStatus.eCollideRight){
-            this.mSpeed *= -1;
-            this.mStatus = 0;
-        }else if(this.mStatus === Fish.eStatus.eCollideLeft){
-            this.mSpeed *= -1;
-            this.mStatus = 0;
-        }
-        this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
+    if((this.mStatus & Fish.eStatus.eCollideRight) === Fish.eStatus.eCollideRight){
+        this.mSpeed *= -1;
+        this.mStatus ^= Fish.eStatus.eCollideRight;
+    }else if((this.mStatus & Fish.eStatus.eCollideLeft) === Fish.eStatus.eCollideLeft){
+        this.mSpeed *= -1;
+        this.mStatus ^= Fish.eStatus.eCollideLeft;
     }
+    this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
 };
 
