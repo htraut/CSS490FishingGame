@@ -34,6 +34,7 @@ Fish.prototype.statusCheck = function(theBG, theHook){
 Fish.prototype.chase = function(theBG, hook){
     var hookPos = hook.getXform().getPosition();
     var result = vec2.create();
+    var xform = this.mFish.getXform();
 
     var dir = vec2.create();
     vec2.subtract(dir, hookPos, this.getXform().getPosition());
@@ -51,6 +52,13 @@ Fish.prototype.chase = function(theBG, hook){
             this.rotateObjPointTo(hookPos, this.mRotateRate);
             var pos = this.getXform().getPosition();
             vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), Math.abs(this.getSpeed()));
+            if(!this.mFlipped && xform.getRotationInRad() > Math.PI/2){
+                xform.setSize(xform.getWidth(), -Math.abs(xform.getHeight()));
+                this.mFlipped = true;
+            }else if(this.mFlipped && xform.getRotationInRad() < Math.PI/2){
+                xform.setSize(xform.getWidth(), -Math.abs(xform.getHeight()));
+                this.mFlipped = false;
+            }
         }else{
             this.resetStatus();
             this.updateStatus(Fish.eStatus.eDespawn);
