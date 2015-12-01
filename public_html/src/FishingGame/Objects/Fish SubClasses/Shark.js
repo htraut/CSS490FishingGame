@@ -28,11 +28,14 @@ Shark.eStatus = Object.freeze({
 });
 
 Shark.prototype.update = function (){
+    var xform = this.mFish.getXform();
     if((this.mStatus & Fish.eStatus.eCollideRight) === Fish.eStatus.eCollideRight){
         this.mSpeed *= -1;
+        xform.setSize(-xform.getWidth(), xform.getHeight());
         this.mStatus ^= Fish.eStatus.eCollideRight;
     }else if((this.mStatus & Fish.eStatus.eCollideLeft) === Fish.eStatus.eCollideLeft){
         this.mSpeed *= -1;
+        xform.setSize(-xform.getWidth(), xform.getHeight());
         this.mStatus ^= Fish.eStatus.eCollideLeft;
     }
     this.mRenderComponent.getXform().incXPosBy(this.mSpeed);

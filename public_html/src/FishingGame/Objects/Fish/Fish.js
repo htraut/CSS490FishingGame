@@ -31,11 +31,14 @@ Fish.eStatus = Object.freeze({
 });
 
 Fish.prototype.update = function () {
+    var xform = this.mFish.getXform();
     if(this.mStatus === Fish.eStatus.eCollideRight){
         this.mSpeed *= -1;
+        xform.setSize(-xform.getWidth(), xform.getHeight());
         this.mStatus = 0;
     }else if(this.mStatus === Fish.eStatus.eCollideLeft){
         this.mSpeed *= -1;
+        xform.setSize(-xform.getWidth(), xform.getHeight());
         this.mStatus = 0;
     }
     

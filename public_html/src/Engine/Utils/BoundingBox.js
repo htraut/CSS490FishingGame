@@ -24,9 +24,10 @@ BoundingBox.eboundCollideStatus = Object.freeze({
 // rotation is ignored.
 // centerPos is a vec2
 BoundingBox.prototype.setBounds = function (centerPos, w, h) {
-    this.mWidth = w;
+    this.mWidth = Math.abs(w);
+    //this.mWidth = w;
     this.mHeight = h;
-    this.mLL[0] = centerPos[0] - (w / 2);
+    this.mLL[0] = centerPos[0] - (Math.abs(w) / 2);
     this.mLL[1] = centerPos[1] - (h / 2);
 };
 

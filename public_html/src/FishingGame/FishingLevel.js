@@ -62,7 +62,7 @@ FishingLevel.prototype.initialize = function () {
     this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
-    this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
+    this.mFish = this.mSpawner.populate(1, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(1, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
     //this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
