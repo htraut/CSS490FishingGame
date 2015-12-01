@@ -17,6 +17,9 @@ function Shark(texture){
     this.mChaseDist = 15;
     this.mRotateRate = 0.3;
     this.mSpeed = 1.5;
+    var front = vec2.fromValues(1, 0);
+    
+    this.setCurrentFrontDir(front);
 }
 gEngine.Core.inheritPrototype(Shark, Fish);
 
