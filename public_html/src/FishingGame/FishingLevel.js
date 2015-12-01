@@ -59,16 +59,15 @@ FishingLevel.prototype.initialize = function () {
     );
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
+    this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
     
-    this.mBoat = new FishingBoat(this.kSpriteNames);
-    
-    this.mSpawner = new Spawner(this.mCamera);
+    this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(3, "Fish", this.kSpriteNames);
-    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
+    this.mCloud = this.mSpawner.populate(1, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
     //this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
     
-    this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
+    this.mBoat = new FishingBoat(this.kSpriteNames);
     this.mHook = new Hook(this.kSpriteNames);
     
     this.mMsg = new FontRenderable("Status Message");

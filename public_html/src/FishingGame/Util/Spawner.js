@@ -9,10 +9,15 @@
 
 /* global Camera, Fish */
 
-function Spawner(camera){
-    this.mLocation = camera.getWCCenter();
-    this.mWidth = camera.getWCWidth();
-    this.mHeight = camera.getWCHeight();
+function Spawner(world, camera){
+    this.mWorld = world;
+    this.mCenter = world.getXform().getPosition();
+    this.mWidth = world.getXform().getWidth();
+    this.mHeight = world.getXform().getHeight();
+    this.mCamera = camera;
+    this.mCamCenter = camera.getWCCenter();
+    this.mCamWidth = camera.getWCWidth();
+    this.mCamHeight = camera.getWCHeight();
 };
 
 /*
@@ -76,15 +81,14 @@ Spawner.prototype.populate = function (amount, type, texture){
                 population.push(object);
                 continue;    
             case "Cloud":
-                object = new Cloud(texture);
+                object = new Cloud(texture, this.mWorld);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*10) + 1);
                 h = w * 0.5;
                 objXform.setSize(w, h);
                 x = this._generateXPos(Math.round(Math.random()));
-                y = this._generateYPos(1);
-                y += 15;
+                y = 0 + (Math.floor((Math.random()*20) + 1));
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
@@ -105,9 +109,9 @@ Spawner.prototype._generateXPos = function(value){
     var x;
     var disp = Math.floor((Math.random()*10)+1)/10;
     if(dir === 1){
-        x = (this.mLocation[0] + (this.mWidth/3))*disp;
+        x = (this.mCamCenter[0] + (this.mCamWidth/3))*disp;
     }else{
-         x = (this.mLocation[0] - (this.mWidth/3))*disp;
+         x = (this.mCamCenter[0] - (this.mCamWidth/3))*disp;
     }
     return x;
 };
@@ -120,9 +124,15 @@ Spawner.prototype._generateYPos = function(value){
     var y;
     var disp = Math.floor((Math.random()*10)+1)/10;
     if(dir === 1){
-        y = (this.mLocation[0] + (this.mHeight/3))*disp;
+        y = (this.mCamCenter[1] + (this.mCamHeight/3))*disp;
     }else{
-        y = (this.mLocation[0] - (this.mHeight/3))*disp;
+        y = (this.mCamCenter[1] - (this.mCamHeight/3))*disp;
     }
     return y;
+};
+
+Spawner.prototype.updateCameraPos = function(){
+    this.mCamCenter = this.mCamera.getWCCenter();
+    this.mCamWidth = this.mCamera.getWCWidth();
+    this.mCamHeight = this.mCamera.getWCHeight();
 };
