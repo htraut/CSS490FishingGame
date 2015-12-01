@@ -181,7 +181,7 @@ FishingLevel.prototype.updateText = function (msg) {
     this.mMsg.getXform().setPosition(textX,textY);
     msg += "Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
-            " Score: " + this.mScore;
+            " Score: " + this.mScore.toFixed(0);
             
     this.mMsg.setText(msg);
 };
