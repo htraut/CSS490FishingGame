@@ -29,7 +29,7 @@ Cloud.prototype._restartLeft = function(){
     var tail = cloudXform.getXPos() - (cloudXform.getWidth()/2);
     var worldRight = worldXform.getXPos() + (worldXform.getWidth()/2);
     if(tail > worldRight){
-        var spawnX = worldXform.getXPos() - worldXform.getWidth();
+        var spawnX = worldXform.getXPos() - worldXform.getWidth()/2;
         spawnX -= cloudXform.getWidth()/2;
         var delta = (Math.floor((Math.random()*2) + 1)) + (-(Math.floor((Math.random()*2) + 1)));
         var height = cloudXform.getYPos() + delta;
@@ -46,7 +46,7 @@ Cloud.prototype._restartRight = function(){
     var tail = cloudXform.getXPos() + (cloudXform.getWidth()/2);
     var worldLeft = worldXform.getXPos() - (worldXform.getWidth()/2);
     if(tail > worldLeft){
-        var spawnX = worldXform.getXPos() + worldXform.getWidth();
+        var spawnX = worldXform.getXPos() + worldXform.getWidth()/2;
         spawnX += cloudXform.getWidth()/2;
         var delta = (Math.floor((Math.random()*2) + 1)) + (-(Math.floor((Math.random()*2) + 1)));
         var height = cloudXform.getYPos() + delta;

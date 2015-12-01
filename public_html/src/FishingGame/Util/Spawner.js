@@ -88,7 +88,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 h = w * 0.5;
                 objXform.setSize(w, h);
                 x = this._generateXPos(Math.round(Math.random()));
-                y = 0 + (Math.floor((Math.random()*20) + 1));
+                y = 0 + (Math.floor((Math.random()*10) + 5));
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
