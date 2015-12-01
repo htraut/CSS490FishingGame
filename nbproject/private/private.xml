@@ -7,20 +7,9 @@
             <file>file:/C:/Users/Kelvin/Documents/html5engine/BookChapters/FinalGame/public_html/src/Engine/Core/Engine_Core.js</file>
         </group>
         <group>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/index.html</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/FishingLevel.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/Renderables/FontRenderable.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/FishingBoat.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/assets/sprite_names.png</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/Fish/Fish.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/Cloud.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/StartScreen.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/GameObjects/GameObject.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/Core/Engine_GameLoop.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/Fish/Fish_Manipulation.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/FishingAdventure.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/GameOver.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/Fisherman.js</file>
+            <file>file:/C:/Users/Caleb/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/Fish/Fish_Manipulation.js</file>
+            <file>file:/C:/Users/Caleb/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/Core/Engine_GameLoop.js</file>
+            <file>file:/C:/Users/Caleb/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/FishingLevel.js</file>
         </group>
     </open-files>
 </project-private>
