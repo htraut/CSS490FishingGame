@@ -39,9 +39,13 @@ StartScreen.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
-    this.mMsg.setText("Welcome to Fishing Adventure");
+    this.mMsg.setText("Welcome to Fishing");
     this.mMsg.getXform().setPosition(5, 55);
     this.mMsg.draw(this.mCamera);
+    this.mMsg.setText("Adventure");
+    this.mMsg.getXform().setPosition(5, 50);
+    this.mMsg.draw(this.mCamera);
+    
     this.mMsg.setText("Press <Space Bar> to");
     this.mMsg.getXform().setPosition(5, 45);
     this.mMsg.draw(this.mCamera);

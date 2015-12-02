@@ -13,6 +13,7 @@ function GameOver() {
     // The camera to view the scene
     this.mCamera = null;
     this.mMsg = null;
+    this.mScore = null;
 }
 gEngine.Core.inheritPrototype(GameOver, Scene);
 
@@ -34,18 +35,32 @@ GameOver.prototype.initialize = function () {
     this.mMsg.setTextHeight(5);
 };
 
+GameOver.prototype.loadScene = function() {
+    this.mScore = gEngine.ResourceMap.retrieveAsset("score");
+};
+
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 GameOver.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
-    this.mMsg.setText("You lose");
+    this.mMsg.setText("Game Over");
     this.mMsg.getXform().setPosition(10, 55);
     this.mMsg.draw(this.mCamera);
-    this.mMsg.setText("Score Goes Here");
+    
+    this.mMsg.setText("You Scored: " + this.mScore.toFixed(0));
     this.mMsg.getXform().setPosition(10, 45);
     this.mMsg.draw(this.mCamera);
+    
+    this.mMsg.setText("Press Space to");
+    this.mMsg.getXform().setPosition(10, 35);
+    this.mMsg.draw(this.mCamera);
+    
+    this.mMsg.setText("play again!");
+    this.mMsg.getXform().setPosition(10, 25);
+    this.mMsg.draw(this.mCamera);
+    
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -58,6 +73,6 @@ GameOver.prototype.update = function () {
 };
 
 GameOver.prototype.unloadScene = function() {
-    var nextLevel = new StartScreen("Start");  // next level to be loaded
+    var nextLevel = new FishingLevel("FishingLevel");  // next level to be loaded
     gEngine.Core.startScene(nextLevel);
 };

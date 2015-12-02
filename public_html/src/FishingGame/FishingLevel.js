@@ -33,6 +33,7 @@ function FishingLevel() {
     this.mCount = 0;
     this.mSpawnLimit = 3;
     this.mHooked = false;
+    this.mPause = false;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -42,7 +43,8 @@ FishingLevel.prototype.loadScene = function () {
 };
 
 FishingLevel.prototype.unloadScene = function() {
-
+    gEngine.ResourceMap.asyncLoadRequested("score");
+    gEngine.ResourceMap.asyncLoadCompleted("score", this.mScore);
     var nextLevel = new GameOver("GameOver");  // next level to be loaded
     gEngine.Core.startScene(nextLevel);
 };
@@ -111,6 +113,16 @@ FishingLevel.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)){
+       if(this.mPause === true){
+           this.mPause = false;
+       }else{
+           this.mPause = true;
+       }
+    }
+    if(this.mPause === true){return;}
+        
+        
     if(this.mLives <= 0) gEngine.GameLoop.stop();
     if(this.mInvuln === true && this.mCount <= 180){ //180/60 = 3 seconds
         this.mCount++;
@@ -127,7 +139,7 @@ FishingLevel.prototype.update = function () {
     
     //this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.clampAtBoundary(this.mHook.getXform(), 1);
-    this.mCamera.panWith(this.mHook.getXform(), 0.15);
+    this.mCamera.panWith(this.mHook.getXform(), 0.3);
     this.mCamera.update();
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
@@ -169,10 +181,9 @@ FishingLevel.prototype.update = function () {
          if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             this.mScore += this.mAngler[i].getScore();
             this.mAngler.splice(i, 1);
-            this.mHook.setLineLength(this.mHook.getLineLength()*1.3);
+            this.mHook.setLineLength(this.mHook.getLineLength()*1.2);
         }
     }
-    
     
     var msg = "";
     this.updateText(msg);

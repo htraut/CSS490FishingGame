@@ -51,6 +51,6 @@ FishingAdventure.prototype.update = function () {
 
 
 FishingAdventure.prototype.unloadScene = function() {
-    var nextLevel = new FishingLevel("FishingLevel");  // next level to be loaded
+    var nextLevel = new StartScreen("StartScreen");  // next level to be loaded
     gEngine.Core.startScene(nextLevel);
 };
