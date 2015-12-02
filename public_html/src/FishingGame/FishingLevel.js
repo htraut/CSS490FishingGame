@@ -16,6 +16,7 @@ function FishingLevel() {
     
     // The camera to view the scene
     this.mCamera = null;
+    this.mMiniCam = null;
     this.mMsg = null;
     this.mBoat = null;
     this.mFish = null;
@@ -65,6 +66,15 @@ FishingLevel.prototype.initialize = function () {
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     this.mBG = new TextureObject(this.kBG, 0, 0, 200, 150);
     
+    this.mMiniCam = new Camera(
+        vec2.fromValues(0, 0), // position of the camera
+        10,                        // width of camera
+        [20, 40, 100, 100],         // viewport (orgX, orgY, width, height)
+        2
+    );
+    
+    this.mMiniCam.setBackgroundColor([0.9, 0.9, 0.9, 1]);
+    
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
@@ -82,6 +92,7 @@ FishingLevel.prototype.initialize = function () {
     this.mScore = 0;
     
     this.mCamera.setBackground(this.mBG);
+    this.mMiniCam.setBackground(this.mBG);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -108,6 +119,26 @@ FishingLevel.prototype.draw = function () {
     }
     
     this.mMsg.draw(this.mCamera);
+    
+    this.mMiniCam.setupViewProjection();
+    this.mBG.draw(this.mMiniCam);
+    this.mBoat.draw(this.mMiniCam);
+    this.mHook.draw(this.mMiniCam);
+    var i;
+    for(i = 0; i< this.mFish.length; i++){
+        this.mFish[i].draw(this.mMiniCam);
+    }
+    for(i = 0; i< this.mCloud.length; i++){
+        this.mCloud[i].draw(this.mMiniCam);
+    }
+    for(i = 0; i< this.mShark.length; i++){
+        this.mShark[i].draw(this.mMiniCam);
+    }
+    
+    for(i = 0; i< this.mAngler.length; i++){
+        this.mAngler[i].draw(this.mMiniCam);
+    }
+    
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -141,6 +172,8 @@ FishingLevel.prototype.update = function () {
     this.mCamera.clampAtBoundary(this.mHook.getXform(), 1);
     this.mCamera.panWith(this.mHook.getXform(), 0.3);
     this.mCamera.update();
+    this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
+    this.mMiniCam.update();
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
