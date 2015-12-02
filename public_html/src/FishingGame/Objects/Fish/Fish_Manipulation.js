@@ -41,13 +41,19 @@ Fish.prototype.chase = function(theBG, hook){
     var len = vec2.length(dir);
     if(len > this.mChaseDist){
         this.resetStatus();
-        this.bounce(theBG);
+        if(this.mInPursuit){
+            this.updateStatus(Fish.eStatus.eDespawn);
+        }else{
+            this.bounce(theBG);
+        }
+        
         return; //Too far, don't care
     }else if(this.pixelTouches(hook, result)){
         this.updateStatus(Fish.eStatus.eHooked);
         return;
     }else{ // chase the hook
         if(hookPos[1] < -0.5){
+            this.mInPursuit = true;
             this.updateStatus(Shark.eStatus.eChase);
             this.rotateObjPointTo(hookPos, this.mRotateRate);
             var pos = this.getXform().getPosition();
@@ -75,6 +81,10 @@ Fish.prototype.chase = function(theBG, hook){
 };
 
 Fish.prototype.despawn = function (theBG){
+    
+    this.getXform().setRotationInRad(0);
+    this.getXform().setHeight(Math.abs(this.getXform().getHeight()))
+    
     this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     var fishBB = this.getBBox();
     var BGBB = theBG.getBBox();

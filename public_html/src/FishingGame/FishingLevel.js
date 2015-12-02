@@ -143,7 +143,7 @@ FishingLevel.prototype.update = function () {
         this.mCloud[i].update();
     }
     for(i = 0; i < this.mShark.length; i++){
-        if(this.mShark[i].getStatus() === Fish.eStatus.eDespawn){
+        if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             if(this.mShark[i].despawn(this.mBG)){
                 this.mShark.splice(i, 1);
             }
