@@ -20,6 +20,10 @@ function Fish(texture) {
     GameObject.call(this, this.mFish);
     this.mStatus = 0;
     this.mScore = 1;
+    
+    var front = vec2.fromValues(1, 0);
+    
+    this.setCurrentFrontDir(front);
 }
 gEngine.Core.inheritPrototype(Fish, GameObject);
 

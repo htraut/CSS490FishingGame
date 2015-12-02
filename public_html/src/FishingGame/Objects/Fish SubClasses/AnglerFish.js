@@ -25,8 +25,8 @@ AnglerFish.eStatus = Object.freeze({
 });
 
 AnglerFish.prototype.update = function (){
-    
-    if(this.mStatus === Fish.eStatus.eDespawn){
+    Fish.prototype.update.call(this);
+    /*if(this.mStatus === Fish.eStatus.eDespawn){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }else{
         if(this.mStatus === Fish.eStatus.eCollideRight){
@@ -37,5 +37,5 @@ AnglerFish.prototype.update = function (){
             this.mStatus = 0;
         }
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
-    }
+    }*/
 };

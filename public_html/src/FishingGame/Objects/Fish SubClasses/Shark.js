@@ -16,10 +16,8 @@ function Shark(texture){
     this.mFish.setElementPixelPositions(35, 100, 250, 270);
     this.mChaseDist = 15;
     this.mRotateRate = 0.3;
-    this.mSpeed = 1.5;
-    var front = vec2.fromValues(1, 0);
-    
-    this.setCurrentFrontDir(front);
+    this.mSpeed = 0.5;
+    this.mInPursuit = false;
 }
 gEngine.Core.inheritPrototype(Shark, Fish);
 
@@ -31,13 +29,18 @@ Shark.prototype.update = function (){
     var xform = this.mFish.getXform();
     if((this.mStatus & Fish.eStatus.eCollideRight) === Fish.eStatus.eCollideRight){
         this.mSpeed *= -1;
-        xform.setSize(-xform.getWidth(), xform.getHeight());
+        xform.setWidth(-xform.getWidth());
         this.mStatus ^= Fish.eStatus.eCollideRight;
     }else if((this.mStatus & Fish.eStatus.eCollideLeft) === Fish.eStatus.eCollideLeft){
         this.mSpeed *= -1;
-        xform.setSize(-xform.getWidth(), xform.getHeight());
+        xform.setWidth(-xform.getWidth());
         this.mStatus ^= Fish.eStatus.eCollideLeft;
     }
+    
+    // the following code is to keep the shark oreinted correctly 
     this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
+    if(this.mSpeed > 0){
+        xform.setSize(Math.abs(xform.getWidth()), xform.getHeight());
+    }
 };
 
