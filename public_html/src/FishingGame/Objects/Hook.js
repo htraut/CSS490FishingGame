@@ -18,9 +18,9 @@ function Hook(texture) {
     this.mHook.getXform().setSize(2,2);
     this.mHook.setElementPixelPositions(35, 95, 315, 350);
     GameObject.call(this, this.mHook);
-    this.mLength = 20;
+    this.mLength = 30;
     this.mStatus = 0;
-    this.mSpeed = 0.1;
+    this.mSpeed = 0.2;
 }
 gEngine.Core.inheritPrototype(Hook, GameObject);
 

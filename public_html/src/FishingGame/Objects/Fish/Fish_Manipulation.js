@@ -52,13 +52,21 @@ Fish.prototype.chase = function(theBG, hook){
             this.rotateObjPointTo(hookPos, this.mRotateRate);
             var pos = this.getXform().getPosition();
             vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), Math.abs(this.getSpeed()));
-            if(!this.mFlipped && xform.getRotationInRad() > Math.PI/2){
-                xform.setSize(xform.getWidth(), -Math.abs(xform.getHeight()));
-                this.mFlipped = true;
-            }else if(this.mFlipped && xform.getRotationInRad() < Math.PI/2){
-                xform.setSize(xform.getWidth(), -Math.abs(xform.getHeight()));
-                this.mFlipped = false;
+            
+            if(this.mSpeed < 0){
+                if(xform.getXPos() < hookPos[0] && this.getCurrentFrontDir()[0] > 0){
+                    xform.setHeight(- Math.abs(xform.getHeight()));
+                }else if(xform.getXPos() > hookPos[0] && this.getCurrentFrontDir()[0] < 0){
+                    xform.setHeight(Math.abs(xform.getHeight()));
+                }
+            }else if(this.mSpeed > 0){
+                if(xform.getXPos() < hookPos[0] && this.getCurrentFrontDir()[0] < 0){
+                    xform.setHeight(Math.abs(xform.getHeight()));
+                }else if(xform.getXPos() > hookPos[0] && this.getCurrentFrontDir()[0] > 0){
+                    xform.setHeight(- Math.abs(xform.getHeight()));
+                }
             }
+            
         }else{
             this.resetStatus();
             this.updateStatus(Fish.eStatus.eDespawn);
@@ -82,9 +90,15 @@ Fish.prototype.bounce = function(theBG){
     
     if(fishBB.boundCollideStatus(BGBB) === 13){
         this.updateStatus(Fish.eStatus.eCollideRight);
+        var front = vec2.fromValues(-1, 0);
+    
+        this.setCurrentFrontDir(front);
     }
     if(fishBB.boundCollideStatus(BGBB) === 14){
         this.updateStatus(Fish.eStatus.eCollideLeft);
+        var front = vec2.fromValues(1, 0);
+    
+        this.setCurrentFrontDir(front);
     }
     
     this.update();
