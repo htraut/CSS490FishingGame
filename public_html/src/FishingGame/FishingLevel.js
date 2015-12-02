@@ -126,7 +126,7 @@ FishingLevel.prototype.update = function () {
     
     //this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.clampAtBoundary(this.mHook.getXform(), 1);
-    this.mCamera.panWith(this.mBoat.getXform(), 0.15);
+    this.mCamera.panWith(this.mHook.getXform(), 0.15);
     this.mCamera.update();
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
