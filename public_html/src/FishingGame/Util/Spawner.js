@@ -42,7 +42,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 object = new Fish(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*10) + 1);
+                w = Math.floor((Math.random()*6) + 1);
                 h = w * Math.random();
                 h += 1;
                 objXform.setSize(w, h);
@@ -56,7 +56,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 object = new Shark(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*10) + 1);
+                w = Math.floor((Math.random()*6) + 3);
                 h = w * Math.random();
                 h += 1;
                 objXform.setSize(w, h);
@@ -70,11 +70,11 @@ Spawner.prototype.populate = function (amount, type, texture){
                 object = new AnglerFish(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*10) + 1);
+                w = Math.floor((Math.random()*5) + 1);
                 h = w * Math.random();
                 h += 1;
                 objXform.setSize(w, h);
-                object.setScore(0);
+                object.setScore(w * h);
                 x = this._generateXPos(Math.round(Math.random()));
                 y = this._generateYPos(0) - 5;
                 objXform.setPosition(x, y);
@@ -88,7 +88,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 h = w * 0.5;
                 objXform.setSize(w, h);
                 x = this._generateXPos(Math.round(Math.random()));
-                y = 0 + (Math.floor((Math.random()*10) + 5));
+                y = 0 + (Math.floor((Math.random()*10) + 7));
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;

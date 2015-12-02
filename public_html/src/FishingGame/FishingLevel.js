@@ -65,7 +65,7 @@ FishingLevel.prototype.initialize = function () {
     this.mFish = this.mSpawner.populate(1, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(1, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
-    //this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
+    this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
     
     this.mBoat = new FishingBoat(this.kSpriteNames);
     this.mHook = new Hook(this.kSpriteNames);
@@ -97,11 +97,11 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mShark.length; i++){
         this.mShark[i].draw(this.mCamera);
     }
-    /*
+    
     for(i = 0; i< this.mAngler.length; i++){
         this.mAngler[i].draw(this.mCamera);
     }
-    */
+    
     this.mMsg.draw(this.mCamera);
 };
 
@@ -155,15 +155,17 @@ FishingLevel.prototype.update = function () {
             this.mShark[i].chase(this.mBG, this.mHook);
         }
     }
-    /*
+    
     for(i = 0; i< this.mAngler.length; i++){
-        if(this.mAngler[i].getStatus !== AnglerFish.eStatus.eRunAway){
-            this.mAngler[i].statusCheck(this.mBG, this.mBoat);
-        }
-        this.mAngler[i].chase(this.mHook);
+        this.mAngler[i].statusCheck(this.mBG, this.mHook);
         this.mAngler[i].update();
+         if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
+            this.mScore += this.mAngler[i].getScore();
+            this.mAngler.splice(i, 1);
+            this.mHook.setLineLength(this.mHook.getLineLength()*2);
+        }
     }
-    */
+    
     
     var msg = "";
     this.updateText(msg);
