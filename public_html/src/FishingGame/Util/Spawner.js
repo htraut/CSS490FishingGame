@@ -42,7 +42,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 object = new Fish(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*6) + 1);
+                w = Math.floor((Math.random()*6) + 3);
                 h = w * Math.random();
                 h += 1;
                 objXform.setSize(w, h);
@@ -70,7 +70,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 object = new AnglerFish(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*5) + 1);
+                w = Math.floor((Math.random()*5) + 3);
                 h = w * Math.random();
                 h += 1;
                 objXform.setSize(w, h);
@@ -84,7 +84,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 object = new Cloud(texture, this.mWorld);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*10) + 1);
+                w = Math.floor((Math.random()*6) + 3);
                 h = w * 0.5;
                 objXform.setSize(w, h);
                 x = this._generateXPos(Math.round(Math.random()));
