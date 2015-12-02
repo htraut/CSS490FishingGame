@@ -85,7 +85,7 @@ Fish.prototype.despawn = function (theBG){
     this.getXform().setRotationInRad(0);
     this.getXform().setHeight(Math.abs(this.getXform().getHeight()))
     
-    this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
+    this.mRenderComponent.getXform().incXPosBy(this.mSpeed*2);
     var fishBB = this.getBBox();
     var BGBB = theBG.getBBox();
     if(fishBB.boundCollideStatus(BGBB) === BoundingBox.eboundCollideStatus.eOutside){

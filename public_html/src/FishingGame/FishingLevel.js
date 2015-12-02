@@ -32,6 +32,7 @@ function FishingLevel() {
     this.mInvuln = false;
     this.mCount = 0;
     this.mSpawnLimit = 3;
+    this.mHooked = false;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -64,7 +65,7 @@ FishingLevel.prototype.initialize = function () {
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.kSpriteNames);
-    this.mCloud = this.mSpawner.populate(1, "Cloud", this.kSpriteNames);
+    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
     this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
     
@@ -168,7 +169,7 @@ FishingLevel.prototype.update = function () {
          if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             this.mScore += this.mAngler[i].getScore();
             this.mAngler.splice(i, 1);
-            this.mHook.setLineLength(this.mHook.getLineLength()*2);
+            this.mHook.setLineLength(this.mHook.getLineLength()*1.3);
         }
     }
     
