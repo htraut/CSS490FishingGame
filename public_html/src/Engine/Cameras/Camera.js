@@ -211,4 +211,26 @@ Camera.prototype.clampAtBoundary = function (aXform, zone) {
     }
     return status;
 };
+
+Camera.prototype.clampCam = function (aXform) {
+    var camCenter = this.getWCCenter();
+    var status = this.collideWCBound(aXform, 1);
+    if ((status & BoundingBox.eboundCollideStatus.eCollideTop) !== 4) {
+        camCenter[1] = aXform.getPosition()[1] - this.getWCHeight()/2 + aXform.getHeight() /2;
+    }
+    if ((status & BoundingBox.eboundCollideStatus.eCollideBottom) !== 8) {
+        camCenter[1] = aXform.getPosition()[1] + this.getWCHeight()/2 - aXform.getHeight() /2;
+    }
+    if ((status & BoundingBox.eboundCollideStatus.eCollideRight) !== 2) {
+        camCenter[0] = aXform.getPosition()[0] - this.getWCWidth()/2 + aXform.getWidth() /2;
+    }
+    if ((status & BoundingBox.eboundCollideStatus.eCollideLeft) !== 1) {
+        camCenter[0] = aXform.getPosition()[0] + this.getWCWidth()/2 - aXform.getWidth() /2;
+    }
+    return status;
+};
+
+Camera.prototype.setBackground = function (background){
+    this.mBg = background;
+};
 //</editor-fold>

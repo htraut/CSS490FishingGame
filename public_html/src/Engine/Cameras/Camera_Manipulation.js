@@ -18,6 +18,9 @@ Camera.prototype.update = function () {
         }
     }
     this.mCameraState.updateCameraState();
+    if(this.mBg !== null){
+        this.clampCam(this.mBg.getXform());
+    }
 };
 
 Camera.prototype.panBy = function (dx, dy) {

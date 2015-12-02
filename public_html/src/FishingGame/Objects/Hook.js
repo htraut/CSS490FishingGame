@@ -6,12 +6,11 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine: false, GameObject: false */
+/*global gEngine: false, GameObject, vec2: false */
 
 "use strict";
 
 function Hook(texture) {
-    
     this.mHook = new SpriteRenderable(texture);
     this.mHook.setColor([1,1,1,0]);
     this.mHook.getXform().setPosition(0, 0);
@@ -21,6 +20,14 @@ function Hook(texture) {
     this.mLength = 20;
     this.mStatus = 0;
     this.mSpeed = 0.1;
+    
+    var wcCenter = this.mHook.getXform().getPosition();
+    var wcWidth = this.mHook.getXform().getWidth();
+    this.mBoatState = new CameraState(wcCenter, wcWidth);
+    
+    this.kCycles = 300;  // number of cycles to complete the transition
+    this.kRate = 0.1;  // rate of change for each cycle
+    this.mCenter = new InterpolateVec2(wcCenter, this.kCycles, this.kRate);
 }
 gEngine.Core.inheritPrototype(Hook, GameObject);
 
@@ -43,9 +50,20 @@ Hook.prototype.update = function (){
         }
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
+        /*
+        var x = this.mHook.getXform().getXPos() - 100;
+        var y = this.mHook.getXform().getYPos();
+        var c = vec2.fromValues(x, y);
+        this.mBoatState.setCenter(c);
+        */
         this.getXform().incXPosBy(-this.mSpeed);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
+        /*
+        var x = this.mHook.getXform().getXPos() + 100;
+        var y = this.mHook.getXform().getYPos();
+        this.mBoatState.setCenter(x,y);
+        */
         this.getXform().incXPosBy(this.mSpeed);
     }
 };

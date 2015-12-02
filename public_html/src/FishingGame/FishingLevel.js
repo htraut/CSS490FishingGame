@@ -52,14 +52,14 @@ FishingLevel.prototype.initialize = function () {
     
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(0, -5), // position of the camera
+        vec2.fromValues(0, 0), // position of the camera
         100,                        // width of camera
-        [0, 0, 1280, 960],         // viewport (orgX, orgY, width, height)
+        [0, 0, 960, 720],         // viewport (orgX, orgY, width, height)
         2
     );
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
-    this.mBG = new TextureObject(this.kBG, 0, 0, 100, 75);
+    this.mBG = new TextureObject(this.kBG, 0, 0, 200, 150);
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.kSpriteNames);
@@ -77,6 +77,7 @@ FishingLevel.prototype.initialize = function () {
     this.mLives = 3;
     this.mScore = 0;
     
+    this.mCamera.setBackground(this.mBG);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -119,8 +120,10 @@ FishingLevel.prototype.update = function () {
     this.mHook.update();
     this.mBoat.update(this.mHook);
     
-    //this.mCamera.panWith(this.mHook.getXform(), 0.1);
-    this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
+    
+    //this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
+    this.mCamera.clampAtBoundary(this.mHook.getXform(), 1);
+    this.mCamera.panWith(this.mBoat.getXform(), 0.15);
     this.mCamera.update();
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
@@ -173,9 +176,13 @@ FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg += "Hooks Left: " + this.mLives +
+    msg +=  "Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
-            " Score: " + this.mScore.toFixed(0);
-            
+            " Score: " + this.mScore.toFixed(0) 
+            /*+
+            "BOATX" + this.mBoat.getXform().getXPos().toFixed(0) +
+            "CAM X" + this.mCamera.getWCCenter()[0].toFixed(0) + 
+            "CAM Y" + this.mCamera.getWCCenter()[1].toFixed(0);
+            */
     this.mMsg.setText(msg);
 };
