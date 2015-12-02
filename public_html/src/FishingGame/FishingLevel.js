@@ -31,6 +31,7 @@ function FishingLevel() {
     this.mScore = null;
     this.mInvuln = false;
     this.mCount = 0;
+    this.mSpawnLimit = 3;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -116,6 +117,8 @@ FishingLevel.prototype.update = function () {
         this.mCount = 0;
     }
     
+    this.checkNPCcount();
+    
     this.mHook.update();
     this.mBoat.update(this.mHook);
     
@@ -180,4 +183,25 @@ FishingLevel.prototype.updateText = function (msg) {
             " Score: " + this.mScore.toFixed(0);
             
     this.mMsg.setText(msg);
+};
+
+FishingLevel.prototype.checkNPCcount = function(){
+    var batch = null;
+    var i = 0;
+    
+    if(this.mFish.length < this.mSpawnLimit){
+        var amount = this.mSpawnLimit - this.mFish.length;
+        batch = this.mSpawner.populate(amount, "Fish", this.kSpriteNames);
+        for(i = 0; i < batch.length; i++){
+            this.mFish.push(batch[i]);
+        }
+    }
+    
+    if(this.mShark.length < this.mSpawnLimit){
+        var amount = this.mSpawnLimit - this.mShark.length;
+        batch = this.mSpawner.populate(amount, "Shark", this.kSpriteNames);
+        for(i = 0; i < batch.length; i++){
+            this.mShark.push(batch[i]);
+        }
+    }
 };
