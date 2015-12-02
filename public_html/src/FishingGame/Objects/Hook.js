@@ -17,17 +17,9 @@ function Hook(texture) {
     this.mHook.getXform().setSize(2,2);
     this.mHook.setElementPixelPositions(35, 95, 315, 350);
     GameObject.call(this, this.mHook);
-    this.mLength = 20;
+    this.mLength = 30;
     this.mStatus = 0;
-    this.mSpeed = 0.1;
-    
-    var wcCenter = this.mHook.getXform().getPosition();
-    var wcWidth = this.mHook.getXform().getWidth();
-    this.mBoatState = new CameraState(wcCenter, wcWidth);
-    
-    this.kCycles = 300;  // number of cycles to complete the transition
-    this.kRate = 0.1;  // rate of change for each cycle
-    this.mCenter = new InterpolateVec2(wcCenter, this.kCycles, this.kRate);
+    this.mSpeed = 0.2;
 }
 gEngine.Core.inheritPrototype(Hook, GameObject);
 

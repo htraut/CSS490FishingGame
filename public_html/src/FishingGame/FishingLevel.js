@@ -31,6 +31,7 @@ function FishingLevel() {
     this.mScore = null;
     this.mInvuln = false;
     this.mCount = 0;
+    this.mSpawnLimit = 3;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -65,7 +66,7 @@ FishingLevel.prototype.initialize = function () {
     this.mFish = this.mSpawner.populate(1, "Fish", this.kSpriteNames);
     this.mCloud = this.mSpawner.populate(1, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
-    //this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
+    this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
     
     this.mBoat = new FishingBoat(this.kSpriteNames);
     this.mHook = new Hook(this.kSpriteNames);
@@ -98,11 +99,11 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mShark.length; i++){
         this.mShark[i].draw(this.mCamera);
     }
-    /*
+    
     for(i = 0; i< this.mAngler.length; i++){
         this.mAngler[i].draw(this.mCamera);
     }
-    */
+    
     this.mMsg.draw(this.mCamera);
 };
 
@@ -116,6 +117,8 @@ FishingLevel.prototype.update = function () {
         this.mInvuln = false;
         this.mCount = 0;
     }
+    
+    this.checkNPCcount();
     
     this.mHook.update();
     this.mBoat.update(this.mHook);
@@ -143,7 +146,7 @@ FishingLevel.prototype.update = function () {
         this.mCloud[i].update();
     }
     for(i = 0; i < this.mShark.length; i++){
-        if(this.mShark[i].getStatus() === Fish.eStatus.eDespawn){
+        if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             if(this.mShark[i].despawn(this.mBG)){
                 this.mShark.splice(i, 1);
             }
@@ -158,15 +161,17 @@ FishingLevel.prototype.update = function () {
             this.mShark[i].chase(this.mBG, this.mHook);
         }
     }
-    /*
+    
     for(i = 0; i< this.mAngler.length; i++){
-        if(this.mAngler[i].getStatus !== AnglerFish.eStatus.eRunAway){
-            this.mAngler[i].statusCheck(this.mBG, this.mBoat);
-        }
-        this.mAngler[i].chase(this.mHook);
+        this.mAngler[i].statusCheck(this.mBG, this.mHook);
         this.mAngler[i].update();
+         if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
+            this.mScore += this.mAngler[i].getScore();
+            this.mAngler.splice(i, 1);
+            this.mHook.setLineLength(this.mHook.getLineLength()*2);
+        }
     }
-    */
+    
     
     var msg = "";
     this.updateText(msg);
@@ -178,11 +183,32 @@ FishingLevel.prototype.updateText = function (msg) {
     this.mMsg.getXform().setPosition(textX,textY);
     msg +=  "Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
-            " Score: " + this.mScore.toFixed(0) 
+            " Score: " + this.mScore.toFixed(0);
             /*+
             "BOATX" + this.mBoat.getXform().getXPos().toFixed(0) +
             "CAM X" + this.mCamera.getWCCenter()[0].toFixed(0) + 
             "CAM Y" + this.mCamera.getWCCenter()[1].toFixed(0);
             */
     this.mMsg.setText(msg);
+};
+
+FishingLevel.prototype.checkNPCcount = function(){
+    var batch = null;
+    var i = 0;
+    
+    if(this.mFish.length < this.mSpawnLimit){
+        var amount = this.mSpawnLimit - this.mFish.length;
+        batch = this.mSpawner.populate(amount, "Fish", this.kSpriteNames);
+        for(i = 0; i < batch.length; i++){
+            this.mFish.push(batch[i]);
+        }
+    }
+    
+    if(this.mShark.length < this.mSpawnLimit){
+        var amount = this.mSpawnLimit - this.mShark.length;
+        batch = this.mSpawner.populate(amount, "Shark", this.kSpriteNames);
+        for(i = 0; i < batch.length; i++){
+            this.mShark.push(batch[i]);
+        }
+    }
 };
