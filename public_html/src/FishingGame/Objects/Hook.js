@@ -15,7 +15,7 @@ function Hook(texture) {
     this.mHook.setColor([1,1,1,0]);
     this.mHook.getXform().setPosition(0, 0);
     this.mHook.getXform().setSize(2,2);
-    this.mHook.setElementPixelPositions(35, 95, 315, 350);
+    this.mHook.setElementPixelPositions(0, 256, 0, 256);
     GameObject.call(this, this.mHook);
     this.mLength = 30;
     this.mStatus = 0;
@@ -24,7 +24,7 @@ function Hook(texture) {
 gEngine.Core.inheritPrototype(Hook, GameObject);
 
 Hook.prototype.update = function (boat){
-    var boatX = boat.getXform().getXPos();
+    var boatX = boat.getXform().getXPos() - boat.getXform().getWidth()/2 + 0.75;
     this.getXform().setXPos(boatX);
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W) || this.mStatus === 1){

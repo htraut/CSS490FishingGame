@@ -16,6 +16,7 @@ function FishingLevel() {
     this.kParticleTexture = "assets/particle.png";
     this.kBoat = "assets/Fisherman.png";
     this.kFishUC = "assets/Fish_UC.png";
+    this.kHookUC = "assets/Hook_UC.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -43,6 +44,7 @@ gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishUC);
+    gEngine.Textures.loadTexture(this.kHookUC);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kBG);
@@ -84,12 +86,13 @@ FishingLevel.prototype.initialize = function () {
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.kFishUC);
+    this.mHook = this.mSpawner.populate(1, "Hook", this.kHookUC);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames, this.kParticleTexture);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
     this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
     
     this.mBoat = new FishingBoat(this.kBoat);
-    this.mHook = new Hook(this.kSpriteNames);
+    this.mHook = new Hook(this.kHookUC);
     
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 1, 1]);
@@ -176,10 +179,10 @@ FishingLevel.prototype.update = function () {
     this.mHook.update(this.mBoat);
     
     //this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
-    this.mCamera.clampAtBoundary(this.mBoat.getXform(), 1);
-    this.mCamera.clampAtBoundary(this.mHook.getXform(), 1);
+    this.mCamera.clampAtBoundary(this.mBoat.getXform(), 0.9);
+    this.mCamera.clampAtBoundary(this.mHook.getXform(), 0.9);
     //this.mCamera.panWith(this.mBoat.getXform(), 0.3);
-    this.mCamera.panWith(this.mHook.getXform(), 0.8);
+    this.mCamera.panWith(this.mBoat.getXform(), 0.8);
     this.mCamera.update();
     this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mMiniCam.update();
@@ -283,7 +286,7 @@ FishingLevel.prototype.clearHook = function(){
             this.mAngler.splice(i, 1);
         }
     }
-    this.mHook = new Hook(this.kSpriteNames);
+    this.mHook = new Hook(this.kHookUC);
 };
 
 FishingLevel.prototype.sharkHooked = function(){
