@@ -190,11 +190,8 @@ FishingLevel.prototype.update = function () {
     this.mHook.update();
     this.mBoatSet.update();
     
-    //this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
-    //this.mCamera.clampAtBoundary(this.mBoat.getXform(), 0.7);
-    this.mCamera.clampAtBoundary(this.mHook.getXform(), 0.8);
-    //this.mCamera.panWith(this.mBoat.getXform(), 0.3);
-    this.mCamera.panWith(this.mHook.getXform(), 0.6);
+    this.mCamera.clampAtSides(this.mBoatSet.getXform(), 0.8);
+    this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.update();
     this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mMiniCam.update();
@@ -250,7 +247,7 @@ FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg +=  "Hooks Left: " + this.mLives +
+    msg +=  /*"Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
             " Score: " + this.mScore.toFixed(0);
             /*+
@@ -261,10 +258,10 @@ FishingLevel.prototype.updateText = function (msg) {
             
             "Hook X: " + this.mHook.getXform().getXPos().toFixed(2) +
             " Hook Y: " + this.mHook.getXform().getYPos().toFixed(2); 
-            /*
+            */
             "BoatSet X " + this.mBoatSet.getXform().getXPos().toFixed(2) +
             " BoatSet Y " + this.mBoatSet.getXform().getYPos().toFixed(2);
-            */
+            
             
     this.mMsg.setText(msg);
 };
@@ -306,11 +303,13 @@ FishingLevel.prototype.clearHook = function(){
             this.mAngler.splice(i, 1);
         }
     }
+    var boatXform = this.mBoat.getXform();
+    var x = boatXform.getXPos()-(boatXform.getWidth()/2)+0.25;
     var prevLength = this.mHook.getLineLength();
     this.mBoatSet.removeFromSet(this.mHook);
     this.mHook = new Hook(this.kHookUC);
     this.mHook.setLineLength(prevLength);
-    var spawnPos = vec2.fromValues(this.mBoat.getXform().getXPos()-(this.mBoat.getXform().getWidth()/2)+0.25, 0);
+    var spawnPos = vec2.fromValues(x, 0);
     this.mHook.getXform().setPosition(spawnPos[0], spawnPos[1]);
     this.mBoatSet.addToSet(this.mHook);
 };
