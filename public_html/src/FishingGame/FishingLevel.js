@@ -94,9 +94,9 @@ FishingLevel.prototype.initialize = function () {
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.kFishUC);
     this.mHook = this.mSpawner.populate(1, "Hook", this.kHookUC);
-    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames, this.kParticleTexture);
-    this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
-    this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
+    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kCloud3UC, this.kParticleTexture);
+    this.mShark = this.mSpawner.populate(1, "Shark", this.kSharkUC);
+    this.mAngler = this.mSpawner.populate(3, "Angler", this.kAnglerUC);
     
     this.mBoat = new FishingBoat(this.kBoat);
     this.mHook = new Hook(this.kHookUC);
@@ -250,7 +250,7 @@ FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg +=  /*"Hooks Left: " + this.mLives +
+    msg +=  "Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
             " Score: " + this.mScore.toFixed(0);
             /*+
@@ -258,7 +258,7 @@ FishingLevel.prototype.updateText = function (msg) {
             "CAM X" + this.mCamera.getWCCenter()[0].toFixed(4) + 
             "CAM Y" + this.mCamera.getWCCenter()[1].toFixed(4);
             +
-            */
+            
             "Hook X: " + this.mHook.getXform().getXPos().toFixed(2) +
             " Hook Y: " + this.mHook.getXform().getYPos().toFixed(2); 
             /*
