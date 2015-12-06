@@ -222,10 +222,10 @@ Camera.prototype.clampCam = function (aXform) {
         camCenter[1] = aXform.getPosition()[1] + this.getWCHeight()/2 - aXform.getHeight() /2;
     }
     if ((status & BoundingBox.eboundCollideStatus.eCollideRight) !== 2) {
-        camCenter[0] = aXform.getPosition()[0] - this.getWCWidth()/2 + aXform.getWidth() /2;
+        camCenter[0] = (aXform.getPosition()[0] - this.getWCWidth()/2 + ( 0.80 * aXform.getWidth() /2));
     }
     if ((status & BoundingBox.eboundCollideStatus.eCollideLeft) !== 1) {
-        camCenter[0] = aXform.getPosition()[0] + this.getWCWidth()/2 - aXform.getWidth() /2;
+        camCenter[0] = (aXform.getPosition()[0] + this.getWCWidth()/2 - ( 0.80 * aXform.getWidth() /2));
     }
     return status;
 };
