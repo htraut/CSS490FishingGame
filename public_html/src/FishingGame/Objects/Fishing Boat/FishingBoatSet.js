@@ -36,10 +36,12 @@ FishingBoatSet.prototype.update = function(){
     this.mFishingBoatState.updateFishingBoatState();
     this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
     var i;
-    for (i = 0; i < this.mSet.length; i++) {
+    for (i = 0; i < this.mSet.length - 1; i++) {
         this.mSet[i].update();
     }
     this.moveSet();
+    
+    this.mSet[2].update(this.mSet[0].getXform(), this.mSet[1].getXform());
 };
 
 FishingBoatSet.prototype._updateMoveSet = function (){

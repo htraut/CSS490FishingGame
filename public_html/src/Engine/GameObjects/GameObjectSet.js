@@ -183,3 +183,7 @@ GameObjectSet.prototype.draw = function (aCamera) {
         this.mSet[i].draw(aCamera);
     }
 };
+
+GameObjectSet.prototype.getMember = function(index){
+    return this.mSet[index];
+};

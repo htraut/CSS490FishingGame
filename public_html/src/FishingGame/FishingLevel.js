@@ -20,6 +20,7 @@ function FishingLevel() {
     this.kAnglerUC = "assets/Angler_UC.png";
     this.kSharkUC = "assets/Shark_UC.png";
     this.kCloud3UC = "assets/Cloud 3.png";
+    this.kFishingLine = "assets/Line.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -34,6 +35,7 @@ function FishingLevel() {
     this.mSpawner = null;
     this.mBG = null;
     this.mHook = null;
+    this.mFishingLine = null;
     //this.mHooks = null;
     //Status Variables
     this.mLives = null;
@@ -47,6 +49,7 @@ function FishingLevel() {
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
+    gEngine.Textures.loadTexture(this.kFishingLine);
     gEngine.Textures.loadTexture(this.kAnglerUC);
     gEngine.Textures.loadTexture(this.kSharkUC);
     gEngine.Textures.loadTexture(this.kFishUC);
@@ -100,9 +103,11 @@ FishingLevel.prototype.initialize = function () {
     
     this.mBoat = new FishingBoat(this.kBoat);
     this.mHook = new Hook(this.kHookUC);
+    this.mFishingLine = new FishingLine(this.kFishingLine);
     this.mBoatSet = new FishingBoatSet();
     this.mBoatSet.addToSet(this.mBoat);
     this.mBoatSet.addToSet(this.mHook);
+    this.mBoatSet.addToSet(this.mFishingLine);
     
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 0, 1]);
@@ -121,6 +126,8 @@ FishingLevel.prototype.draw = function () {
     //gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
+    
+    this.mFishingLine.draw(this.mCamera);
     //this.mBoat.draw(this.mCamera);
     //this.mHook.draw(this.mCamera);
     this.mBoatSet.draw(this.mCamera);
@@ -186,7 +193,6 @@ FishingLevel.prototype.update = function () {
     
     this.checkNPCcount();
     
-    //this.mBoat.update();
     this.mHook.update();
     this.mBoatSet.update();
     
@@ -306,13 +312,11 @@ FishingLevel.prototype.clearHook = function(){
             this.mAngler.splice(i, 1);
         }
     }
-    var prevLength = this.mHook.getLineLength();
-    this.mBoatSet.removeFromSet(this.mHook);
-    this.mHook = new Hook(this.kHookUC);
-    this.mHook.setLineLength(prevLength);
+
     var spawnPos = vec2.fromValues(this.mBoat.getXform().getXPos()-(this.mBoat.getXform().getWidth()/2)+0.25, 0);
-    this.mHook.getXform().setPosition(spawnPos[0], spawnPos[1]);
-    this.mBoatSet.addToSet(this.mHook);
+    var hook = this.mBoatSet.getMember(1);
+    hook.getXform().setPosition(spawnPos[0], spawnPos[1]);
+    hook.setStatus(0);
 };
 
 FishingLevel.prototype.sharkHooked = function(){
