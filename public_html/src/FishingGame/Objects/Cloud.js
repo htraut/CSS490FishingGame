@@ -76,7 +76,7 @@ Cloud.prototype._createParticle = function() {
     //account for falling
     var xL = this.getXform().getXPos() - (this.getXform().getWidth()/10);
     var atX = (Math.random() * (xR-xL) + xL);
-    var atY = this.getXform().getYPos() + (this.getXform().getHeight()/10);
+    var atY = this.getXform().getYPos() + (this.getXform().getHeight()/30 - 1.3);
     
     var life = 1 + Math.random() * this.getXform().getYPos() * 4 + 20;
     var p = new ParticleGameObject(this.mRainTex, atX, atY, life);
