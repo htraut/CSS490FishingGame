@@ -23,18 +23,18 @@ Fish.prototype.statusCheck = function(theBG, theHook){
         this.updateStatus(Fish.eStatus.eHooked);
         fishXform = this.getXform();
         hookCenter = theHook.getXform().getPosition();
-        if(this.mSpeed > 0){
-            fishXform.setRotationInDegree(90);
-        }else{
-            fishXform.setRotationInDegree(270);
-        }
-        
+        this._orientHook(hookCenter);
         fishXform.setPosition(hookCenter[0], hookCenter[1]);
         if(hookCenter[1] > -0.5){
             this.updateStatus(Fish.eStatus.eDespawn);
         }
     }
     this.bounce(theBG);
+};
+
+Fish.prototype._orientHook = function(hookCenter) {
+    var rate = 1;
+    this.rotateObjPointTo(hookCenter, rate);
 };
 
 Fish.prototype.chase = function(theBG, hook){
@@ -91,7 +91,7 @@ Fish.prototype.chase = function(theBG, hook){
 Fish.prototype.despawn = function (theBG){
     
     this.getXform().setRotationInRad(0);
-    this.getXform().setHeight(Math.abs(this.getXform().getHeight()))
+    this.getXform().setHeight(Math.abs(this.getXform().getHeight()));
     
     this.mRenderComponent.getXform().incXPosBy(this.mSpeed*2);
     var fishBB = this.getBBox();
