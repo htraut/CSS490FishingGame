@@ -6,12 +6,12 @@
  */
 
 
-/* global gEngine, GameObject */
+/* global gEngine, GameObject, vec2 */
 
 'use strict';
 
 function FishingBoat(texture){
-    this.kDelta = 0.5;
+    this.kDelta = 1.5;
     
     this.mBoat = new SpriteRenderable(texture);
     this.mBoat.setColor([1,1,1,0]);
@@ -27,14 +27,24 @@ FishingBoat.prototype.update = function () {
     //var hookX = hook.getXform().getXPos();
     
     //this.getXform().setXPos(hookX);
+    
     var pos = this.mFishingBoatState.getCenter();
-
+    var x = pos[0];
+    var y = pos[1];
+    var nPos = vec2.create();
+    nPos[1] = y;
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
-        pos[0] -= this.kDelta;
-        this.mFishingBoatState.setCenter(pos);
+        x -= this.kDelta;
+        nPos[0] = x;
+        this.mFishingBoatState.setCenter(nPos);
+        this.mFishingBoatState.updateFishingBoatState();
+        this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
-        pos[0] += this.kDelta;
-        this.mFishingBoatState.setCenter(pos);
+        x += this.kDelta;
+        nPos[0] = x;
+        this.mFishingBoatState.setCenter(nPos);
+        this.mFishingBoatState.updateFishingBoatState();
+        this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
     }
 };

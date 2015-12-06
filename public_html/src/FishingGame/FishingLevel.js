@@ -13,6 +13,7 @@ function FishingLevel() {
     //Sprites
     this.kSpriteNames = "assets/sprite_names.png";
     this.kBG = "assets/water.png";
+    this.kFishUC = "assets/Fish_UC.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -39,6 +40,7 @@ function FishingLevel() {
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
+    gEngine.Textures.loadTexture(this.kFishUC);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kBG);
 };
@@ -76,7 +78,7 @@ FishingLevel.prototype.initialize = function () {
     this.mMiniCam.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
-    this.mFish = this.mSpawner.populate(1, "Fish", this.kSpriteNames);
+    this.mFish = this.mSpawner.populate(1, "Fish", this.kFishUC);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
     this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
@@ -171,7 +173,7 @@ FishingLevel.prototype.update = function () {
     this.mCamera.clampAtBoundary(this.mBoat.getXform(), 1);
     this.mCamera.clampAtBoundary(this.mHook.getXform(), 1);
     //this.mCamera.panWith(this.mBoat.getXform(), 0.3);
-    this.mCamera.panWith(this.mHook.getXform(), 0.3);
+    this.mCamera.panWith(this.mHook.getXform(), 0.8);
     this.mCamera.update();
     this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mMiniCam.update();
@@ -244,7 +246,7 @@ FishingLevel.prototype.checkNPCcount = function(){
     
     if(this.mFish.length < this.mSpawnLimit){
         var amount = this.mSpawnLimit - this.mFish.length;
-        batch = this.mSpawner.populate(amount, "Fish", this.kSpriteNames);
+        batch = this.mSpawner.populate(amount, "Fish", this.kFishUC);
         for(i = 0; i < batch.length; i++){
             this.mFish.push(batch[i]);
         }

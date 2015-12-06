@@ -6,7 +6,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine: false, GameObject: false */
+/*global gEngine: false, GameObject, vec2: false */
 
 "use strict";
 
@@ -16,7 +16,8 @@ function Fish(texture) {
     this.mFish.setColor([1,1,1,0]);
     this.mFish.getXform().setPosition(0,0);
     this.mFish.getXform().setSize(13,6);
-    this.mFish.setElementPixelPositions(35, 80, 350, 370);
+    this.mFish.setElementPixelPositions(0, 512, 0, 256);
+    //this.mFish.setElementPixelPositions(35, 80, 350, 370);
     GameObject.call(this, this.mFish);
     this.mStatus = 0;
     this.mScore = 1;
