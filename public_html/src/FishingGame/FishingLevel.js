@@ -61,7 +61,7 @@ FishingLevel.prototype.unloadScene = function() {
 
 FishingLevel.prototype.initialize = function () {
     // set ambient lighting
-    gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1]);
+    gEngine.DefaultResources.setGlobalAmbientColor([0.3, 0.3, 0.3, 1.0]);
     gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     
     // Step A: set up the cameras
@@ -89,7 +89,7 @@ FishingLevel.prototype.initialize = function () {
     this.mHook = this.mSpawner.populate(1, "Hook", this.kHookUC);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames, this.kParticleTexture);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
-    this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
+    this.mAngler = this.mSpawner.populate(3, "Angler", this.kSpriteNames);
     
     this.mBoat = new FishingBoat(this.kBoat);
     this.mHook = new Hook(this.kHookUC);
@@ -179,10 +179,10 @@ FishingLevel.prototype.update = function () {
     this.mHook.update(this.mBoat);
     
     //this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
-    this.mCamera.clampAtBoundary(this.mBoat.getXform(), 0.9);
-    this.mCamera.clampAtBoundary(this.mHook.getXform(), 0.9);
+    //this.mCamera.clampAtBoundary(this.mBoat.getXform(), 0.7);
+    this.mCamera.clampAtBoundary(this.mHook.getXform(), 0.8);
     //this.mCamera.panWith(this.mBoat.getXform(), 0.3);
-    this.mCamera.panWith(this.mBoat.getXform(), 0.8);
+    this.mCamera.panWith(this.mHook.getXform(), 0.6);
     this.mCamera.update();
     this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mMiniCam.update();
