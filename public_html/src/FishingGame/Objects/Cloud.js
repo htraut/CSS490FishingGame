@@ -16,7 +16,7 @@ function Cloud(texture, rainTexture, world) {
     this.mRainTex = rainTexture;
     this.mCloud = new SpriteRenderable(texture);
     this.mCloud.setColor([1,1,1,0]);
-    this.mCloud.setElementPixelPositions(35, 100, 220, 240);
+    this.mCloud.setElementPixelPositions(0, 512, 0, 256);
     this.mRainParticles = new ParticleGameObjectSet();
     this.mWorld = world;
     GameObject.call(this, this.mCloud);
@@ -76,7 +76,7 @@ Cloud.prototype._createParticle = function() {
     //account for falling
     var xL = this.getXform().getXPos() - (this.getXform().getWidth()/10);
     var atX = (Math.random() * (xR-xL) + xL);
-    var atY = this.getXform().getYPos() + (this.getXform().getHeight()/10);
+    var atY = this.getXform().getYPos() + (this.getXform().getHeight()/15) - 2.4;
     
     var life = 1 + Math.random() * this.getXform().getYPos() * 4 + 20;
     var p = new ParticleGameObject(this.mRainTex, atX, atY, life);

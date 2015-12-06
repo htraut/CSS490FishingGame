@@ -13,7 +13,7 @@
 
 function AnglerFish(texture){
     Fish.call(this, texture);
-    this.mFish.setElementPixelPositions(35, 110, 285, 305);
+    this.mFish.setElementPixelPositions(0, 1024, 0, 1024);
     this.mChaseDist = 10;
     this.mRotateRate = 1;
     this.mSpeed = 1.5;

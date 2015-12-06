@@ -52,6 +52,6 @@ ParticleGameObject.prototype.update = function () {
     vec4.add(c, c, this.mDeltaColor);
     
     var xf = this.getXform();
-    var s = xf.getWidth() * this.mSizeDelta + 0.02;
+    var s = xf.getWidth() * this.mSizeDelta + 0.015;
     xf.setSize(s, s);
 };

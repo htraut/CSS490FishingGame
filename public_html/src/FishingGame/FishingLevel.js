@@ -17,6 +17,9 @@ function FishingLevel() {
     this.kBoat = "assets/Fisherman.png";
     this.kFishUC = "assets/Fish_UC.png";
     this.kHookUC = "assets/Hook_UC.png";
+    this.kAnglerUC = "assets/Angler_UC.png";
+    this.kSharkUC = "assets/Shark_UC.png";
+    this.kCloud3UC = "assets/Cloud 3.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -44,8 +47,11 @@ function FishingLevel() {
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
+    gEngine.Textures.loadTexture(this.kAnglerUC);
+    gEngine.Textures.loadTexture(this.kSharkUC);
     gEngine.Textures.loadTexture(this.kFishUC);
     gEngine.Textures.loadTexture(this.kHookUC);
+    gEngine.Textures.loadTexture(this.kCloud3UC);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kBG);
@@ -74,7 +80,7 @@ FishingLevel.prototype.initialize = function () {
     );
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
-    this.mBG = new TextureObject(this.kBG, 0, -44.5, 200, 150);
+    this.mBG = new TextureObject(this.kBG, 0, -44, 200, 150);
     
     this.mMiniCam = new Camera(
         vec2.fromValues(0, 0), // position of the camera
@@ -277,7 +283,7 @@ FishingLevel.prototype.checkNPCcount = function(){
     
     if(this.mShark.length < this.mSpawnLimit){
         var amount = this.mSpawnLimit - this.mShark.length;
-        batch = this.mSpawner.populate(amount, "Shark", this.kSpriteNames);
+        batch = this.mSpawner.populate(amount, "Shark", this.kSharkUC);
         for(i = 0; i < batch.length; i++){
             this.mShark.push(batch[i]);
         }
