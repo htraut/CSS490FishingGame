@@ -18,7 +18,8 @@ Fish.prototype.statusCheck = function(theBG, theHook){
     
     // to prevent us from calling pixel collision if the fish is already hooked,
     // we check the fish's status first
-    if(this.getStatus() === Fish.eStatus.eHooked || this.pixelTouches(theHook, result)){
+    if(this.getStatus() === Fish.eStatus.eHooked || 
+            (this.getBBox().boundCollideStatus(theHook.getBBox()) !== BoundingBox.eboundCollideStatus.eOutside)){
         this.updateStatus(Fish.eStatus.eHooked);
         fishXform = this.getXform();
         hookCenter = theHook.getXform().getPosition();
