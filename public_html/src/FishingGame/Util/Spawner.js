@@ -43,22 +43,23 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*6) + 3);
-                h = w * Math.random();
-                h += 1;
+                h = w / 2;
                 objXform.setSize(w, h);
                 object.setScore(w * h);
                 x = this._generateXPos(Math.round(Math.random()));
                 y = this._generateYPos(0) - 5;
                 objXform.setPosition(x, y);
                 population.push(object);
+                if(w > 3 * h){
+                    w = h / 2;
+                }
                 continue;
             case "Shark":
                 object = new Shark(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*6) + 3);
-                h = w * Math.random();
-                h += 1;
+                h = w / 4;
                 objXform.setSize(w, h);
                 object.setScore(0);
                 x = this._generateXPos(Math.round(Math.random()));
@@ -71,8 +72,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*5) + 3);
-                h = w * Math.random();
-                h += 1;
+                h = w;
                 objXform.setSize(w, h);
                 object.setScore(w * h);
                 x = this._generateXPos(Math.round(Math.random()));
