@@ -144,6 +144,7 @@ FishingLevel.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
+    var result = vec2.create();
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)){
        if(this.mPause === true){
            this.mPause = false;
@@ -194,10 +195,16 @@ FishingLevel.prototype.update = function () {
     }
     for(i = 0; i < this.mShark.length; i++){
         if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
+            if(this.mShark[i].pixelTouches(this.mHook, result)){
+                if(!this.mInvuln){
+                    this.mLives -= 1;
+                    this.mInvuln = true;
+                }
+            }
             if(this.mShark[i].despawn(this.mBG)){
                 this.mShark.splice(i, 1);
             }
-        }else if(this.mShark[i].getStatus() === (Fish.eStatus.eHooked | Shark.eStatus.eChase)){
+        }else if((this.mShark[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked /*| Shark.eStatus.eChase*/){
             this.mShark[i].resetStatus();
             this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
             if(!this.mInvuln){
@@ -227,13 +234,13 @@ FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg +=  /*"Hooks Left: " + this.mLives +
+    msg +=  "Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
             " Score: " + this.mScore.toFixed(0);
-            +*/
-            "BOATX" + this.mBoat.getXform().getXPos().toFixed(4) +
+            /*+
+            /*"BOATX" + this.mBoat.getXform().getXPos().toFixed(4) +
             "CAM X" + this.mCamera.getWCCenter()[0].toFixed(4) + 
-            "CAM Y" + this.mCamera.getWCCenter()[1].toFixed(4);
+            "CAM Y" + this.mCamera.getWCCenter()[1].toFixed(4);*/
             
     this.mMsg.setText(msg);
 };
