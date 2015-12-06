@@ -30,6 +30,11 @@ ParticleGameObject.prototype.setFinalColor = function(f) {
         vec4.scale(this.mDeltaColor, this.mDeltaColor, 1/this.mCyclesToLive);
     }
 };
+
+ParticleGameObject.prototype.setFinalColor2 = function(f) {
+    this.mDeltaColor = f;
+};
+
 ParticleGameObject.prototype.setSizeDelta = function(d) {
     this.mSizeDelta = d;
 };

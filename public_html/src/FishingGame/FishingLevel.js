@@ -13,6 +13,7 @@ function FishingLevel() {
     //Sprites
     this.kSpriteNames = "assets/sprite_names.png";
     this.kBG = "assets/water.png";
+    this.kParticleTexture = "assets/particle.png";
     this.kFishUC = "assets/Fish_UC.png";
     
     // The camera to view the scene
@@ -43,6 +44,7 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishUC);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kBG);
+    gEngine.Textures.loadTexture(this.kParticleTexture);
 };
 
 FishingLevel.prototype.unloadScene = function() {
@@ -79,7 +81,7 @@ FishingLevel.prototype.initialize = function () {
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.kFishUC);
-    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames);
+    this.mCloud = this.mSpawner.populate(1, "Cloud", this.kSpriteNames, this.kParticleTexture);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
     this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
     

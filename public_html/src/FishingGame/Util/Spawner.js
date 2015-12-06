@@ -25,7 +25,7 @@ function Spawner(world, camera){
  * @type: the object type to be spawned
  * @texture: the sprite sheet for the object
  */
-Spawner.prototype.populate = function (amount, type, texture){
+Spawner.prototype.populate = function (amount, type, texture, other){
     
     if(amount === 0) return;
     if(type === null) return;
@@ -81,7 +81,7 @@ Spawner.prototype.populate = function (amount, type, texture){
                 population.push(object);
                 continue;    
             case "Cloud":
-                object = new Cloud(texture, this.mWorld);
+                object = new Cloud(texture, other, this.mWorld);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*15) + 10);

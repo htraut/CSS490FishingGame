@@ -10,12 +10,14 @@
 
 'use strict';
 
-function Cloud(texture, world) {
+function Cloud(texture, rainTexture, world) {
     this.kDelta = 0.02;
     
+    this.mRainTex = rainTexture;
     this.mCloud = new SpriteRenderable(texture);
     this.mCloud.setColor([1,1,1,0]);
     this.mCloud.setElementPixelPositions(35, 100, 220, 240);
+    this.mRainParticles = new ParticleGameObjectSet();
     this.mWorld = world;
     GameObject.call(this, this.mCloud);
 };
@@ -57,5 +59,46 @@ Cloud.prototype._restartRight = function(){
 
 Cloud.prototype.update = function(){
     this._restartLeft();
+    while(this.mRainParticles.size() < 100){
+        this.mRainParticles.addToSet(this._createParticle());
+    }
+    this.mRainParticles.update();
     this.getXform().incXPosBy(this.kDelta);
+};
+
+Cloud.prototype.draw = function (camera){
+    this.mRainParticles.draw(camera);
+    GameObject.prototype.draw.call(this, camera);
+};
+
+Cloud.prototype._createParticle = function() {
+    var xR = this.getXform().getXPos() + (this.getXform().getWidth()/3);
+    //account for falling
+    var xL = this.getXform().getXPos() - (this.getXform().getWidth()/6);
+    var atX = (Math.random() * (xR-xL) + xL);
+    var atY = this.getXform().getYPos() - (this.getXform().getHeight()/10);
+    
+    var life = 30 + Math.random() * 200;
+    var p = new ParticleGameObject(this.mRainTex, atX, atY, life);
+    p.getRenderable().setColor([1, 0, 0, 1]);
+    
+    // size of the particle
+    var r = 3.5 + Math.random() * 2.5;
+    p.getXform().setSize(r, r);
+    
+    // final color
+    var fr = 0.03;
+    var fg = 3.20;
+    var fb = 3.65;
+    p.setFinalColor([fr, fg, fb, 0.6]);
+    
+    // velocity on the particle
+    var fx = 10 * Math.random() - 20 * Math.random();
+    var fy = 10 * Math.random();
+    p.getPhysicsComponent().setVelocity([fx, fy]);
+    
+    // size delta
+    p.setSizeDelta(0.97);
+    
+    return p;
 };
