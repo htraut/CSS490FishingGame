@@ -78,7 +78,7 @@ Cloud.prototype._createParticle = function() {
     var atX = (Math.random() * (xR-xL) + xL);
     var atY = this.getXform().getYPos() + (this.getXform().getHeight()/10);
     
-    var life = 1 + Math.random() * 200;
+    var life = 1 + Math.random() * this.getXform().getYPos() * 4 + 20;
     var p = new ParticleGameObject(this.mRainTex, atX, atY, life);
     p.getRenderable().setColor([0, 0, 1, 1]);
     
