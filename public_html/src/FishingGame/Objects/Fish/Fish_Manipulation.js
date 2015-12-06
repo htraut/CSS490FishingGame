@@ -54,7 +54,7 @@ Fish.prototype.chase = function(theBG, hook){
         }
         
         return; //Too far, don't care
-    }else if(this.pixelTouches(hook, result)){
+    }else if(hook.pixelTouches(this, result)){
         this.updateStatus(Fish.eStatus.eHooked);
         return;
     }else{ // chase the hook

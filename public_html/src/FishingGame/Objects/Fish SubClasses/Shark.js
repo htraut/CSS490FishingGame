@@ -14,7 +14,7 @@ function Shark(texture){
     
     Fish.call(this, texture);
     this.mFish.setElementPixelPositions(0, 1024, 0, 256);
-    this.mChaseDist = 15;
+    this.mChaseDist = 20;
     this.mRotateRate = 0.3;
     this.mSpeed = 0.5;
     this.mInPursuit = false;

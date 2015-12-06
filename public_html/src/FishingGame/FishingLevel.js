@@ -211,7 +211,7 @@ FishingLevel.prototype.update = function () {
     }
     for(i = 0; i < this.mShark.length; i++){
         if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
-            if(this.mShark[i].pixelTouches(this.mHook, result)){
+            if(this.mHook.pixelTouches(this.mShark[i], result)){
                 this.sharkHooked();
             }
             if(this.mShark[i].despawn(this.mBG)){

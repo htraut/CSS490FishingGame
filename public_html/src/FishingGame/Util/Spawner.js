@@ -58,7 +58,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 object = new Shark(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*6) + 3);
+                w = 15;
                 h = w / 4;
                 objXform.setSize(w, h);
                 object.setScore(0);
@@ -71,7 +71,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 object = new AnglerFish(texture);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*5) + 3);
+                w = Math.floor((Math.random()*3) + 6);
                 h = w;
                 objXform.setSize(w, h);
                 object.setScore(w * h);
