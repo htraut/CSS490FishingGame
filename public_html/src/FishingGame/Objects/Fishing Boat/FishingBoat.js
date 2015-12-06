@@ -37,14 +37,13 @@ FishingBoat.prototype.update = function () {
         x -= this.kDelta;
         nPos[0] = x;
         this.mFishingBoatState.setCenter(nPos);
-        this.mFishingBoatState.updateFishingBoatState();
-        this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
         x += this.kDelta;
         nPos[0] = x;
         this.mFishingBoatState.setCenter(nPos);
-        this.mFishingBoatState.updateFishingBoatState();
-        this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
     }
+    
+    this.mFishingBoatState.updateFishingBoatState();
+    this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
 };
