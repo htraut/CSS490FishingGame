@@ -84,7 +84,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 object = new Cloud(texture, other, this.mWorld);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*15) + 10);
+                w = Math.floor((Math.random()*15) + 30);
                 h = w * 0.5;
                 objXform.setSize(w, h);
                 x = this._generateXPos(Math.round(Math.random()));
