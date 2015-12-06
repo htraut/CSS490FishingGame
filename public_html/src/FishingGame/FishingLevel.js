@@ -43,6 +43,7 @@ function FishingLevel() {
     this.mSpawnLimit = 3;
     this.mHooked = false;
     this.mPause = false;
+    this.drawMini=false;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
@@ -85,7 +86,7 @@ FishingLevel.prototype.initialize = function () {
     this.mMiniCam = new Camera(
         vec2.fromValues(0, 0), // position of the camera
         10,                        // width of camera
-        [20, 40, 100, 100],         // viewport (orgX, orgY, width, height)
+        [20, 600, 100, 100],         // viewport (orgX, orgY, width, height)
         2
     );
     
@@ -113,6 +114,7 @@ FishingLevel.prototype.initialize = function () {
     
     this.mCamera.setBackground(this.mBG);
     this.mMiniCam.setBackground(this.mBG);
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -140,32 +142,33 @@ FishingLevel.prototype.draw = function () {
     }
     
     this.mMsg.draw(this.mCamera);
-    
-    this.mMiniCam.setupViewProjection();
-    this.mBG.draw(this.mMiniCam);
-    this.mBoat.draw(this.mMiniCam);
-    this.mHook.draw(this.mMiniCam);
-    var i;
-    for(i = 0; i< this.mFish.length; i++){
-        this.mFish[i].draw(this.mMiniCam);
+    if(this.drawMini){
+        this.mMiniCam.setupViewProjection();
+        this.mBG.draw(this.mMiniCam);
+        this.mBoat.draw(this.mMiniCam);
+        this.mHook.draw(this.mMiniCam);
+        var i;
+        for (i = 0; i < this.mFish.length; i++) {
+            this.mFish[i].draw(this.mMiniCam);
+        }
+        for (i = 0; i < this.mCloud.length; i++) {
+            this.mCloud[i].draw(this.mMiniCam);
+        }
+        for (i = 0; i < this.mShark.length; i++) {
+            this.mShark[i].draw(this.mMiniCam);
+        }
+
+        for (i = 0; i < this.mAngler.length; i++) {
+            this.mAngler[i].draw(this.mMiniCam);
+        } 
     }
-    for(i = 0; i< this.mCloud.length; i++){
-        this.mCloud[i].draw(this.mMiniCam);
-    }
-    for(i = 0; i< this.mShark.length; i++){
-        this.mShark[i].draw(this.mMiniCam);
-    }
-    
-    for(i = 0; i< this.mAngler.length; i++){
-        this.mAngler[i].draw(this.mMiniCam);
-    }
-    
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
     var result = vec2.create();
+    //Pause
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)){
        if(this.mPause === true){
            this.mPause = false;
@@ -174,7 +177,15 @@ FishingLevel.prototype.update = function () {
        }
     }
     if(this.mPause === true){return;}
-        
+    
+    //Toggle MiniMap
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)){
+       if(this.drawMini === true){
+           this.drawMini = false;
+       }else{
+           this.drawMini = true;
+       }
+    }    
         
     if(this.mLives <= 0) gEngine.GameLoop.stop();
     if(this.mInvuln === true && this.mCount <= 180){ //180/60 = 3 seconds
@@ -196,6 +207,7 @@ FishingLevel.prototype.update = function () {
     this.mCamera.update();
     this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mMiniCam.update();
+    
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
         gEngine.GameLoop.stop();
