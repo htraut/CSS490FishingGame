@@ -22,12 +22,17 @@ Fish.prototype.statusCheck = function(theBG, theHook){
         this.updateStatus(Fish.eStatus.eHooked);
         fishXform = this.getXform();
         hookCenter = theHook.getXform().getPosition();
+        if(this.mSpeed > 0){
+            fishXform.setRotationInDegree(90);
+        }else{
+            fishXform.setRotationInDegree(270);
+        }
+        
         fishXform.setPosition(hookCenter[0], hookCenter[1]);
         if(hookCenter[1] > -0.5){
             this.updateStatus(Fish.eStatus.eDespawn);
         }
     }
-    
     this.bounce(theBG);
 };
 
