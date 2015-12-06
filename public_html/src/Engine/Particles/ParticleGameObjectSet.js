@@ -20,6 +20,10 @@ ParticleGameObjectSet.prototype.addEmitterAt = function (p, n, func) {
     this.mEmitterSet.push(e);
 };
 
+ParticleGameObjectSet.prototype.getEmitterSetLength = function (){
+    return this.mEmitterSet.length;
+};
+
 ParticleGameObjectSet.prototype.draw = function (aCamera) {
     var gl = gEngine.Core.getGL();
     gl.blendFunc(gl.ONE, gl.ONE);  // for additive blending!

@@ -78,9 +78,11 @@ Fish.prototype.chase = function(theBG, hook){
                 }
             }
             
-        }else{
+        }else if(!(this.mStatus === 0)){
             this.resetStatus();
             this.updateStatus(Fish.eStatus.eDespawn);
+        }else{
+            this.bounce(theBG);
         }
     }
 };
