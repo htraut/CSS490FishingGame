@@ -126,8 +126,6 @@ FishingLevel.prototype.draw = function () {
     //gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
-    
-    this.mFishingLine.draw(this.mCamera);
     //this.mBoat.draw(this.mCamera);
     //this.mHook.draw(this.mCamera);
     this.mBoatSet.draw(this.mCamera);
@@ -150,8 +148,9 @@ FishingLevel.prototype.draw = function () {
     
     this.mMiniCam.setupViewProjection();
     this.mBG.draw(this.mMiniCam);
-    this.mBoat.draw(this.mMiniCam);
-    this.mHook.draw(this.mMiniCam);
+    //this.mBoat.draw(this.mMiniCam);
+    //this.mHook.draw(this.mMiniCam);
+    this.mBoatSet.draw(this.mMiniCam);
     var i;
     for(i = 0; i< this.mFish.length; i++){
         this.mFish[i].draw(this.mMiniCam);
@@ -197,6 +196,7 @@ FishingLevel.prototype.update = function () {
     this.mBoatSet.update();
     
     this.mCamera.clampAtSides(this.mBoatSet.getXform(), 0.8);
+    this.mBoatSet._updateMoveSet();
     this.mBoatSet.moveSet();
     this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.update();
@@ -254,10 +254,10 @@ FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg +=  "Hooks Left: " + this.mLives +
+    msg +=  /*"Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
             " Score: " + this.mScore.toFixed(0);
-            /*+
+            +
             "BOATX" + this.mBoat.getXform().getXPos().toFixed(4) +
             "CAM X" + this.mCamera.getWCCenter()[0].toFixed(4) + 
             "CAM Y" + this.mCamera.getWCCenter()[1].toFixed(4);
@@ -269,6 +269,10 @@ FishingLevel.prototype.updateText = function (msg) {
             "BoatSet X " + this.mBoatSet.getXform().getXPos().toFixed(2) +
             " BoatSet Y " + this.mBoatSet.getXform().getYPos().toFixed(2);
             */
+            "FishingLine X " + this.mFishingLine.getXform().getXPos().toFixed(2) +
+            " FishingLine Y " + this.mFishingLine.getXform().getYPos().toFixed(2) +
+            " FishingLine Height " + this.mFishingLine.getXform().getHeight().toFixed(2);
+            
             
     this.mMsg.setText(msg);
 };
