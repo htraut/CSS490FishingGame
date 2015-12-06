@@ -14,7 +14,7 @@ function Hook(texture) {
     this.mHook = new SpriteRenderable(texture);
     this.mHook.setColor([1,1,1,0]);
     this.mHook.getXform().setPosition(0, 0);
-    this.mHook.getXform().setSize(2,2);
+    this.mHook.getXform().setSize(1.5, 1.5);
     this.mHook.setElementPixelPositions(0, 256, 0, 256);
     GameObject.call(this, this.mHook);
     this.mLength = 30;
