@@ -16,7 +16,7 @@ function Cloud(texture, rainTexture, world) {
     this.mRainTex = rainTexture;
     this.mCloud = new SpriteRenderable(texture);
     this.mCloud.setColor([1,1,1,0]);
-    this.mCloud.setElementPixelPositions(35, 100, 220, 240);
+    this.mCloud.setElementPixelPositions(0, 512, 0, 256);
     this.mRainParticles = new ParticleGameObjectSet();
     this.mWorld = world;
     GameObject.call(this, this.mCloud);

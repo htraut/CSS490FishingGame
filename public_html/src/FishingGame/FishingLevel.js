@@ -19,6 +19,8 @@ function FishingLevel() {
     this.kHookUC = "assets/Hook_UC.png";
     this.kAnglerUC = "assets/Angler_UC.png";
     this.kSharkUC = "assets/Shark_UC.png";
+    this.kCloud3UC = "assets/Cloud 3.png";
+    
     // The camera to view the scene
     this.mCamera = null;
     this.mMiniCam = null;
@@ -46,6 +48,7 @@ gEngine.Core.inheritPrototype(FishingLevel, Scene);
 FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishUC);
     gEngine.Textures.loadTexture(this.kHookUC);
+    gEngine.Textures.loadTexture(this.kCloud3UC);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kAnglerUC);
     gEngine.Textures.loadTexture(this.kSharkUC);
