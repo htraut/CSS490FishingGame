@@ -109,12 +109,14 @@ Fish.prototype.bounce = function(theBG){
     if(fishBB.boundCollideStatus(BGBB) === 13){
         this.updateStatus(Fish.eStatus.eCollideRight);
         var front = vec2.fromValues(-1, 0);
+        this.mBounces++;
     
         this.setCurrentFrontDir(front);
     }
     if(fishBB.boundCollideStatus(BGBB) === 14){
         this.updateStatus(Fish.eStatus.eCollideLeft);
         var front = vec2.fromValues(1, 0);
+        this.mBounces++;
     
         this.setCurrentFrontDir(front);
     }
