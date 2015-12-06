@@ -68,7 +68,7 @@ FishingLevel.prototype.initialize = function () {
     );
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
-    this.mBG = new TextureObject(this.kBG, 0, 0, 200, 150);
+    this.mBG = new TextureObject(this.kBG, 0, -45, 200, 150);
     
     this.mMiniCam = new Camera(
         vec2.fromValues(0, 0), // position of the camera
@@ -81,7 +81,7 @@ FishingLevel.prototype.initialize = function () {
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.kFishUC);
-    this.mCloud = this.mSpawner.populate(1, "Cloud", this.kSpriteNames, this.kParticleTexture);
+    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kSpriteNames, this.kParticleTexture);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSpriteNames);
     this.mAngler = this.mSpawner.populate(1, "Angler", this.kSpriteNames);
     
