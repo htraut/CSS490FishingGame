@@ -21,6 +21,7 @@ function Fish(texture) {
     GameObject.call(this, this.mFish);
     this.mStatus = 0;
     this.mScore = 1;
+    this.mBounces = 0;
     
     var front = vec2.fromValues(1, 0);
     
@@ -50,6 +51,10 @@ Fish.prototype.update = function () {
         this.mSpeed *= -1;
         xform.setSize(-xform.getWidth(), xform.getHeight());
         this.mStatus = 0;
+    }
+    
+    if(this.mBounces > 2){
+        this.updateStatus(Fish.eStatus.eDespawn);
     }
     
     if(Fish.eStatus.eHooked !== this.mStatus){
