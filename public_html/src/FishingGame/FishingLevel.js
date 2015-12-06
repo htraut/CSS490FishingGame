@@ -95,7 +95,7 @@ FishingLevel.prototype.initialize = function () {
     this.mHook = new Hook(this.kHookUC);
     
     this.mMsg = new FontRenderable("Status Message");
-    this.mMsg.setColor([0, 0, 1, 1]);
+    this.mMsg.setColor([0, 0, 0, 1]);
     this.mMsg.getXform().setPosition(1, 14);
     this.mMsg.setTextHeight(2);
     this.mLives = 3;
