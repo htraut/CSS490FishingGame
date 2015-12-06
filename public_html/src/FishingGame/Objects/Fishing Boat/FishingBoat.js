@@ -27,7 +27,7 @@ FishingBoat.prototype.update = function () {
     //var hookX = hook.getXform().getXPos();
     
     //this.getXform().setXPos(hookX);
-    
+    /*
     var pos = this.mFishingBoatState.getCenter();
     var x = pos[0];
     var y = pos[1];
@@ -46,4 +46,5 @@ FishingBoat.prototype.update = function () {
     
     this.mFishingBoatState.updateFishingBoatState();
     this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
+    */
 };
