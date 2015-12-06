@@ -22,7 +22,7 @@ gEngine.Core.inheritPrototype(FishingLine, GameObject);
 FishingLine.prototype.update = function(boatXform, hookXform){
     var lineXform = this.mFishingLine.getXform();
     
-    var boatTopLeftY = boatXform.getYPos() + boatXform.getHeight()/2
+    var boatTopLeftY = boatXform.getYPos() + boatXform.getHeight()/2;
     
     var topY =  boatTopLeftY + hookXform.getYPos();
     
