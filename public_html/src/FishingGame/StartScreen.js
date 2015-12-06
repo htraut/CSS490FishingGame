@@ -30,7 +30,7 @@ StartScreen.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(50, 50), // position of the camera
         100,                        // width of camera
-        [0, 0, 1280, 960],         // viewport (orgX, orgY, width, height)
+        [0, 0, 960, 720],         // viewport (orgX, orgY, width, height)
         2
     );
     

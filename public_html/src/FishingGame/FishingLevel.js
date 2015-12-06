@@ -199,6 +199,7 @@ FishingLevel.prototype.update = function () {
         if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             if(this.mShark[i].pixelTouches(this.mHook, result)){
                 if(!this.mInvuln){
+                    this.mCamera.shake(-2, -2, 20, 30);
                     this.mLives -= 1;
                     this.mInvuln = true;
                 }
@@ -210,6 +211,7 @@ FishingLevel.prototype.update = function () {
             this.mShark[i].resetStatus();
             this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
             if(!this.mInvuln){
+                this.mCamera.shake(-2, -2, 20, 30);
                 this.mLives -= 1;
                 this.mInvuln = true;
             }
