@@ -73,7 +73,7 @@ FishingLevel.prototype.initialize = function () {
     );
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
-    this.mBG = new TextureObject(this.kBG, 0, -45, 200, 150);
+    this.mBG = new TextureObject(this.kBG, 0, -44.5, 200, 150);
     
     this.mMiniCam = new Camera(
         vec2.fromValues(0, 0), // position of the camera

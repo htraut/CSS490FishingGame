@@ -62,7 +62,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 objXform.setSize(w, h);
                 object.setScore(0);
                 x = this._generateXPos(Math.round(Math.random()));
-                y = this._generateYPos(0) - 5;
+                y = this._generateYPos(0) - 10;
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
@@ -76,7 +76,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 objXform.setSize(w, h);
                 object.setScore(w * h);
                 x = this._generateXPos(Math.round(Math.random()));
-                y = this._generateYPos(0) - 5;
+                y = this._generateYPos(0) - 10;
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;    
@@ -88,7 +88,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 h = w * 0.5;
                 objXform.setSize(w, h);
                 x = this._generateXPos(Math.round(Math.random()));
-                y = 0 + (Math.floor((Math.random()*20) + 13));
+                y = 0 + (Math.floor((Math.random()*20) + 17));
                 objXform.setPosition(x, y);
                 population.push(object);
                 continue;
