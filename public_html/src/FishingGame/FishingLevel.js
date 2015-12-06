@@ -198,11 +198,7 @@ FishingLevel.prototype.update = function () {
     for(i = 0; i < this.mShark.length; i++){
         if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             if(this.mShark[i].pixelTouches(this.mHook, result)){
-                if(!this.mInvuln){
-                    this.mCamera.shake(-2, -2, 20, 30);
-                    this.mLives -= 1;
-                    this.mInvuln = true;
-                }
+                this.sharkHooked();
             }
             if(this.mShark[i].despawn(this.mBG)){
                 this.mShark.splice(i, 1);
@@ -210,11 +206,7 @@ FishingLevel.prototype.update = function () {
         }else if((this.mShark[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked /*| Shark.eStatus.eChase*/){
             this.mShark[i].resetStatus();
             this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
-            if(!this.mInvuln){
-                this.mCamera.shake(-2, -2, 20, 30);
-                this.mLives -= 1;
-                this.mInvuln = true;
-            }
+            this.sharkHooked();
         }else{
             this.mShark[i].chase(this.mBG, this.mHook);
         }
@@ -267,5 +259,33 @@ FishingLevel.prototype.checkNPCcount = function(){
         for(i = 0; i < batch.length; i++){
             this.mShark.push(batch[i]);
         }
+    }
+};
+
+FishingLevel.prototype.clearHook = function(){
+    var i = 0;
+    
+    for(i = 0; i < this.mFish.length; i++){
+        if((this.mFish[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
+            this.mFish.splice(i, 1);
+        }
+    }
+    
+    i = 0;
+    
+    for(i = 0; i < this.mAngler.length; i++){
+        if((this.mAngler[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
+            this.mAngler.splice(i, 1);
+        }
+    }
+    this.mHook = new Hook(this.kSpriteNames);
+};
+
+FishingLevel.prototype.sharkHooked = function(){
+    if(!this.mInvuln){
+        this.mCamera.shake(-2, -2, 20, 30);
+        this.mLives -= 1;
+        this.mInvuln = true;
+        this.clearHook();
     }
 };
