@@ -13,6 +13,7 @@ function ParticleGameObject(texture, atX, atY, cyclesToLive) {
     var renderableObj = new ParticleRenderable(texture);
     var xf = renderableObj.getXform();
     xf.setPosition(atX, atY);
+    xf.setSize(0.5, 0.5);
     GameObject.call(this, renderableObj);
     
     var p = new Particle(xf.getPosition());
@@ -51,6 +52,6 @@ ParticleGameObject.prototype.update = function () {
     vec4.add(c, c, this.mDeltaColor);
     
     var xf = this.getXform();
-    var s = xf.getWidth() * this.mSizeDelta;
+    var s = xf.getWidth() * this.mSizeDelta + 0.02;
     xf.setSize(s, s);
 };
