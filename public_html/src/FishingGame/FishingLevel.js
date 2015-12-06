@@ -248,7 +248,7 @@ FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg +=  /*"Hooks Left: " + this.mLives +
+    msg +=  "Hooks Left: " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
             " Score: " + this.mScore.toFixed(0);
             /*+
@@ -259,10 +259,10 @@ FishingLevel.prototype.updateText = function (msg) {
             
             "Hook X: " + this.mHook.getXform().getXPos().toFixed(2) +
             " Hook Y: " + this.mHook.getXform().getYPos().toFixed(2); 
-            */
+            /*
             "BoatSet X " + this.mBoatSet.getXform().getXPos().toFixed(2) +
             " BoatSet Y " + this.mBoatSet.getXform().getYPos().toFixed(2);
-            
+            */
             
     this.mMsg.setText(msg);
 };
