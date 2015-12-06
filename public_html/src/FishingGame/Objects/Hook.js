@@ -17,7 +17,7 @@ function Hook(texture) {
     this.mHook.getXform().setSize(2, 2);
     this.mHook.setElementPixelPositions(0, 32, 0, 32);
     GameObject.call(this, this.mHook);
-    this.mLength = 15;
+    this.mLength = 20;
     this.mStatus = 0;
     this.mSpeed = 0.15;
 }
