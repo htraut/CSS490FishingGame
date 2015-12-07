@@ -10,7 +10,7 @@
 'use strict';
 
 function FishingLine(texture) {
-    this.mFishingLine = new SpriteRenderable(texture);
+    this.mFishingLine = new LightRenderable(texture);
     this.mFishingLine.setColor([1,1,1,0]);
     this.mFishingLine.getXform().setPosition(-12, 3.5);
     this.mFishingLine.getXform().setSize(0.1, 4.9);

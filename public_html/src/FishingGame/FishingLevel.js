@@ -5,7 +5,7 @@
  * @brief: Scene for gameplay
  */
 
-/* global Scene, gEngine, vec2, Fish, Shark, Angler, AnglerFish */
+/* global Scene, gEngine, vec2, Fish, Shark, Angler, AnglerFish, Light, vec3 */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
@@ -40,6 +40,7 @@ function FishingLevel() {
     this.mBG = null;
     this.mHook = null;
     this.mFishingLine = null;
+    this.mDirectLight = null;
     //this.mHooks = null;
     //Status Variables
     this.mLives = null;
@@ -101,6 +102,21 @@ FishingLevel.prototype.initialize = function () {
     
     this.mMiniCam.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
+    this.mDirectLight = new Light();
+    this.mDirectLight.setLightType(Light.eLightType.eDirectionalLight);
+    this.mDirectLight.setColor([0.2, 0.2, 0.2, 0.2]);
+    this.mDirectLight.setXPos(0);
+    this.mDirectLight.setYPos(0);      
+    this.mDirectLight.setZPos(0);
+    var dir = vec3.fromValues(0, 0, 1);
+    this.mDirectLight.setDirection(dir);
+    this.mDirectLight.setNear(10);
+    this.mDirectLight.setFar(20);
+    this.mDirectLight.setInner(0.1);
+    this.mDirectLight.setOuter(0.2);
+    this.mDirectLight.setIntensity(1.0);
+    this.mDirectLight.setDropOff(1.0);
+    
     this.mFishes.push(this.kFish_R);
     this.mFishes.push(this.kFish01_R);
     this.mFishes.push(this.kFish02_R);
@@ -130,6 +146,14 @@ FishingLevel.prototype.initialize = function () {
     
     this.mCamera.setBackground(this.mBG);
     this.mMiniCam.setBackground(this.mBG);
+    
+    var i = 0;
+    for(i = 0; i < this.mAngler.length; i++){
+        this.mBG.getRenderable().addLight(this.mAngler[i].getLight());
+    }
+    this.mBG.getRenderable().addLight(this.mBoat.getLight());
+    this.mBG.getRenderable().addLight(this.mDirectLight);
+    this.mBoat.getRenderable().addLight(this.mDirectLight);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
