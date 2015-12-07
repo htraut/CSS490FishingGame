@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <head>
     <title>Fishing Adventure</title>
+    <style>
+        body {background-color:dimgray}
+        h1   {color:black;
+              font-family: "Verdana";}
+        canvas {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+    <link rel="shortcut icon" href="assets/logo.ico">
 </head>
 <!--Use embedded shader code for now, in order to remove async loading complexity.-->
 
@@ -8,7 +19,6 @@
         var game = new FishingAdventure();
         gEngine.Core.initializeEngineCore('GLCanvas', game);
             ">
-    
     <!-- the following says there are javascript source code contained in 
          the external source files
     -->
