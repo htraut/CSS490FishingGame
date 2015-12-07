@@ -88,43 +88,21 @@ AnglerFish.prototype.update = function (){
     }*/
 };
 
+// calculate the new position for the light as the fish moves, is rotated
 AnglerFish.prototype._rotateLight = function(p) {
     
-    
-    var adjTheta = this.mTheta + this.getXform().getRotationInRad();
-    
-    var x, y;
+    var adjTheta;
     if(this.getXform().getWidth() > 0){
-        x = (Math.abs(this.getXform().getWidth()) * 0.5) * Math.cos(adjTheta);
-        y = (Math.abs(this.getXform().getHeight()) * 0.4) * Math.sin(adjTheta);
-        p[0] = x + this.getXform().getXPos();
-        p[1] = y + this.getXform().getYPos();
+        adjTheta = this.mTheta + this.getXform().getRotationInRad();
     }else{
-        x = (Math.abs(this.getXform().getWidth()) * 0.5) * Math.cos(adjTheta);
-        y = (Math.abs(this.getXform().getHeight()) * 0.4) * Math.sin(adjTheta);
-        p[0] = x + this.getXform().getXPos();
-        p[1] = y + this.getXform().getYPos();
+        adjTheta = (Math.PI - this.mTheta) + this.getXform().getRotationInRad();
     }
     
+    var x = (Math.abs(this.getXform().getWidth()) * 0.5) * Math.cos(adjTheta);
+    var y = (Math.abs(this.getXform().getHeight()) * 0.4) * Math.sin(adjTheta);
+
+    p[0] = x + this.getXform().getXPos();
+    p[1] = y + this.getXform().getYPos();
+
     return p;
-    
-    
-    /*
-    var angle = this.getXform().getRotationInRad();
-    var s = Math.sin(angle);
-    var c = Math.cos(angle);
-
-    // translate point back to origin:
-    p[0] -= this.getXform().getXPos();
-    p[1] -= this.getXform().getYPos();
-
-    // rotate point
-    var xnew = p[0] * c - p[1] * s;
-    var ynew = p[0] * s + p[1] * c;
-
-    // translate point back:
-    p[0] = xnew + this.getXform().getXPos();;
-    p[0] = ynew + this.getXform().getYPos();
-    return p;
-    */
 };
