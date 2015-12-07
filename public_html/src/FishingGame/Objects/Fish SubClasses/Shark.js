@@ -12,8 +12,29 @@
 
 function Shark(texture){
     
-    Fish.call(this, texture);
+    this.mFish = new LightRenderable(texture);
+    
+    this.mFish.setColor([1,1,1,0]);
+    
+    GameObject.call(this, this.mFish);
+    this.mStatus = 0;
+    this.mScore = 1;
+    this.mBounces = 0;
+    
+    var front = vec2.fromValues(1, 0);
+    
+    this.setCurrentFrontDir(front);
+    this.mFish.getXform().setRotationInRad(0);
+    this.kCycles = 30;
+    this.kRate = 4.0; 
+    this.mRotation = new Interpolate(this.mFish.getXform().getRotationInRad(), this.kCycles, this.kRate);
+    this.mRotationFront = new InterpolateVec2(this.getCurrentFrontDir(), this.kCycles, this.kRate);
+    
     this.mFish.setElementPixelPositions(0, 1024, 0, 256);
+    this.mFish.setSpriteSequence(256, 0, 1024, 256, 4, 0);
+    this.mFish.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
+    this.mFish.setAnimationSpeed(20);
+    
     this.mChaseDist = 20;
     this.mRotateRate = 0.3;
     this.mSpeed = 0.5;
@@ -26,6 +47,7 @@ Shark.eStatus = Object.freeze({
 });
 
 Shark.prototype.update = function (){
+    
     var xform = this.mFish.getXform();
     if((this.mStatus & Fish.eStatus.eCollideRight) === Fish.eStatus.eCollideRight){
         this.mSpeed *= -1;
