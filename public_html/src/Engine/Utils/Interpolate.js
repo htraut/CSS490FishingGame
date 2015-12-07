@@ -53,3 +53,7 @@ Interpolate.prototype.configInterpolation = function (stiffness, duration) {
 Interpolate.prototype._interpolateValue = function () {
     this.mCurrentValue = this.mCurrentValue + this.mRate * (this.mFinalValue - this.mCurrentValue);
 };
+
+Interpolate.prototype.getCyclesLeft = function (){
+    return this.mCyclesLeft;
+};

@@ -37,8 +37,14 @@ FishingBoatSet.prototype.update = function(){
     this.mFishingBoatState.updateFishingBoatState();
     this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
     var i;
-    for (i = 0; i < this.mSet.length - 1; i++) {
+    // dont touch boat or line
+    for (i = 1; i < this.mSet.length - 1; i++) {
         this.mSet[i].update();
+    }
+    
+    // move prop if in motion
+    if(this.mFishingBoatState.isMoving()){
+       this.mSet[0].update(); 
     }
     this.moveSet();
     

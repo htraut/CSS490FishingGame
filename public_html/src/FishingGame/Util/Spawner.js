@@ -25,7 +25,7 @@ function Spawner(world, camera){
  * @type: the object type to be spawned
  * @texture: the sprite sheet for the object
  */
-Spawner.prototype.populate = function (amount, type, texture, other){
+Spawner.prototype.populate = function (amount, type, texture0, texture1, texture2, texture3, other){
     
     if(amount === 0) return;
     if(type === null) return;
@@ -39,7 +39,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
     for(i; i < amount; i++){
         switch(type){
             case "Fish":
-                object = new Fish(texture);
+                object = new Fish(texture0, texture1, texture2, texture3);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*6) + 3);
@@ -55,7 +55,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 }
                 continue;
             case "Shark":
-                object = new Shark(texture);
+                object = new Shark(texture0);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = 15;
@@ -68,7 +68,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 population.push(object);
                 continue;
             case "Angler":
-                object = new AnglerFish(texture);
+                object = new AnglerFish(texture0);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*3) + 6);
@@ -81,7 +81,7 @@ Spawner.prototype.populate = function (amount, type, texture, other){
                 population.push(object);
                 continue;    
             case "Cloud":
-                object = new Cloud(texture, other, this.mWorld);
+                object = new Cloud(texture0, other, this.mWorld);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*15) + 30);

@@ -58,7 +58,7 @@ Fish.prototype.chase = function(theBG, hook){
         this.updateStatus(Fish.eStatus.eHooked);
         return;
     }else{ // chase the hook
-        if(hookPos[1] < -0.5){
+        if(hookPos[1] < - 1.5){
             this.mInPursuit = true;
             this.updateStatus(Shark.eStatus.eChase);
             this.rotateObjPointTo(hookPos, this.mRotateRate);

@@ -10,9 +10,23 @@
 
 "use strict";
 
-function Fish(texture) {
+function Fish(texture0, texture1, texture2, texture3) {
     
-    this.mFish = new SpriteRenderable(texture);
+    if(texture1 === undefined){
+        this.mFish = new SpriteRenderable(texture0);
+
+    }else{
+        var rand = Math.random() * 4;
+        if(rand < 1)
+            this.mFish = new SpriteRenderable(texture0);
+        else if(rand < 2)
+            this.mFish = new SpriteRenderable(texture1);
+        else if(rand < 3)
+            this.mFish = new SpriteRenderable(texture2);
+        else
+            this.mFish = new SpriteRenderable(texture3);
+            
+    }
     this.mFish.setColor([1,1,1,0]);
     this.mFish.getXform().setPosition(0,0);
     this.mFish.getXform().setSize(13,6);

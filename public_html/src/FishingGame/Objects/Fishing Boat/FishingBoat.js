@@ -13,17 +13,20 @@
 function FishingBoat(texture){
     this.kDelta = 1.5;
     
-    this.mBoat = new SpriteRenderable(texture);
+    this.mBoat = new SpriteAnimateRenderable(texture);
+    this.mBoat.setSpriteSequence(512, 0, 1024, 512, 3, 0);
     this.mBoat.setColor([1,1,1,0]);
     this.mBoat.getXform().setPosition(0,0);
     this.mFishingBoatState = new FishingBoatState(this.mBoat.getXform().getPosition());
     this.mBoat.getXform().setSize(24,12);
-    this.mBoat.setElementPixelPositions(0, 1024, 0, 512);
+    
     GameObject.call(this, this.mBoat);
 }
 gEngine.Core.inheritPrototype(FishingBoat, GameObject);
 
 FishingBoat.prototype.update = function () {
+    
+    this.mBoat.updateAnimation();
     //var hookX = hook.getXform().getXPos();
     
     //this.getXform().setXPos(hookX);

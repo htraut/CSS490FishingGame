@@ -15,8 +15,12 @@ function FishingLevel() {
     this.kBG = "assets/water.png";
     this.kParticleTexture = "assets/particle.png";
     this.kBoat = "assets/Fisherman.png";
-    this.kFishUC = "assets/Fish_UC.png";
-    this.kHookUC = "assets/Hook_UC.png";
+    this.kFish_R = "assets/Fish_R.png";
+    this.kFish01_R = "assets/Fish01_R.png";
+    this.kFish02_R = "assets/Fish02_R.png";
+    this.kFish03_R = "assets/Fish03_R.png";
+    this.mFishes = [];
+    this.kHook = "assets/Hook.png";
     this.kAnglerUC = "assets/Angler_UC.png";
     this.kSharkUC = "assets/Shark_UC.png";
     this.kCloud3UC = "assets/Cloud 3.png";
@@ -52,8 +56,11 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishingLine);
     gEngine.Textures.loadTexture(this.kAnglerUC);
     gEngine.Textures.loadTexture(this.kSharkUC);
-    gEngine.Textures.loadTexture(this.kFishUC);
-    gEngine.Textures.loadTexture(this.kHookUC);
+    gEngine.Textures.loadTexture(this.kFish_R);
+    gEngine.Textures.loadTexture(this.kFish01_R);
+    gEngine.Textures.loadTexture(this.kFish02_R);
+    gEngine.Textures.loadTexture(this.kFish03_R);
+    gEngine.Textures.loadTexture(this.kHook);
     gEngine.Textures.loadTexture(this.kCloud3UC);
     gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kSpriteNames);
@@ -94,15 +101,20 @@ FishingLevel.prototype.initialize = function () {
     
     this.mMiniCam.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
+    this.mFishes.push(this.kFish_R);
+    this.mFishes.push(this.kFish01_R);
+    this.mFishes.push(this.kFish02_R);
+    this.mFishes.push(this.kFish03_R);
+    
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
-    this.mFish = this.mSpawner.populate(1, "Fish", this.kFishUC);
-    this.mHook = this.mSpawner.populate(1, "Hook", this.kHookUC);
-    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kCloud3UC, this.kParticleTexture);
+    this.mFish = this.mSpawner.populate(1, "Fish", this.mFishes[0], this.mFishes[1], this.mFishes[2], this.mFishes[3]);
+    this.mHook = this.mSpawner.populate(1, "Hook", this.kHook);
+    this.mCloud = this.mSpawner.populate(3, "Cloud", this.kCloud3UC, null, null, null, this.kParticleTexture);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kSharkUC);
     this.mAngler = this.mSpawner.populate(3, "Angler", this.kAnglerUC);
     
     this.mBoat = new FishingBoat(this.kBoat);
-    this.mHook = new Hook(this.kHookUC);
+    this.mHook = new Hook(this.kHook);
     this.mFishingLine = new FishingLine(this.kFishingLine);
     this.mBoatSet = new FishingBoatSet();
     this.mBoatSet.addToSet(this.mBoat);
@@ -210,7 +222,8 @@ FishingLevel.prototype.update = function () {
     for(i = 0; i < this.mFish.length; i++){
         this.mFish[i].statusCheck(this.mBG, this.mHook);
         this.mFish[i].update();
-        if((this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
+        if((this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
+                (this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             this.mScore += this.mFish[i].getScore();
             this.mFish.splice(i, 1);
         }
@@ -238,7 +251,8 @@ FishingLevel.prototype.update = function () {
     for(i = 0; i< this.mAngler.length; i++){
         this.mAngler[i].statusCheck(this.mBG, this.mHook);
         this.mAngler[i].update();
-         if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
+         if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
+                (this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             this.mScore += this.mAngler[i].getScore();
             this.mAngler.splice(i, 1);
             this.mHook.setLineLength(this.mHook.getLineLength()*1.2);
@@ -283,7 +297,7 @@ FishingLevel.prototype.checkNPCcount = function(){
     
     if(this.mFish.length < this.mSpawnLimit){
         var amount = this.mSpawnLimit - this.mFish.length;
-        batch = this.mSpawner.populate(amount, "Fish", this.kFishUC);
+        batch = this.mSpawner.populate(amount, "Fish", this.mFishes[0], this.mFishes[1], this.mFishes[2], this.mFishes[3]);
         for(i = 0; i < batch.length; i++){
             this.mFish.push(batch[i]);
         }

@@ -26,7 +26,7 @@ FishingLine.prototype.update = function(boatXform, hookXform){
     
     var topY =  boatTopLeftY + hookXform.getYPos();
     
-    lineXform.setXPos(hookXform.getXPos() - 0.25);
+    lineXform.setXPos(hookXform.getXPos());
     lineXform.setYPos(topY / 2 + 0.45);
     
     var newHeight = boatTopLeftY - hookXform.getYPos();

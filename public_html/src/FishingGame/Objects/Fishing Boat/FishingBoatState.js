@@ -23,3 +23,7 @@ FishingBoatState.prototype.updateFishingBoatState = function () {
 FishingBoatState.prototype.configInterpolation = function (stiffness, duration) {
     this.mCenter.configInterpolation(stiffness, duration);
 };
+
+FishingBoatState.prototype.isMoving = function () {
+    return this.mCenter.getCyclesLeft() > 280;
+};
