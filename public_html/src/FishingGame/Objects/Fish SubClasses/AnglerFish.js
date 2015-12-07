@@ -90,22 +90,18 @@ AnglerFish.prototype.update = function (){
 
 AnglerFish.prototype._rotateLight = function(p) {
     
-    if(this.getXform().getRotationInRad() < 0){
-        var rad = this.getXform().getRotationInRad()%(2*Math.PI);
-        rad += Math.PI * 2;
-        var adjTheta = this.mTheta + rad;
-    }else{
-        var adjTheta = this.mTheta + this.getXform().getRotationInRad();
-    }
+    
+    var adjTheta = this.mTheta + this.getXform().getRotationInRad();
+    
     var x, y;
-    if(this.getXform().getRotationInRad() > 0){
-        x = (this.getXform().getWidth() * 0.5) * Math.cos(adjTheta);
-        y = (this.getXform().getHeight() * 0.4) * Math.sin(adjTheta);
+    if(this.getXform().getWidth() > 0){
+        x = (Math.abs(this.getXform().getWidth()) * 0.5) * Math.cos(adjTheta);
+        y = (Math.abs(this.getXform().getHeight()) * 0.4) * Math.sin(adjTheta);
         p[0] = x + this.getXform().getXPos();
         p[1] = y + this.getXform().getYPos();
     }else{
-        x = (this.getXform().getWidth() * 0.5) * Math.cos(adjTheta);
-        y = (this.getXform().getHeight() * 0.4) * Math.sin(adjTheta);
+        x = (Math.abs(this.getXform().getWidth()) * 0.5) * Math.cos(adjTheta);
+        y = (Math.abs(this.getXform().getHeight()) * 0.4) * Math.sin(adjTheta);
         p[0] = x + this.getXform().getXPos();
         p[1] = y + this.getXform().getYPos();
     }
