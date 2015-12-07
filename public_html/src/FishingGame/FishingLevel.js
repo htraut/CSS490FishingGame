@@ -249,7 +249,9 @@ FishingLevel.prototype.update = function () {
     for(i = 0; i < this.mFish.length; i++){
         this.mFish[i].statusCheck(this.mBG, this.mHook);
         this.mFish[i].update();
-        if((this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
+        if(this.mFish[i].getBounces() > 2){
+            this.mFish.splice(i, 1);
+        }else if((this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
                 (this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             this.mScore += this.mFish[i].getScore();
             this.mFish.splice(i, 1);
@@ -278,7 +280,10 @@ FishingLevel.prototype.update = function () {
     for(i = 0; i< this.mAngler.length; i++){
         this.mAngler[i].statusCheck(this.mBG, this.mHook);
         this.mAngler[i].update();
-         if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
+        if(this.mAngler[i].getBounces() > 2){
+            this.mLightStorage.push(this.mAngler[i].getLight());
+            this.mAngler.splice(i, 1);
+        }else if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
                 (this.mAngler[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
             this.mScore += this.mAngler[i].getScore();
             this.mLightStorage.push(this.mAngler[i].getLight());

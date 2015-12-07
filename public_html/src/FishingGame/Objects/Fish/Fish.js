@@ -68,10 +68,6 @@ Fish.prototype.update = function () {
         this.mStatus = 0;
     }
     
-    if(this.mBounces > 2){
-        this.updateStatus(Fish.eStatus.eDespawn);
-    }
-    
     if(Fish.eStatus.eHooked !== this.mStatus){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }
@@ -145,3 +141,6 @@ Fish.prototype.resetStatus = function(){
     this.mStatus = 0;
 };
 
+Fish.prototype.getBounces = function (){
+    return this.mBounces;
+};
