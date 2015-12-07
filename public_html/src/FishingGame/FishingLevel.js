@@ -5,7 +5,7 @@
  * @brief: Scene for gameplay
  */
 
-/* global Scene, gEngine, vec2, Fish, Shark, Angler, AnglerFish */
+/* global Scene, gEngine, vec2, Fish, Shark, Angler, AnglerFish, Light, vec3 */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
@@ -22,9 +22,10 @@ function FishingLevel() {
     this.mFishes = [];
     this.kHook = "assets/Hook.png";
     this.kAnglerUC = "assets/Angler_UC.png";
-    this.kSharkUC = "assets/Shark_UC.png";
+    this.kShark_R = "assets/Shark_R.png";
     this.kCloud3UC = "assets/Cloud 3.png";
     this.kFishingLine = "assets/Line.png";
+    //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -40,6 +41,7 @@ function FishingLevel() {
     this.mBG = null;
     this.mHook = null;
     this.mFishingLine = null;
+    this.mDirectLight = null;
     //this.mHooks = null;
     //Status Variables
     this.mLives = null;
@@ -54,8 +56,9 @@ gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishingLine);
+    //gEngine.Textures.loadTexture(this.kBoatNorm);
     gEngine.Textures.loadTexture(this.kAnglerUC);
-    gEngine.Textures.loadTexture(this.kSharkUC);
+    gEngine.Textures.loadTexture(this.kShark_R);
     gEngine.Textures.loadTexture(this.kFish_R);
     gEngine.Textures.loadTexture(this.kFish01_R);
     gEngine.Textures.loadTexture(this.kFish02_R);
@@ -101,6 +104,21 @@ FishingLevel.prototype.initialize = function () {
     
     this.mMiniCam.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     
+    this.mDirectLight = new Light();
+    this.mDirectLight.setLightType(Light.eLightType.eDirectionalLight);
+    this.mDirectLight.setColor([0.2, 0.2, 0.2, 0.2]);
+    this.mDirectLight.setXPos(0);
+    this.mDirectLight.setYPos(0);      
+    this.mDirectLight.setZPos(0);
+    var dir = vec3.fromValues(0, 0, 1);
+    this.mDirectLight.setDirection(dir);
+    this.mDirectLight.setNear(10);
+    this.mDirectLight.setFar(20);
+    this.mDirectLight.setInner(0.1);
+    this.mDirectLight.setOuter(0.2);
+    this.mDirectLight.setIntensity(1.0);
+    this.mDirectLight.setDropOff(1.0);
+    
     this.mFishes.push(this.kFish_R);
     this.mFishes.push(this.kFish01_R);
     this.mFishes.push(this.kFish02_R);
@@ -110,7 +128,7 @@ FishingLevel.prototype.initialize = function () {
     this.mFish = this.mSpawner.populate(1, "Fish", this.mFishes[0], this.mFishes[1], this.mFishes[2], this.mFishes[3]);
     this.mHook = this.mSpawner.populate(1, "Hook", this.kHook);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kCloud3UC, null, null, null, this.kParticleTexture);
-    this.mShark = this.mSpawner.populate(1, "Shark", this.kSharkUC);
+    this.mShark = this.mSpawner.populate(1, "Shark", this.kShark_R);
     this.mAngler = this.mSpawner.populate(3, "Angler", this.kAnglerUC);
     
     this.mBoat = new FishingBoat(this.kBoat);
@@ -130,6 +148,14 @@ FishingLevel.prototype.initialize = function () {
     
     this.mCamera.setBackground(this.mBG);
     this.mMiniCam.setBackground(this.mBG);
+    
+    var i = 0;
+    for(i = 0; i < this.mAngler.length; i++){
+        this.mBG.getRenderable().addLight(this.mAngler[i].getLight());
+    }
+    this.mBG.getRenderable().addLight(this.mBoat.getLight());
+    this.mBG.getRenderable().addLight(this.mDirectLight);
+    this.mBoat.getRenderable().addLight(this.mDirectLight);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -305,7 +331,7 @@ FishingLevel.prototype.checkNPCcount = function(){
     
     if(this.mShark.length < this.mSpawnLimit){
         var amount = this.mSpawnLimit - this.mShark.length;
-        batch = this.mSpawner.populate(amount, "Shark", this.kSharkUC);
+        batch = this.mSpawner.populate(amount, "Shark", this.kShark_R);
         for(i = 0; i < batch.length; i++){
             this.mShark.push(batch[i]);
         }

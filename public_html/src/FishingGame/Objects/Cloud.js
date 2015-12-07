@@ -14,7 +14,7 @@ function Cloud(texture, rainTexture, world) {
     this.kDelta = 0.02;
     
     this.mRainTex = rainTexture;
-    this.mCloud = new SpriteRenderable(texture);
+    this.mCloud = new LightRenderable(texture);
     this.mCloud.setColor([1,1,1,0]);
     this.mCloud.setElementPixelPositions(0, 512, 0, 256);
     this.mRainParticles = new ParticleGameObjectSet();

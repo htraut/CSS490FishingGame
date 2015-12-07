@@ -11,7 +11,7 @@
 "use strict";
 
 function Hook(texture) {
-    this.mHook = new SpriteRenderable(texture);
+    this.mHook = new LightRenderable(texture);
     this.mHook.setColor([1,1,1,0]);
     this.mHook.getXform().setPosition(-12, 0);
     this.mHook.getXform().setSize(2, 2);

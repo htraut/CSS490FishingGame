@@ -13,7 +13,7 @@ function TextureObject(texture, x, y, w, h) {
     this.kDelta = 0.2;
     this.kRDelta = 0.1; // radian
 
-    this.mRenderable = new TextureRenderable(texture);
+    this.mRenderable = new LightRenderable(texture);
     this.mRenderable.setColor([1, 1, 1, 0.1]);
     this.mRenderable.getXform().setPosition(x, y);
     this.mRenderable.getXform().setSize(w, h);

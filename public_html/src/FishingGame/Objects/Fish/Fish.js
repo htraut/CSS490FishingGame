@@ -28,7 +28,7 @@ function Fish(texture0, texture1, texture2, texture3) {
         
         //do animate things here
         this.mFish.setSpriteSequence(256, 0, 512, 256, 4, 0);
-        this.mFish.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+        this.mFish.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
         this.mFish.setAnimationSpeed(20);
     }
     this.mFish.setColor([1,1,1,0]);
@@ -77,7 +77,7 @@ Fish.prototype.update = function () {
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }
     
-    this.mFish.updateAnimation();
+    //this.mFish.updateAnimation();
 };
 
 Fish.prototype.rotateObjPointTo = function (p, rate){

@@ -41,6 +41,7 @@ Fish.prototype.chase = function(theBG, hook){
     var hookPos = hook.getXform().getPosition();
     var result = vec2.create();
     var xform = this.mFish.getXform();
+    this.mFish.updateAnimation();
 
     var dir = vec2.create();
     vec2.subtract(dir, hookPos, this.getXform().getPosition());
@@ -49,6 +50,7 @@ Fish.prototype.chase = function(theBG, hook){
         this.resetStatus();
         if(this.mInPursuit){
             this.updateStatus(Fish.eStatus.eDespawn);
+            this.mFish.setAnimationSpeed(5);
         }else{
             this.bounce(theBG);
         }
@@ -82,6 +84,7 @@ Fish.prototype.chase = function(theBG, hook){
         }else if(!(this.mStatus === 0)){
             this.resetStatus();
             this.updateStatus(Fish.eStatus.eDespawn);
+            this.mFish.setAnimationSpeed(5);
         }else{
             this.bounce(theBG);
         }
@@ -90,6 +93,7 @@ Fish.prototype.chase = function(theBG, hook){
 
 Fish.prototype.despawn = function (theBG){
     
+    this.mFish.updateAnimation();
     this.getXform().setRotationInRad(0);
     this.getXform().setHeight(Math.abs(this.getXform().getHeight()));
     
@@ -105,6 +109,7 @@ Fish.prototype.despawn = function (theBG){
 Fish.prototype.bounce = function(theBG){
     var fishBB = this.getBBox();
     var BGBB = theBG.getBBox();
+    this.mFish.updateAnimation();
     
     if(fishBB.boundCollideStatus(BGBB) === 13){
         this.updateStatus(Fish.eStatus.eCollideRight);
