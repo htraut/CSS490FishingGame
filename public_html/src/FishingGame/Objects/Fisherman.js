@@ -12,7 +12,7 @@
 function Fisherman(texture) {
     this.kDelta = 0.5;
     
-    this.mFisherman = new SpriteRenderable(texture);
+    this.mFisherman = new LightRenderable(texture);
     this.mFisherman.setColor([1,1,1,0]);
     this.mFisherman.getXform().setPosition(0,0);
     this.mFisherman.getXform().setSize(6,13);

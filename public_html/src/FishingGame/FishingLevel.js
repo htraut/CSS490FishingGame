@@ -21,7 +21,7 @@ function FishingLevel() {
     this.kFish03_R = "assets/Fish03_R.png";
     this.mFishes = [];
     this.kHook = "assets/Hook.png";
-    this.kAnglerUC = "assets/Angler_UC.png";
+    this.kAngler_R = "assets/Angler_R.png";
     this.kShark_R = "assets/Shark_R.png";
     this.kCloud3UC = "assets/Cloud 3.png";
     this.kFishingLine = "assets/Line.png";
@@ -51,13 +51,14 @@ function FishingLevel() {
     this.mSpawnLimit = 3;
     this.mHooked = false;
     this.mPause = false;
+    this.mLightStorage = [];
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishingLine);
     //gEngine.Textures.loadTexture(this.kBoatNorm);
-    gEngine.Textures.loadTexture(this.kAnglerUC);
+    gEngine.Textures.loadTexture(this.kAngler_R);
     gEngine.Textures.loadTexture(this.kShark_R);
     gEngine.Textures.loadTexture(this.kFish_R);
     gEngine.Textures.loadTexture(this.kFish01_R);
@@ -126,10 +127,10 @@ FishingLevel.prototype.initialize = function () {
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(1, "Fish", this.mFishes[0], this.mFishes[1], this.mFishes[2], this.mFishes[3]);
-    this.mHook = this.mSpawner.populate(1, "Hook", this.kHook);
+    //this.mHook = this.mSpawner.populate(1, "Hook", this.kHook);
     this.mCloud = this.mSpawner.populate(3, "Cloud", this.kCloud3UC, null, null, null, this.kParticleTexture);
     this.mShark = this.mSpawner.populate(1, "Shark", this.kShark_R);
-    this.mAngler = this.mSpawner.populate(3, "Angler", this.kAnglerUC);
+    this.mAngler = this.mSpawner.populate(3, "Angler", this.kAngler_R);
     
     this.mBoat = new FishingBoat(this.kBoat);
     this.mHook = new Hook(this.kHook);
@@ -149,13 +150,13 @@ FishingLevel.prototype.initialize = function () {
     this.mCamera.setBackground(this.mBG);
     this.mMiniCam.setBackground(this.mBG);
     
-    var i = 0;
+    var i;
     for(i = 0; i < this.mAngler.length; i++){
-        this.mBG.getRenderable().addLight(this.mAngler[i].getLight());
+        this.addLightToAll(this.mAngler[i].getLight());
     }
-    this.mBG.getRenderable().addLight(this.mBoat.getLight());
-    this.mBG.getRenderable().addLight(this.mDirectLight);
-    this.mBoat.getRenderable().addLight(this.mDirectLight);
+    
+    this.addLightToAll(this.mBoat.getLight());
+    this.addLightToAll(this.mDirectLight);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -278,8 +279,9 @@ FishingLevel.prototype.update = function () {
         this.mAngler[i].statusCheck(this.mBG, this.mHook);
         this.mAngler[i].update();
          if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
-                (this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
+                (this.mAngler[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
             this.mScore += this.mAngler[i].getScore();
+            this.mLightStorage.push(this.mAngler[i].getLight());
             this.mAngler.splice(i, 1);
             this.mHook.setLineLength(this.mHook.getLineLength()*1.2);
         }
@@ -321,11 +323,12 @@ FishingLevel.prototype.checkNPCcount = function(){
     var batch = null;
     var i = 0;
     
-    if(this.mFish.length < this.mSpawnLimit){
+    if(this.mFish.length < (this.mSpawnLimit)){
         var amount = this.mSpawnLimit - this.mFish.length;
         batch = this.mSpawner.populate(amount, "Fish", this.mFishes[0], this.mFishes[1], this.mFishes[2], this.mFishes[3]);
         for(i = 0; i < batch.length; i++){
             this.mFish.push(batch[i]);
+            this.addAllLightsTo(batch[i].getRenderable());
         }
     }
     
@@ -334,6 +337,17 @@ FishingLevel.prototype.checkNPCcount = function(){
         batch = this.mSpawner.populate(amount, "Shark", this.kShark_R);
         for(i = 0; i < batch.length; i++){
             this.mShark.push(batch[i]);
+            this.addAllLightsTo(batch[i].getRenderable());
+        }
+    }
+    
+    if(this.mAngler.length < this.mSpawnLimit){
+        var amount = this.mSpawnLimit - this.mAngler.length;
+        batch = this.mSpawner.populate(amount, "Angler", this.kAngler_R);
+        for(i = 0; i < batch.length; i++){
+            batch[i].setLight(this.mLightStorage.pop());
+            this.mAngler.push(batch[i]);
+            this.addAllLightsTo(batch[i].getRenderable());
         }
     }
 };
@@ -351,6 +365,7 @@ FishingLevel.prototype.clearHook = function(){
     
     for(i = 0; i < this.mAngler.length; i++){
         if((this.mAngler[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
+            this.mLightStorage.push(this.mAngler[i].getLight());
             this.mAngler.splice(i, 1);
         }
     }
@@ -368,4 +383,43 @@ FishingLevel.prototype.sharkHooked = function(){
         this.mInvuln = true;
         this.clearHook();
     }
+};
+
+// adds the light to everything except the clouds
+FishingLevel.prototype.addLightToAll = function (light){
+
+    this.mBG.getRenderable().addLight(light);
+    
+    var j;
+    
+    for(j = 0; j < this.mAngler.length; j++){
+        this.mAngler[j].getRenderable().addLight(light);
+    }
+    
+    for(j = 0; j < this.mBoatSet.size(); j++){
+        this.mBoatSet.getMember(j).getRenderable().addLight(light);
+    }
+        
+    for(j = 0; j < this.mShark.length; j++){
+        this.mShark[j].getRenderable().addLight(light);
+    }
+        
+    for(j = 0; j < this.mFish.length; j++){
+        this.mFish[j].getRenderable().addLight(light);
+    }
+    
+    for(j = 0; j < this.mCloud.length; j++){
+        this.mCloud[j].getRenderable().addLight(light);
+    }  
+};
+
+FishingLevel.prototype.addAllLightsTo = function(renderable){
+    var j;
+    
+    for(j = 0; j < this.mAngler.length; j++){
+        renderable.addLight(this.mAngler[j].getLight());
+    }
+    
+    renderable.addLight(this.mDirectLight);
+    renderable.addLight(this.mBoat.getLight());
 };

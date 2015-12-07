@@ -13,46 +13,49 @@
 
 function AnglerFish(texture){
     Fish.call(this, texture);
-    this.mFish.setElementPixelPositions(0, 1024, 0, 1024);
-    this.mChaseDist = 10;
+    this.mFish.setSpriteSequence(1024, 0, 1024, 1024, 4, 0);
+    this.mFish.setAnimationSpeed(20);
+    this.mFish.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
+    //this.mChaseDist = 10;
     this.mRotateRate = 1;
     this.mSpeed = 1.5;
+    this.mAnglerLight = null;
     
-    this.mAnglerLight = this._createALight(Light.eLightType.ePointLight,
-            [15, 50, 5],         // position
-            [-0.2, -0.2, -1],          // Direction 
-            [0.6, 0.6, 0.6, 0.5],  // some color
-            4, 6,               // near and far distances
-            0.5, 1.4,            // inner and outer cones
-            3,                   // intensity
-            0.5                  // drop off
-            );
-    this.mFish.addLight(this.mAnglerLight);
+    /*
     var xform = this.getXform();
+    
+    // calculate the initial angle theta, to be used to keep the light in correct position
     var numerator = (xform.getXPos() + (xform.getWidth()/2.3)) * (this.getCurrentFrontDir()[0]) +
              xform.getYPos() + (xform.getHeight()/4.5) * (this.getCurrentFrontDir()[1]);
     var denominator = Math.sqrt(((xform.getXPos() + (xform.getWidth()/2.3)) * (xform.getXPos() + (xform.getWidth()/2.3)))
              + ((xform.getYPos() + (xform.getHeight()/4.5)) * (xform.getYPos() + (xform.getHeight()/4.5))));
     this.mTheta = Math.cos((numerator/denominator));
+    */
+   // the angle above does not need to be computed at runtime, it is constant,
+   // pre-computed value:
+   this.mTheta = 0.56255858;
 }
+
 gEngine.Core.inheritPrototype(AnglerFish, Fish);
 
-AnglerFish.prototype._createALight = function (type, pos, dir, color, n, f, inner, outer, intensity, dropOff) {
+AnglerFish.prototype.createLight = function () {
     var light = new Light();
-    light.setLightType(type);
-    light.setColor(color);
-    light.setXPos(pos[0]);
-    light.setYPos(pos[1]);      
-    light.setZPos(pos[2]);
-    light.setDirection(dir);
-    light.setNear(n);
-    light.setFar(f);
-    light.setInner(inner);
-    light.setOuter(outer);
-    light.setIntensity(intensity);
-    light.setDropOff(dropOff);
+    light.setLightType(Light.eLightType.ePointLight);
+    light.setColor([0.6, 0.6, 0.6, 0.5]);
+    light.setXPos(15);
+    light.setYPos(50);      
+    light.setZPos(5);
+    light.setDirection([-0.2, -0.2, -1]);
+    light.setNear(4);
+    light.setFar(6);
+    light.setInner(0.5);
+    light.setOuter(1.4);
+    light.setIntensity(3);
+    light.setDropOff(0.5);
 
-    return light;
+    this.mAnglerLight = light;
+    this.mFish.addLight(this.mAnglerLight);
+
 };
 
 AnglerFish.eStatus = Object.freeze({
@@ -61,6 +64,10 @@ AnglerFish.eStatus = Object.freeze({
 
 AnglerFish.prototype.getLight = function (){
     return this.mAnglerLight;
+};
+
+AnglerFish.prototype.setLight = function (light){
+    this.mAnglerLight = light ;
 };
 
 AnglerFish.prototype.update = function (){

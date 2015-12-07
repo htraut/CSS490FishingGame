@@ -78,6 +78,7 @@ Spawner.prototype.populate = function (amount, type, texture0, texture1, texture
                 x = this._generateXPos(Math.round(Math.random()));
                 y = this._generateYPos(0) - 10;
                 objXform.setPosition(x, y);
+                object.createLight();
                 population.push(object);
                 continue;    
             case "Cloud":
