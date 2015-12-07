@@ -329,7 +329,7 @@ FishingLevel.prototype.clearHook = function(){
         }
     }
 
-    var spawnPos = vec2.fromValues(this.mBoat.getXform().getXPos()-(this.mBoat.getXform().getWidth()/2)+0.25, 0);
+    var spawnPos = vec2.fromValues(this.mBoat.getXform().getXPos()-(this.mBoat.getXform().getWidth()/2), 0);
     var hook = this.mBoatSet.getMember(1);
     hook.getXform().setPosition(spawnPos[0], spawnPos[1]);
     hook.setStatus(0);
