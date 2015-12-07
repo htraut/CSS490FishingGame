@@ -64,6 +64,8 @@ AnglerFish.prototype.update = function (){
                 xform.getXPos() + (xform.getWidth()/2.3),
                 xform.getYPos() + (xform.getHeight()/4.5),
                 0);
+    pos[0] *= this.getCurrentFrontDir()[0];
+    pos[1] *= this.getCurrentFrontDir()[1];
     this.mAnglerLight.set2DPosition(pos);
     /*if(this.mStatus === Fish.eStatus.eDespawn){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
