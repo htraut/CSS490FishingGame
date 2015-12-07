@@ -13,25 +13,27 @@
 function Fish(texture0, texture1, texture2, texture3) {
     
     if(texture1 === undefined){
-        this.mFish = new SpriteRenderable(texture0);
-
+        this.mFish = new LightRenderable(texture0);
+          
     }else{
         var rand = Math.random() * 4;
         if(rand < 1)
-            this.mFish = new SpriteRenderable(texture0);
+            this.mFish = new LightRenderable(texture0);
         else if(rand < 2)
-            this.mFish = new SpriteRenderable(texture1);
+            this.mFish = new LightRenderable(texture1);
         else if(rand < 3)
-            this.mFish = new SpriteRenderable(texture2);
+            this.mFish = new LightRenderable(texture2);
         else
-            this.mFish = new SpriteRenderable(texture3);
-            
+            this.mFish = new LightRenderable(texture3);
+        
+        //do animate things here
+        this.mFish.setSpriteSequence(256, 0, 512, 256, 4, 0);
+        this.mFish.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+        this.mFish.setAnimationSpeed(20);
     }
     this.mFish.setColor([1,1,1,0]);
-    this.mFish.getXform().setPosition(0,0);
     this.mFish.getXform().setSize(13,6);
-    this.mFish.setElementPixelPositions(0, 512, 0, 256);
-    //this.mFish.setElementPixelPositions(35, 80, 350, 370);
+    
     GameObject.call(this, this.mFish);
     this.mStatus = 0;
     this.mScore = 1;
@@ -74,6 +76,8 @@ Fish.prototype.update = function () {
     if(Fish.eStatus.eHooked !== this.mStatus){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }
+    
+    this.mFish.updateAnimation();
 };
 
 Fish.prototype.rotateObjPointTo = function (p, rate){

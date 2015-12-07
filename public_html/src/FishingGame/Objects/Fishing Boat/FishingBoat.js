@@ -15,10 +15,11 @@ function FishingBoat(texture){
     
     this.mBoat = new SpriteAnimateRenderable(texture);
     this.mBoat.setSpriteSequence(512, 0, 1024, 512, 3, 0);
+    this.mBoat.setAnimationSpeed(3);
     this.mBoat.setColor([1,1,1,0]);
     this.mBoat.getXform().setPosition(0,0);
     this.mFishingBoatState = new FishingBoatState(this.mBoat.getXform().getPosition());
-    this.mBoat.getXform().setSize(24,12);
+    this.mBoat.getXform().setSize(24, 12);
     
     GameObject.call(this, this.mBoat);
 }
