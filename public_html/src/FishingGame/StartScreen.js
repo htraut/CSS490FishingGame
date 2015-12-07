@@ -28,8 +28,8 @@ StartScreen.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(50, 50), // position of the camera
-        100,                        // width of camera
+        vec2.fromValues(50, 250), // position of the camera
+        200,                        // width of camera
         [0, 0, 960, 720],         // viewport (orgX, orgY, width, height)
         2
     );
@@ -54,17 +54,17 @@ StartScreen.prototype.draw = function () {
     this.mBG.draw(this.mCamera);
     
     this.mMsg.setText("Welcome to Fishing");
-    this.mMsg.getXform().setPosition(5, 55);
+    this.mMsg.getXform().setPosition(5, 320);
     this.mMsg.draw(this.mCamera);
     this.mMsg.setText("Adventure");
-    this.mMsg.getXform().setPosition(5, 50);
+    this.mMsg.getXform().setPosition(5, 310);
     this.mMsg.draw(this.mCamera);
     
     this.mMsg.setText("Press <Space Bar> to");
-    this.mMsg.getXform().setPosition(5, 45);
+    this.mMsg.getXform().setPosition(5, 305);
     this.mMsg.draw(this.mCamera);
     this.mMsg.setText("start fishing!");
-    this.mMsg.getXform().setPosition(5, 35);
+    this.mMsg.getXform().setPosition(5, 295);
     this.mMsg.draw(this.mCamera);
 };
 
