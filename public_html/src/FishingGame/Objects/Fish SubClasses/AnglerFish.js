@@ -28,6 +28,12 @@ function AnglerFish(texture){
             0.5                  // drop off
             );
     this.mFish.addLight(this.mAnglerLight);
+    var xform = this.getXform();
+    var numerator = (xform.getXPos() + (xform.getWidth()/2.3)) * (this.getCurrentFrontDir()[0]) +
+             xform.getYPos() + (xform.getHeight()/4.5) * (this.getCurrentFrontDir()[1]);
+    var denominator = Math.sqrt(((xform.getXPos() + (xform.getWidth()/2.3)) * (xform.getXPos() + (xform.getWidth()/2.3)))
+             + ((xform.getYPos() + (xform.getHeight()/4.5)) * (xform.getYPos() + (xform.getHeight()/4.5))));
+    this.mTheta = Math.cos((numerator/denominator));
 }
 gEngine.Core.inheritPrototype(AnglerFish, Fish);
 
@@ -60,12 +66,13 @@ AnglerFish.prototype.getLight = function (){
 AnglerFish.prototype.update = function (){
     Fish.prototype.update.call(this);
     var xform = this.getXform();
-    var pos = vec3.fromValues(
-                xform.getXPos() + (xform.getWidth()/2.3),
-                xform.getYPos() + (xform.getHeight()/4.5),
-                0);
-    pos[0] *= this.getCurrentFrontDir()[0];
-    pos[1] *= this.getCurrentFrontDir()[1];
+    //var x = this.getCurrentFrontDir()[0];
+    //var y = this.getCurrentFrontDir()[1];
+    
+    //x += xform.getXPos() + (xform.getWidth()/2.3);
+    //y += xform.getYPos() + (xform.getHeight()/4.5);
+    var pos = vec3.fromValues(0, 0, 0);
+    pos = this._rotateLight(pos);
     this.mAnglerLight.set2DPosition(pos);
     /*if(this.mStatus === Fish.eStatus.eDespawn){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
@@ -79,4 +86,49 @@ AnglerFish.prototype.update = function (){
         }
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }*/
+};
+
+AnglerFish.prototype._rotateLight = function(p) {
+    
+    if(this.getXform().getRotationInRad() < 0){
+        var rad = this.getXform().getRotationInRad()%(2*Math.PI);
+        rad += Math.PI * 2;
+        var adjTheta = this.mTheta + rad;
+    }else{
+        var adjTheta = this.mTheta + this.getXform().getRotationInRad();
+    }
+    var x, y;
+    if(this.getXform().getRotationInRad() > 0){
+        x = (this.getXform().getWidth() * 0.5) * Math.cos(adjTheta);
+        y = (this.getXform().getHeight() * 0.4) * Math.sin(adjTheta);
+        p[0] = x + this.getXform().getXPos();
+        p[1] = y + this.getXform().getYPos();
+    }else{
+        x = (this.getXform().getWidth() * 0.5) * Math.cos(adjTheta);
+        y = (this.getXform().getHeight() * 0.4) * Math.sin(adjTheta);
+        p[0] = x + this.getXform().getXPos();
+        p[1] = y + this.getXform().getYPos();
+    }
+    
+    return p;
+    
+    
+    /*
+    var angle = this.getXform().getRotationInRad();
+    var s = Math.sin(angle);
+    var c = Math.cos(angle);
+
+    // translate point back to origin:
+    p[0] -= this.getXform().getXPos();
+    p[1] -= this.getXform().getYPos();
+
+    // rotate point
+    var xnew = p[0] * c - p[1] * s;
+    var ynew = p[0] * s + p[1] * c;
+
+    // translate point back:
+    p[0] = xnew + this.getXform().getXPos();;
+    p[0] = ynew + this.getXform().getYPos();
+    return p;
+    */
 };
