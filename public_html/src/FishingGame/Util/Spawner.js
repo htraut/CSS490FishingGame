@@ -23,9 +23,9 @@ function Spawner(world, camera){
 /*
  * @amount: the amount to spawn
  * @type: the object type to be spawned
- * @texture: the sprite sheet for the object
+ * @texture: an array of sprite sheets for the object(s)
  */
-Spawner.prototype.populate = function (amount, type, texture0, texture1, texture2, texture3, other){
+Spawner.prototype.populate = function (amount, type, texturePack){
     
     if(amount === 0) return;
     if(type === null) return;
@@ -39,7 +39,7 @@ Spawner.prototype.populate = function (amount, type, texture0, texture1, texture
     for(i; i < amount; i++){
         switch(type){
             case "Fish":
-                object = new Fish(texture0, texture1, texture2, texture3);
+                object = new Fish(texturePack[0], texturePack[1], texturePack[2], texturePack[3], texturePack[4]);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*6) + 3);
@@ -55,7 +55,7 @@ Spawner.prototype.populate = function (amount, type, texture0, texture1, texture
                 }
                 continue;
             case "Shark":
-                object = new Shark(texture0, texture1);
+                object = new Shark(texturePack[0], texturePack[1]);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = 15;
@@ -68,7 +68,7 @@ Spawner.prototype.populate = function (amount, type, texture0, texture1, texture
                 population.push(object);
                 continue;
             case "Angler":
-                object = new AnglerFish(texture0);
+                object = new AnglerFish(texturePack[0], texturePack[1]);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*3) + 6);
@@ -82,7 +82,7 @@ Spawner.prototype.populate = function (amount, type, texture0, texture1, texture
                 population.push(object);
                 continue;    
             case "Cloud":
-                object = new Cloud(texture0, other, this.mWorld);
+                object = new Cloud(texturePack[0], texturePack[1], this.mWorld);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
                 w = Math.floor((Math.random()*15) + 30);

@@ -7,18 +7,27 @@
  */
 
 
-/* global GameObject, gEngine, Fish, Light, vec3, SpriteAnimateRenderable */
+/* global GameObject, gEngine, Fish, Light, vec3, SpriteAnimateRenderable, vec2 */
 
 'use strict';
 
-function AnglerFish(texture){
-    Fish.call(this, texture);
+function AnglerFish(texture, normal){
+    this.mFish = new IllumRenderable(texture, normal); 
     this.mFish.setSpriteSequence(1024, 0, 1024, 1024, 4, 0);
     this.mFish.setAnimationSpeed(20);
     this.mFish.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
+    this.mFish.setColor([1,1,1,0]);
     //this.mChaseDist = 10;
     this.mRotateRate = 1;
     this.mSpeed = 0.5;
+    GameObject.call(this, this.mFish);
+    this.mStatus = 0;
+    this.mScore = 1;
+    this.mBounces = 0;
+    var front = vec2.fromValues(1, 0);
+    
+    this.setCurrentFrontDir(front);
+    this.mFish.getXform().setRotationInRad(0);
     this.mAnglerLight = null;
     
     /*
@@ -50,7 +59,7 @@ AnglerFish.prototype.createLight = function () {
     light.setFar(6);
     light.setInner(0.5);
     light.setOuter(1.4);
-    light.setIntensity(3);
+    light.setIntensity(2.2);
     light.setDropOff(0.5);
 
     this.mAnglerLight = light;

@@ -10,20 +10,20 @@
 
 "use strict";
 
-function Fish(texture0, texture1, texture2, texture3) {
+function Fish(texture0, texture1, texture2, texture3, normal) {
     
     if(texture1 === undefined){
-        this.mFish = new LightRenderable(texture0); 
+        this.mFish = new IllumRenderable(texture0, normal); 
     }else{
         var rand = Math.random() * 4;
         if(rand < 1)
-            this.mFish = new LightRenderable(texture0);
+            this.mFish = new IllumRenderable(texture0, normal);
         else if(rand < 2)
-            this.mFish = new LightRenderable(texture1);
+            this.mFish = new IllumRenderable(texture1, normal);
         else if(rand < 3)
-            this.mFish = new LightRenderable(texture2);
+            this.mFish = new IllumRenderable(texture2, normal);
         else
-            this.mFish = new LightRenderable(texture3);
+            this.mFish = new IllumRenderable(texture3, normal);
         
         //do animate things here
         this.mFish.setSpriteSequence(256, 0, 512, 256, 4, 0);

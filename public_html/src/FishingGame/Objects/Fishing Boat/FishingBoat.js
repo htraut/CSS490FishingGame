@@ -24,14 +24,20 @@ function FishingBoat(texture){
     GameObject.call(this, this.mBoat);
     
     this.mBoatLight = this._createALight(Light.eLightType.eSpotLight,
-            [80, 20, 5],            // position
-            [-0.5, -0.3, -0.1],     // direction
-            [0.5, 0.5, 0.5, 1],     // color
-            1, 50,                  // near and far distances
-            1.1, 1.25,               // inner outter angles (in radius)
-            1.5,                     // intensity
+            [40, 20, 5],            // position
+            [-0.41, -0.24, -0.1],     // direction
+            [1.0, 0.8, 0.4, 1],     // color
+            1, 60,                  // near and far distances
+            (Math.PI/11), (Math.PI/6),               // inner outter angles (in radius)
+            2.7,                     // intensity
             0.2                     // drop off
             );
+    var xform = this.getXform();
+   var pos = vec3.fromValues(
+                xform.getXPos() + 8.2,
+                xform.getYPos() + 7.3,
+                0);
+    this.mBoatLight.set2DPosition(pos);
     this.mBoat.addLight(this.mBoatLight);
 }
 gEngine.Core.inheritPrototype(FishingBoat, GameObject);
@@ -61,8 +67,8 @@ FishingBoat.prototype.getLight = function (){
 FishingBoat.prototype.update = function () {
     var xform = this.getXform();
     var pos = vec3.fromValues(
-                xform.getXPos() - 1,
-                xform.getYPos() + 2.5,
+                xform.getXPos() + 8.2,
+                xform.getYPos() + 7.3,
                 0);
     this.mBoatLight.set2DPosition(pos);
     this.mBoat.updateAnimation();
