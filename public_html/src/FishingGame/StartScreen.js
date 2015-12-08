@@ -10,7 +10,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function StartScreen() {
-    this.kBG = "assets/Background.png";
+    this.kBG = "assets/Titlescreen.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -24,24 +24,18 @@ StartScreen.prototype.loadScene = function () {
 };
 
 StartScreen.prototype.initialize = function () {
-    gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1]);
+    gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1.0]);
     gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(50, 250), // position of the camera
-        200,                        // width of camera
+        vec2.fromValues(0, 0), // position of the camera
+        1024,                        // width of camera
         [0, 0, 960, 720],         // viewport (orgX, orgY, width, height)
-        2
+        0
     );
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
-    this.mBG = new TextureObject(this.kBG, 0, 0, 512, 1024);
-    
-    this.mMsg = new FontRenderable("");
-    this.mMsg.setColor([1, 0, 0, 1]);
-    this.mMsg.getXform().setPosition(10, 50);
-    this.mMsg.setTextHeight(5);
-    
+    this.mBG = new TextureObject(this.kBG, 0, 0, 1024, 1024);
     this.mCamera.setBackground(this.mBG);
 };
 
@@ -52,20 +46,6 @@ StartScreen.prototype.draw = function () {
     
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
-    
-    this.mMsg.setText("Welcome to Fishing");
-    this.mMsg.getXform().setPosition(5, 320);
-    this.mMsg.draw(this.mCamera);
-    this.mMsg.setText("Adventure");
-    this.mMsg.getXform().setPosition(5, 310);
-    this.mMsg.draw(this.mCamera);
-    
-    this.mMsg.setText("Press <Space Bar> to");
-    this.mMsg.getXform().setPosition(5, 305);
-    this.mMsg.draw(this.mCamera);
-    this.mMsg.setText("start fishing!");
-    this.mMsg.getXform().setPosition(5, 295);
-    this.mMsg.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw

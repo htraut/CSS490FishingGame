@@ -10,7 +10,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function GameOver() {
-    this.kBG = "assets/Background.png";
+    this.kBG = "assets/Endscreen.png";
     // The camera to view the scene
     this.mCamera = null;
     this.mMsg = null;
@@ -25,24 +25,18 @@ GameOver.prototype.loadScene = function () {
 
 GameOver.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1]);
-    gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(1.7);
     
     // Step A: set up the cameras
     this.mCamera = new Camera(
-        vec2.fromValues(50, 50), // position of the camera
-        100,                        // width of camera
-        [0, 0, 1280, 960],         // viewport (orgX, orgY, width, height)
-        2
+        vec2.fromValues(32, 76), // position of the camera
+        1024,                        // width of camera
+        [0, 0, 1024, 1024],         // viewport (orgX, orgY, width, height)
+        0
     );
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
-    this.mBG = new TextureObject(this.kBG, 0, 0, 512, 1024);
-    
-    this.mMsg = new FontRenderable("Game Over");
-    this.mMsg.setColor([1, 0, 0, 1]);
-    this.mMsg.getXform().setPosition(10, 50);
-    this.mMsg.setTextHeight(5);
-    
+    this.mBG = new TextureObject(this.kBG, 0, 0, 1024, 1024);
     this.mCamera.setBackground(this.mBG);
 };
 
@@ -58,23 +52,6 @@ GameOver.prototype.draw = function () {
     
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
-    
-    this.mMsg.setText("Game Over");
-    this.mMsg.getXform().setPosition(10, 55);
-    this.mMsg.draw(this.mCamera);
-    
-    this.mMsg.setText("You Scored: " + this.mScore.toFixed(0));
-    this.mMsg.getXform().setPosition(10, 45);
-    this.mMsg.draw(this.mCamera);
-    
-    this.mMsg.setText("Press Space to");
-    this.mMsg.getXform().setPosition(10, 35);
-    this.mMsg.draw(this.mCamera);
-    
-    this.mMsg.setText("play again!");
-    this.mMsg.getXform().setPosition(10, 25);
-    this.mMsg.draw(this.mCamera);
-    
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
