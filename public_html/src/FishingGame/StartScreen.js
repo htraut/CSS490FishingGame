@@ -42,7 +42,7 @@ StartScreen.prototype.initialize = function () {
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 StartScreen.prototype.draw = function () {
-    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
+    gEngine.Core.clearCanvas([1, 1, 1, 1.0]); // clear to light gray
     
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
