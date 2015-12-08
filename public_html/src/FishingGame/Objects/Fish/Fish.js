@@ -31,7 +31,6 @@ function Fish(texture0, texture1, texture2, texture3) {
         this.mFish.setAnimationSpeed(20);
     }
     this.mFish.setColor([1,1,1,0]);
-    this.mFish.getXform().setSize(13,6);
     
     GameObject.call(this, this.mFish);
     this.mStatus = 0;
@@ -42,10 +41,6 @@ function Fish(texture0, texture1, texture2, texture3) {
     
     this.setCurrentFrontDir(front);
     this.mFish.getXform().setRotationInRad(0);
-    this.kCycles = 30;
-    this.kRate = 4.0; 
-    this.mRotation = new Interpolate(this.mFish.getXform().getRotationInRad(), this.kCycles, this.kRate);
-    this.mRotationFront = new InterpolateVec2(this.getCurrentFrontDir(), this.kCycles, this.kRate);
 }
 gEngine.Core.inheritPrototype(Fish, GameObject);
 
