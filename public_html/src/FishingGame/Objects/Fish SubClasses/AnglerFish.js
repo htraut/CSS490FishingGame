@@ -18,7 +18,7 @@ function AnglerFish(texture){
     this.mFish.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
     //this.mChaseDist = 10;
     this.mRotateRate = 1;
-    this.mSpeed = 1.5;
+    this.mSpeed = 0.5;
     this.mAnglerLight = null;
     
     /*

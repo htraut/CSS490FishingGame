@@ -12,7 +12,7 @@
 function FishingLevel() {
     //Sprites
     this.kSpriteNames = "assets/sprite_names.png";
-    this.kBG = "assets/water.png";
+    this.kBG = "assets/Background.png";
     this.kParticleTexture = "assets/particle.png";
     this.kBoat = "assets/Fisherman.png";
     this.kFish_R = "assets/Fish_R.png";
@@ -25,6 +25,8 @@ function FishingLevel() {
     this.kShark_R = "assets/Shark_R.png";
     this.kCloud3UC = "assets/Cloud 3.png";
     this.kFishingLine = "assets/Line.png";
+    this.kSpotlightBase = "assets/SpotlightBase.png";
+    this.kSpotlight = "assets/Spotlight.png";
     //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
     // The camera to view the scene
@@ -52,12 +54,18 @@ function FishingLevel() {
     this.mHooked = false;
     this.mPause = false;
     this.mLightStorage = [];
+    this.mHooks = [];
+    this.mSpotlightBase = null;
 }
 gEngine.Core.inheritPrototype(FishingLevel, Scene);
 
 FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishingLine);
+    gEngine.Textures.loadTexture(this.kSpotlight);
+    gEngine.Textures.loadTexture(this.kSpotlightBase);
     //gEngine.Textures.loadTexture(this.kBoatNorm);
+    gEngine.Textures.loadTexture(this.kAngler_R);
+    gEngine.Textures.loadTexture(this.kAngler_R);
     gEngine.Textures.loadTexture(this.kAngler_R);
     gEngine.Textures.loadTexture(this.kShark_R);
     gEngine.Textures.loadTexture(this.kFish_R);
@@ -82,7 +90,7 @@ FishingLevel.prototype.unloadScene = function() {
 
 FishingLevel.prototype.initialize = function () {
     // set ambient lighting
-    gEngine.DefaultResources.setGlobalAmbientColor([0.3, 0.3, 0.3, 1.0]);
+    gEngine.DefaultResources.setGlobalAmbientColor([0.4, 0.4, 0.4, 1.0]);
     gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     
     // Step A: set up the cameras
@@ -134,11 +142,21 @@ FishingLevel.prototype.initialize = function () {
     
     this.mBoat = new FishingBoat(this.kBoat);
     this.mHook = new Hook(this.kHook);
+    this.mSpotlight = new Spotlight(this.kSpotlight);
+    this.mSpotlightBase = new SpotlightBase(this.kSpotlightBase);
     this.mFishingLine = new FishingLine(this.kFishingLine);
     this.mBoatSet = new FishingBoatSet();
     this.mBoatSet.addToSet(this.mBoat);
     this.mBoatSet.addToSet(this.mHook);
+    this.mBoatSet.addToSet(this.mSpotlight);
+    this.mBoatSet.addToSet(this.mSpotlightBase);
     this.mBoatSet.addToSet(this.mFishingLine);
+    
+    
+    var i;
+    for(i = 0; i < 3; i++){
+        this.mHooks.push(new Hook(this.kHook));
+    }
     
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 0, 1]);
@@ -182,6 +200,12 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mAngler.length; i++){
         this.mAngler[i].draw(this.mCamera);
     }
+    
+    gEngine.DefaultResources.setGlobalAmbientIntensity(3.0);
+    for(i = 0; i< this.mHooks.length; i++){
+        this.mHooks[i].draw(this.mCamera);
+    }
+    gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     
     this.mMsg.draw(this.mCamera);
     
@@ -264,6 +288,7 @@ FishingLevel.prototype.update = function () {
         if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
             if(this.mHook.pixelTouches(this.mShark[i], result)){
                 this.sharkHooked();
+                this.mShark[i].animSpeedSix();
             }
             if(this.mShark[i].despawn(this.mBG)){
                 this.mShark.splice(i, 1);
@@ -271,6 +296,7 @@ FishingLevel.prototype.update = function () {
         }else if((this.mShark[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked /*| Shark.eStatus.eChase*/){
             this.mShark[i].resetStatus();
             this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
+            this.mShark[i].animSpeedSix();
             this.sharkHooked();
         }else{
             this.mShark[i].chase(this.mBG, this.mHook);
@@ -294,13 +320,14 @@ FishingLevel.prototype.update = function () {
     
     var msg = "";
     this.updateText(msg);
+    this.updateHooks();
 };
 
 FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg +=  "Hooks Left: " + this.mLives +
+    msg +=  "Hooks Remaining:      " + this.mLives +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
             " Score: " + this.mScore.toFixed(0);
             +/*
@@ -323,6 +350,22 @@ FishingLevel.prototype.updateText = function (msg) {
             
     this.mMsg.setText(msg);
 };
+
+FishingLevel.prototype.updateHooks = function(){
+    var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
+    var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
+    var offset = 20;
+    
+    if(this.mLives < this.mHooks.length){
+        this.mHooks.pop();
+    }
+    
+    var i;
+    for(i = 0; i < this.mHooks.length; i++){
+        this.mHooks[i].getXform().setPosition(textX + offset, textY);
+        offset += 2;
+    }
+}
 
 FishingLevel.prototype.checkNPCcount = function(){
     var batch = null;
@@ -415,7 +458,11 @@ FishingLevel.prototype.addLightToAll = function (light){
     
     for(j = 0; j < this.mCloud.length; j++){
         this.mCloud[j].getRenderable().addLight(light);
-    }  
+    }
+    
+    for(j = 0; j < this.mHooks.length; j++){
+        this.mHooks[j].getRenderable().addLight(light);
+    }
 };
 
 FishingLevel.prototype.addAllLightsTo = function(renderable){

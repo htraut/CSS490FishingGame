@@ -66,3 +66,7 @@ Shark.prototype.update = function (){
     }
 };
 
+Shark.prototype.animSpeedSix = function(){
+    this.mFish.setAnimationSpeed(6);
+};
+

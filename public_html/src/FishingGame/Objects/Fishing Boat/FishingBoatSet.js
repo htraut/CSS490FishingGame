@@ -16,7 +16,7 @@ function FishingBoatSet(){
 gEngine.Core.inheritPrototype(FishingBoatSet, GameObjectSet);
 
 FishingBoatSet.prototype.update = function(){
-    this.mSet[2].update(this.mSet[0].getXform(), this.mSet[1].getXform());
+    this.mSet[4].update(this.mSet[0].getXform(), this.mSet[1].getXform());
     this._updateMoveSet();
     var pos = this.mFishingBoatState.getCenter();
     var x = pos[0];

@@ -25,12 +25,12 @@ function FishingBoat(texture){
     
     this.mBoatLight = this._createALight(Light.eLightType.eSpotLight,
             [80, 20, 5],            // position
-            [-0.5, -0.5, -0.1],     // direction
+            [-0.5, -0.3, -0.1],     // direction
             [0.5, 0.5, 0.5, 1],     // color
-            1, 30,                  // near and far distances
+            1, 50,                  // near and far distances
             1.1, 1.25,               // inner outter angles (in radius)
-            3,                     // intensity
-            1.0                     // drop off
+            1.5,                     // intensity
+            0.2                     // drop off
             );
     this.mBoat.addLight(this.mBoatLight);
 }
@@ -61,8 +61,8 @@ FishingBoat.prototype.getLight = function (){
 FishingBoat.prototype.update = function () {
     var xform = this.getXform();
     var pos = vec3.fromValues(
-                xform.getXPos() - 2,
-                xform.getYPos() + 4,
+                xform.getXPos() - 1,
+                xform.getYPos() + 2.5,
                 0);
     this.mBoatLight.set2DPosition(pos);
     this.mBoat.updateAnimation();

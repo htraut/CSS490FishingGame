@@ -84,7 +84,7 @@ Fish.prototype.chase = function(theBG, hook){
         }else if(!(this.mStatus === 0)){
             this.resetStatus();
             this.updateStatus(Fish.eStatus.eDespawn);
-            this.mFish.setAnimationSpeed(5);
+            this.animSpeedSix();
         }else{
             this.bounce(theBG);
         }

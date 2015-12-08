@@ -10,7 +10,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function StartScreen() {
-    this.kBG = "assets/water.png";
+    this.kBG = "assets/Background.png";
     
     // The camera to view the scene
     this.mCamera = null;
