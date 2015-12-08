@@ -7,7 +7,7 @@
  */
 
 
-/* global GameObject, gEngine, Fish, Light, vec3 */
+/* global GameObject, gEngine, Fish, Light, vec3, SpriteAnimateRenderable */
 
 'use strict';
 
