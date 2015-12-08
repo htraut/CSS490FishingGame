@@ -33,6 +33,7 @@ function FishingLevel() {
     this.kFishingLine = "assets/Line.png";
     this.kSpotlightBase = "assets/SpotlightBase.png";
     this.kSpotlight = "assets/Spotlight.png";
+    this.kControlPanel = "assets/controlsPage_fishingAdventure_border.png";
     //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
     // The camera to view the scene
@@ -47,6 +48,7 @@ function FishingLevel() {
     this.mCloud = null;
     this.mSpawner = null;
     this.mBG = null;
+    this.mControlPanel = null;
     this.mHook = null;
     this.mFishingLine = null;
     this.mDirectLight = null;
@@ -59,7 +61,8 @@ function FishingLevel() {
     this.mSpawnLimit = 3;
     this.mSpawnLimitAngler = 2;
     this.mHooked = false;
-    this.mPause = false;
+    this.mPause = true;
+    this.mDrawMini = true;
     this.mLightStorage = [];
     this.mHooks = [];
     this.mSpotlightBase = null;
@@ -87,6 +90,7 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kBoat);
     gEngine.Textures.loadTexture(this.kParticleTexture);
+    gEngine.Textures.loadTexture(this.kControlPanel);
 };
 
 FishingLevel.prototype.unloadScene = function() {
@@ -111,6 +115,7 @@ FishingLevel.prototype.initialize = function () {
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     this.mBG = new TextureObject(this.kBG, 0, -110.5, 200, 400);
+    this.mControlPanel = new TextureObject(this.kControlPanel, 0, 0, 50, 50);
     
     this.mMiniCam = new Camera(
         vec2.fromValues(0, 0), // position of the camera
@@ -176,7 +181,7 @@ FishingLevel.prototype.initialize = function () {
         this.mHooks.push(new Hook(this.kHook));
     }
     
-    this.mMsg = new FontRenderable("Status Message");
+    this.mMsg = new FontRenderable("");
     this.mMsg.setColor([0, 0, 0, 1]);
     this.mMsg.getXform().setPosition(1, 14);
     this.mMsg.setTextHeight(2);
@@ -193,6 +198,7 @@ FishingLevel.prototype.initialize = function () {
     
     this.addLightToAll(this.mBoat.getLight());
     this.addLightToAll(this.mDirectLight);
+    this.mControlPanel.getRenderable().addLight(this.mDirectLight);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -227,6 +233,11 @@ FishingLevel.prototype.draw = function () {
     
     this.mMsg.draw(this.mCamera);
     
+    if(this.mPause){
+        this.mControlPanel.draw(this.mCamera);
+    }
+    
+    if(!this.mDrawMini)return;
     this.mMiniCam.setupViewProjection();
     this.mBG.draw(this.mMiniCam);
     //this.mBoat.draw(this.mMiniCam);
@@ -246,22 +257,27 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mAngler.length; i++){
         this.mAngler[i].draw(this.mMiniCam);
     }
-    
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
     var result = vec2.create();
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)){
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
        if(this.mPause === true){
            this.mPause = false;
        }else{
            this.mPause = true;
        }
     }
-    if(this.mPause === true){return;}
-        
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)){
+        gEngine.GameLoop.stop();
+    }
+    if(this.mPause === true){
+        var camPos = this.mCamera.getWCCenter();
+        this.mControlPanel.getXform().setPosition(camPos[0], camPos[1]);
+        return;
+    }   
         
     if(this.mLives <= 0) gEngine.GameLoop.stop();
     if(this.mInvuln === true && this.mCount <= 180){ //180/60 = 3 seconds
@@ -269,6 +285,14 @@ FishingLevel.prototype.update = function () {
     }else{
         this.mInvuln = false;
         this.mCount = 0;
+    }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.M)){
+        if(this.mDrawMini === false){
+            this.mDrawMini = true;
+        }else{
+            this.mDrawMini = false;
+        }
     }
     
     this.checkNPCcount();
@@ -282,10 +306,6 @@ FishingLevel.prototype.update = function () {
     this.mCamera.update();
     this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mMiniCam.update();
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
-        gEngine.GameLoop.stop();
-    }
     
     var i;
     for(i = 0; i < this.mFish.length; i++){
@@ -345,7 +365,7 @@ FishingLevel.prototype.updateText = function (msg) {
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
     var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
     this.mMsg.getXform().setPosition(textX,textY);
-    msg +=  "Hooks Remaining:      " + this.mLives +
+    msg +=  "Hooks Remaining:      " +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
             " Score: " + this.mScore.toFixed(0);
             +/*
