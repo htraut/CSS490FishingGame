@@ -48,8 +48,11 @@ ParticleGameObject.prototype.update = function () {
     GameObject.prototype.update.call(this);
     
     this.mCyclesToLive--;
-    var c = this.mRenderComponent.getColor();
-    vec4.add(c, c, this.mDeltaColor);
+    //var c = this.mRenderComponent.getColor();
+    //vec4.add(c, c, this.mDeltaColor);
+    
+    // make it blue
+    this.mRenderComponent.setColor([0.2, 0.2, 1.0, 1.0]);
     
     var xf = this.getXform();
     var s = xf.getWidth() * this.mSizeDelta + 0.015;
