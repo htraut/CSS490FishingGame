@@ -59,7 +59,7 @@ AnglerFish.prototype.createLight = function () {
     light.setFar(6);
     light.setInner(0.5);
     light.setOuter(1.4);
-    light.setIntensity(2.2);
+    light.setIntensity(1.2);
     light.setDropOff(0.5);
 
     this.mAnglerLight = light;

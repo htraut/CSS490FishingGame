@@ -7,14 +7,14 @@
             <file>file:/C:/Users/Kelvin/Documents/html5engine/BookChapters/FinalGame/public_html/src/Engine/Core/Engine_Core.js</file>
         </group>
         <group>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/Utils/Interpolate.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/Cameras/CameraState.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/FishingLevel.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/GameObjects/GameObject.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/BoatState.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/Hook.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/FishingGame/Objects/FishingBoat.js</file>
-            <file>file:/C:/Users/Joey/Documents/NetBeansProjects/CSS490FishingGame/public_html/src/Engine/Cameras/Camera.js</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/src/FishingGame/Objects/Fish%20SubClasses/Shark.js</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/src/FishingGame/FishingLevel.js</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/index.html</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/src/FishingGame/Objects/Fishing%20Boat/FishingBoat.js</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/src/FishingGame/Objects/Fish/Fish.js</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/src/FishingGame/Objects/Spotlight.js</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/src/FishingGame/Objects/Fish%20SubClasses/AnglerFish.js</file>
+            <file>file:/C:/Users/Administrator/Documents/GitHub/CSS490FishingGame/public_html/src/FishingGame/Util/Spawner.js</file>
         </group>
     </open-files>
 </project-private>

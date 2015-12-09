@@ -35,7 +35,7 @@ function FishingLevel() {
     this.kSpotlight = "assets/Spotlight.png";
     this.kControlPanel = "assets/controlsPage_fishingAdventure_border.png";
     this.kBgClip = "assets/FishingGameAudio/lake_ambient_noise.mp3";
-    this.kCue = "assets/FishingGameAudio/motorboat.mp3";
+    this.kMotorBoat = "assets/FishingGameAudio/motorboat.mp3";
     this.kSharkBite = "assets/FishingGameAudio/shark_bite.mp3";
     //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
@@ -96,10 +96,12 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
     gEngine.Textures.loadTexture(this.kControlPanel);
     gEngine.AudioClips.loadAudio(this.kBgClip);
-    gEngine.AudioClips.loadAudio(this.kCue);
+    gEngine.AudioClips.loadAudio(this.kMotorBoat);
+    gEngine.AudioClips.loadAudio(this.kSharkBite);
 };
 
 FishingLevel.prototype.unloadScene = function() {
+    gEngine.AudioClips.stopBackgroundAudio();
     gEngine.ResourceMap.asyncLoadRequested("score");
     gEngine.ResourceMap.asyncLoadCompleted("score", this.mScore);
     var nextLevel = new GameOver("GameOver");  // next level to be loaded
@@ -138,14 +140,14 @@ FishingLevel.prototype.initialize = function () {
     this.mDirectLight.setXPos(0);
     this.mDirectLight.setYPos(0);      
     this.mDirectLight.setZPos(0);
-    var dir = vec3.fromValues(0, 0, 1);
+    var dir = vec3.fromValues(-0.2, -0.2, -1);
     this.mDirectLight.setDirection(dir);
     this.mDirectLight.setNear(10);
     this.mDirectLight.setFar(20);
     this.mDirectLight.setInner(0.1);
     this.mDirectLight.setOuter(0.2);
-    this.mDirectLight.setIntensity(1.0);
-    this.mDirectLight.setDropOff(1.0);
+    this.mDirectLight.setIntensity(2.0);
+    this.mDirectLight.setDropOff(5.0);
     
     this.mFishTextures.push(this.kFish_R);
     this.mFishTextures.push(this.kFish01_R);
@@ -236,14 +238,15 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mHooks.length; i++){
         this.mHooks[i].draw(this.mCamera);
     }
-    gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
-    
     this.mMsg.draw(this.mCamera);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(0.0);
+    
+    
     
     if(this.mPause){
         gEngine.DefaultResources.setGlobalAmbientIntensity(3.0);
         this.mControlPanel.draw(this.mCamera);
-        gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
+        gEngine.DefaultResources.setGlobalAmbientIntensity(0.0);
     }
     
     if(!this.mDrawMini)return;
@@ -307,7 +310,7 @@ FishingLevel.prototype.update = function () {
     this.checkNPCcount();
     
     this.mHook.update();
-    this.mBoatSet.update(this.kCue);
+    this.mBoatSet.update(this.kMotorBoat);
     
     this.mCamera.clampAtSides(this.mBoatSet.getXform(), 0.8);
     this.mBoatSet.moveSet();
@@ -474,6 +477,7 @@ FishingLevel.prototype.clearHook = function(){
 FishingLevel.prototype.sharkHooked = function(){
     if(!this.mInvuln){
         this.mCamera.shake(-2, -2, 20, 30);
+        gEngine.AudioClips.playACue(this.kSharkBite);
         this.mLives -= 1;
         this.mInvuln = true;
         this.clearHook();
