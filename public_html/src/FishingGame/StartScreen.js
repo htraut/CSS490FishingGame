@@ -24,8 +24,8 @@ StartScreen.prototype.loadScene = function () {
 };
 
 StartScreen.prototype.initialize = function () {
-    gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1.0]);
-    gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
+    gEngine.DefaultResources.setGlobalAmbientColor([1, 1, 1, 1.0]);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(1);
     // Step A: set up the cameras
     this.mCamera = new Camera(
         vec2.fromValues(0, 0), // position of the camera

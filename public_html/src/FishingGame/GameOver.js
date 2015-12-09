@@ -25,7 +25,7 @@ GameOver.prototype.loadScene = function () {
 
 GameOver.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientColor([1.0, 1.0, 1.0, 1]);
-    gEngine.DefaultResources.setGlobalAmbientIntensity(1.7);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(1);
     
     // Step A: set up the cameras
     this.mCamera = new Camera(
