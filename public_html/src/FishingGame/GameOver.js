@@ -35,7 +35,7 @@ GameOver.prototype.initialize = function () {
         0
     );
     
-    this.mMsg = new FontRenderable("Score: " + this.mScore);
+    this.mMsg = new FontRenderable("Score: " + this.mScore.toFixed(0));
     this.mMsg.setColor([1, 1, 1, 1]);
     this.mMsg.getXform().setPosition(-80, -32);
     this.mMsg.getXform().setSize(200,100);
