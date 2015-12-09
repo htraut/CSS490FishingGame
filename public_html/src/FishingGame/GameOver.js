@@ -35,9 +35,15 @@ GameOver.prototype.initialize = function () {
         0
     );
     
+    this.mMsg = new FontRenderable("Score: " + this.mScore);
+    this.mMsg.setColor([1, 1, 1, 1]);
+    this.mMsg.getXform().setPosition(-80, -32);
+    this.mMsg.getXform().setSize(200,100);
+    
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     this.mBG = new TextureObject(this.kBG, 0, 0, 1024, 1024);
     this.mCamera.setBackground(this.mBG);
+    
 };
 
 GameOver.prototype.loadScene = function() {
@@ -49,9 +55,9 @@ GameOver.prototype.loadScene = function() {
 // importantly, make sure to _NOT_ change any state.
 GameOver.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
-    
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
+    this.mMsg.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
