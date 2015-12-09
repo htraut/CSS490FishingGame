@@ -17,7 +17,7 @@ function Hook(texture) {
     this.mHook.getXform().setSize(2, 2);
     this.mHook.setElementPixelPositions(0, 32, 0, 32);
     GameObject.call(this, this.mHook);
-    this.mLength = 18;
+    this.mLength = 20;
     this.mStatus = 0;
     this.mSpeed = 0.15;
 }
@@ -67,6 +67,7 @@ Hook.prototype.update = function (){
 };
 
 Hook.prototype.setLineLength = function (length) {
+    if(length > 300) return;
     this.mLength = length;
 };
 

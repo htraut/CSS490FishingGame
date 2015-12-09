@@ -11,7 +11,6 @@
 
 function FishingLevel() {
     //Sprites
-    this.kSpriteNames = "assets/sprite_names.png";
     this.kBG = "assets/Background.png";
     this.kParticleTexture = "assets/particle.png";
     this.kBoat = "assets/Fisherman.png";
@@ -77,7 +76,6 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFishingLine);
     gEngine.Textures.loadTexture(this.kSpotlight);
     gEngine.Textures.loadTexture(this.kSpotlightBase);
-    //gEngine.Textures.loadTexture(this.kBoatNorm);
     gEngine.Textures.loadTexture(this.kAngler_R);
     gEngine.Textures.loadTexture(this.kAngler_R_Norm);
     gEngine.Textures.loadTexture(this.kShark_R);
@@ -89,8 +87,6 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kFish03_R);
     gEngine.Textures.loadTexture(this.kHook);
     gEngine.Textures.loadTexture(this.kCloud);
-    gEngine.Textures.loadTexture(this.kSpriteNames);
-    gEngine.Textures.loadTexture(this.kSpriteNames);
     gEngine.Textures.loadTexture(this.kBG);
     gEngine.Textures.loadTexture(this.kBoat);
     gEngine.Textures.loadTexture(this.kParticleTexture);
@@ -284,6 +280,13 @@ FishingLevel.prototype.update = function () {
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)){
         gEngine.GameLoop.stop();
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
+        if(gEngine.AudioClips.isBackgroundAudioPlaying()){
+            gEngine.AudioClips.stopBackgroundAudio();
+        }else{
+            gEngine.AudioClips.playBackgroundAudio(this.kBgClip);
+        }
     }
     if(this.mPause === true){
         var camPos = this.mCamera.getWCCenter();

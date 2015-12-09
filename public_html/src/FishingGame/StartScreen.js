@@ -11,16 +11,20 @@
 
 function StartScreen() {
     this.kBG = "assets/Titlescreen.png";
+    this.kLoadMessage = "assets/Loading.png";
+    this.mShowLoadMessage = false;
     
     // The camera to view the scene
     this.mCamera = null;
     this.mMsg = null;
     this.mBG = null;
+    this.mLoadMessage = null;
 }
 gEngine.Core.inheritPrototype(StartScreen, Scene);
 
 StartScreen.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBG);
+    gEngine.Textures.loadTexture(this.kLoadMessage);
 };
 
 StartScreen.prototype.initialize = function () {
@@ -36,6 +40,7 @@ StartScreen.prototype.initialize = function () {
     
     this.mCamera.setBackgroundColor([0.9, 0.9, 0.9, 1]);
     this.mBG = new TextureObject(this.kBG, 0, 0, 1024, 1024);
+    this.mLoadMessage = new TextureObject(this.kLoadMessage, 0, -250, 512, 512);
     this.mCamera.setBackground(this.mBG);
 };
 
@@ -46,6 +51,8 @@ StartScreen.prototype.draw = function () {
     
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
+    if(!this.mShowLoadMessage) return;
+    this.mLoadMessage.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -53,6 +60,8 @@ StartScreen.prototype.draw = function () {
 StartScreen.prototype.update = function () {
     // select which character to work with
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
+        this.mShowLoadMessage = true;
+        this.draw();
         gEngine.GameLoop.stop();
     }
 };
