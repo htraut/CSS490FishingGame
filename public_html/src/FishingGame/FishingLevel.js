@@ -35,7 +35,7 @@ function FishingLevel() {
     this.kSpotlight = "assets/Spotlight.png";
     this.kControlPanel = "assets/controlsPage_fishingAdventure_border.png";
     this.kBgClip = "assets/FishingGameAudio/lake_ambient_noise.mp3";
-    this.kCue = "assets/FishingGameAudio/motorboat.mp3";
+    this.kMotorBoat = "assets/FishingGameAudio/motorboat.mp3";
     this.kSharkBite = "assets/FishingGameAudio/shark_bite.mp3";
     //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
@@ -96,10 +96,12 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
     gEngine.Textures.loadTexture(this.kControlPanel);
     gEngine.AudioClips.loadAudio(this.kBgClip);
-    gEngine.AudioClips.loadAudio(this.kCue);
+    gEngine.AudioClips.loadAudio(this.kMotorBoat);
+    gEngine.AudioClips.loadAudio(this.kSharkBite);
 };
 
 FishingLevel.prototype.unloadScene = function() {
+    gEngine.AudioClips.stopBackgroundAudio();
     gEngine.ResourceMap.asyncLoadRequested("score");
     gEngine.ResourceMap.asyncLoadCompleted("score", this.mScore);
     var nextLevel = new GameOver("GameOver");  // next level to be loaded
@@ -305,7 +307,7 @@ FishingLevel.prototype.update = function () {
     this.checkNPCcount();
     
     this.mHook.update();
-    this.mBoatSet.update(this.kCue);
+    this.mBoatSet.update(this.kMotorBoat);
     
     this.mCamera.clampAtSides(this.mBoatSet.getXform(), 0.8);
     this.mBoatSet.moveSet();
@@ -472,6 +474,7 @@ FishingLevel.prototype.clearHook = function(){
 FishingLevel.prototype.sharkHooked = function(){
     if(!this.mInvuln){
         this.mCamera.shake(-2, -2, 20, 30);
+        gEngine.AudioClips.playACue(this.kSharkBite);
         this.mLives -= 1;
         this.mInvuln = true;
         this.clearHook();
