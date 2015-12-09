@@ -234,7 +234,7 @@ FishingLevel.prototype.draw = function () {
         this.mAngler[i].draw(this.mCamera);
     }
     
-    gEngine.DefaultResources.setGlobalAmbientIntensity(3.0);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(5.0);
     for(i = 0; i< this.mHooks.length; i++){
         this.mHooks[i].draw(this.mCamera);
     }
@@ -243,7 +243,9 @@ FishingLevel.prototype.draw = function () {
     this.mMsg.draw(this.mCamera);
     
     if(this.mPause){
+        gEngine.DefaultResources.setGlobalAmbientIntensity(3.0);
         this.mControlPanel.draw(this.mCamera);
+        gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
     }
     
     if(!this.mDrawMini)return;
@@ -400,7 +402,7 @@ FishingLevel.prototype.updateText = function (msg) {
 
 FishingLevel.prototype.updateHooks = function(){
     var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
-    var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 3;
+    var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 2.5;
     var offset = 20;
     
     if(this.mLives < this.mHooks.length){
