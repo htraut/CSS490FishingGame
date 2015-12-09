@@ -140,14 +140,14 @@ FishingLevel.prototype.initialize = function () {
     this.mDirectLight.setXPos(0);
     this.mDirectLight.setYPos(0);      
     this.mDirectLight.setZPos(0);
-    var dir = vec3.fromValues(0, 0, 1);
+    var dir = vec3.fromValues(-0.2, -0.2, -1);
     this.mDirectLight.setDirection(dir);
     this.mDirectLight.setNear(10);
     this.mDirectLight.setFar(20);
     this.mDirectLight.setInner(0.1);
     this.mDirectLight.setOuter(0.2);
-    this.mDirectLight.setIntensity(1.0);
-    this.mDirectLight.setDropOff(1.0);
+    this.mDirectLight.setIntensity(2.0);
+    this.mDirectLight.setDropOff(5.0);
     
     this.mFishTextures.push(this.kFish_R);
     this.mFishTextures.push(this.kFish01_R);
@@ -238,14 +238,15 @@ FishingLevel.prototype.draw = function () {
     for(i = 0; i< this.mHooks.length; i++){
         this.mHooks[i].draw(this.mCamera);
     }
-    gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
-    
     this.mMsg.draw(this.mCamera);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(0.0);
+    
+    
     
     if(this.mPause){
         gEngine.DefaultResources.setGlobalAmbientIntensity(3.0);
         this.mControlPanel.draw(this.mCamera);
-        gEngine.DefaultResources.setGlobalAmbientIntensity(1.0);
+        gEngine.DefaultResources.setGlobalAmbientIntensity(0.0);
     }
     
     if(!this.mDrawMini)return;
