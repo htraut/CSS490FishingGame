@@ -34,6 +34,9 @@ function FishingLevel() {
     this.kSpotlightBase = "assets/SpotlightBase.png";
     this.kSpotlight = "assets/Spotlight.png";
     this.kControlPanel = "assets/controlsPage_fishingAdventure_border.png";
+    this.kBgClip = "assets/FishingGameAudio/lake_ambient_noise.mp3";
+    this.kCue = "assets/FishingGameAudio/motorboat.mp3";
+    this.kSharkBite = "assets/FishingGameAudio/shark_bite.mp3";
     //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
     // The camera to view the scene
@@ -58,8 +61,9 @@ function FishingLevel() {
     this.mScore = null;
     this.mInvuln = false;
     this.mCount = 0;
-    this.mSpawnLimit = 3;
-    this.mSpawnLimitAngler = 2;
+    this.mSpawnLimit = 15;
+    this.mSpawnLimitAngler = 3;
+    this.mSpawnLimitShark = 3;
     this.mHooked = false;
     this.mPause = true;
     this.mDrawMini = true;
@@ -91,6 +95,8 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBoat);
     gEngine.Textures.loadTexture(this.kParticleTexture);
     gEngine.Textures.loadTexture(this.kControlPanel);
+    gEngine.AudioClips.loadAudio(this.kBgClip);
+    gEngine.AudioClips.loadAudio(this.kCue);
 };
 
 FishingLevel.prototype.unloadScene = function() {
@@ -120,7 +126,7 @@ FishingLevel.prototype.initialize = function () {
     this.mMiniCam = new Camera(
         vec2.fromValues(0, 0), // position of the camera
         10,                        // width of camera
-        [20, 40, 100, 100],         // viewport (orgX, orgY, width, height)
+        [10, 610, 100, 100],         // viewport (orgX, orgY, width, height)
         2
     );
     
@@ -199,6 +205,7 @@ FishingLevel.prototype.initialize = function () {
     this.addLightToAll(this.mBoat.getLight());
     this.addLightToAll(this.mDirectLight);
     this.mControlPanel.getRenderable().addLight(this.mDirectLight);
+    gEngine.AudioClips.playBackgroundAudio(this.kBgClip);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -300,7 +307,7 @@ FishingLevel.prototype.update = function () {
     this.checkNPCcount();
     
     this.mHook.update();
-    this.mBoatSet.update();
+    this.mBoatSet.update(this.kCue);
     
     this.mCamera.clampAtSides(this.mBoatSet.getXform(), 0.8);
     this.mBoatSet.moveSet();
@@ -420,8 +427,8 @@ FishingLevel.prototype.checkNPCcount = function(){
         }
     }
     
-    if(this.mShark.length < this.mSpawnLimit){
-        var amount = this.mSpawnLimit - this.mShark.length;
+    if(this.mShark.length < this.mSpawnLimitShark){
+        var amount = this.mSpawnLimitShark - this.mShark.length;
         batch = this.mSpawner.populate(amount, "Shark", this.mSharkTextures);
         for(i = 0; i < batch.length; i++){
             this.mShark.push(batch[i]);
@@ -429,8 +436,8 @@ FishingLevel.prototype.checkNPCcount = function(){
         }
     }
     
-    if(this.mAngler.length < this.mSpawnLimit){
-        var amount = this.mSpawnLimit - this.mAngler.length;
+    if(this.mAngler.length < this.mSpawnLimitAngler){
+        var amount = this.mSpawnLimitAngler - this.mAngler.length;
         batch = this.mSpawner.populate(amount, "Angler", this.mAnglerTextures);
         for(i = 0; i < batch.length; i++){
             batch[i].setLight(this.mLightStorage.pop());
