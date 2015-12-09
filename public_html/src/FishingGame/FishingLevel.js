@@ -36,6 +36,7 @@ function FishingLevel() {
     this.kControlPanel = "assets/controlsPage_fishingAdventure_border.png";
     this.kBgClip = "assets/FishingGameAudio/lake_ambient_noise.mp3";
     this.kCue = "assets/FishingGameAudio/motorboat.mp3";
+    this.kSharkBite = "assets/FishingGameAudio/shark_bite.mp3";
     //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
     // The camera to view the scene
