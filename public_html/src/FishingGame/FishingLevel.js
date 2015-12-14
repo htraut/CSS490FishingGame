@@ -60,9 +60,10 @@ function FishingLevel() {
     this.mScore = null;
     this.mInvuln = false;
     this.mCount = 0;
-    this.mSpawnLimit = 15;
-    this.mSpawnLimitAngler = 3;
-    this.mSpawnLimitShark = 3;
+    this.mSpawnLimit = 30;
+    this.mSpawnLimitAngler = 4;
+    this.mSpawnLimitShark = 20;
+    this.mSpawnLimitCloud = 7;
     this.mHooked = false;
     this.mPause = true;
     this.mDrawMini = true;
@@ -92,7 +93,7 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
     gEngine.Textures.loadTexture(this.kControlPanel);
     gEngine.AudioClips.loadAudio(this.kBgClip);
-    gEngine.AudioClips.loadAudio(this.kMotorBoat);
+    //gEngine.AudioClips.loadAudio(this.kMotorBoat);
     gEngine.AudioClips.loadAudio(this.kSharkBite);
 };
 
@@ -161,11 +162,11 @@ FishingLevel.prototype.initialize = function () {
     this.mCloudTextures.push(this.kParticleTexture);
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
-    this.mFish = this.mSpawner.populate(1, "Fish", this.mFishTextures);
+    this.mFish = this.mSpawner.populate(this.mSpawnLimit, "Fish", this.mFishTextures);
     //this.mHook = this.mSpawner.populate(1, "Hook", this.kHook);
-    this.mCloud = this.mSpawner.populate(5, "Cloud", this.mCloudTextures);
-    this.mShark = this.mSpawner.populate(1, "Shark", this.mSharkTextures);
-    this.mAngler = this.mSpawner.populate(3, "Angler", this.mAnglerTextures);
+    this.mCloud = this.mSpawner.populate(this.mSpawnLimitCloud, "Cloud", this.mCloudTextures);
+    this.mShark = this.mSpawner.populate(this.mSpawnLimitShark, "Shark", this.mSharkTextures);
+    this.mAngler = this.mSpawner.populate(this.mSpawnLimitAngler, "Angler", this.mAnglerTextures);
     
     this.mBoat = new FishingBoat(this.kBoat);
     this.mHook = new Hook(this.kHook);
@@ -367,7 +368,7 @@ FishingLevel.prototype.update = function () {
             this.mScore += this.mAngler[i].getScore();
             this.mLightStorage.push(this.mAngler[i].getLight());
             this.mAngler.splice(i, 1);
-            this.mHook.setLineLength(this.mHook.getLineLength()*1.2);
+            this.mHook.setLineLength(this.mHook.getLineLength() + 30);
         }
     }
     
@@ -421,6 +422,7 @@ FishingLevel.prototype.updateHooks = function(){
 };
 
 FishingLevel.prototype.checkNPCcount = function(){
+    this.mSpawner.update();
     var batch = null;
     var i = 0;
     
