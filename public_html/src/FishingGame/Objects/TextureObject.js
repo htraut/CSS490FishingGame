@@ -20,7 +20,3 @@ function TextureObject(texture, x, y, w, h) {
     GameObject.call(this, this.mRenderable);
 }
 gEngine.Core.inheritPrototype(TextureObject, GameObject);
-
-TextureObject.prototype.update = function (up, down, left, right) {
-    var xform = this.getXform();
-};

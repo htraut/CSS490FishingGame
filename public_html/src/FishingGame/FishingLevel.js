@@ -36,7 +36,6 @@ function FishingLevel() {
     this.kBgClip = "assets/FishingGameAudio/lake_ambient_noise.mp3";
     this.kMotorBoat = "assets/FishingGameAudio/motorboat.mp3";
     this.kSharkBite = "assets/FishingGameAudio/shark_bite.mp3";
-    //this.kBoatNorm = "assets/Fisherman_Norm.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -54,7 +53,7 @@ function FishingLevel() {
     this.mHook = null;
     this.mFishingLine = null;
     this.mDirectLight = null;
-    //this.mHooks = null;
+    
     //Status Variables
     this.mLives = null;
     this.mScore = null;
@@ -93,7 +92,6 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
     gEngine.Textures.loadTexture(this.kControlPanel);
     gEngine.AudioClips.loadAudio(this.kBgClip);
-    //gEngine.AudioClips.loadAudio(this.kMotorBoat);
     gEngine.AudioClips.loadAudio(this.kSharkBite);
 };
 
@@ -178,7 +176,6 @@ FishingLevel.prototype.initialize = function () {
     this.mBoatSet.addToSet(this.mSpotlight);
     this.mBoatSet.addToSet(this.mSpotlightBase);
     this.mBoatSet.addToSet(this.mFishingLine);
-    
     
     var i;
     for(i = 0; i < 3; i++){
@@ -326,24 +323,6 @@ FishingLevel.prototype.updateText = function (msg) {
     this.mMsg.getXform().setPosition(textX,textY);
     msg +=  "Hooks Remaining:      " +
             " Depth: " + Math.abs(this.mHook.getXform().getYPos().toFixed(0)) +
-            " Score: " + this.mScore.toFixed(0);
-            +/*
-            "BOATX" + this.mBoat.getXform().getXPos().toFixed(4) +
-            "CAM X" + this.mCamera.getWCCenter()[0].toFixed(4) + 
-            "CAM Y" + this.mCamera.getWCCenter()[1].toFixed(4);
-            +
-            
-            "Hook X: " + this.mHook.getXform().getXPos().toFixed(2) +
-            " Hook Y: " + this.mHook.getXform().getYPos().toFixed(2); 
-            
-            "BoatSet X " + this.mBoatSet.getXform().getXPos().toFixed(2) +
-            " BoatSet Y " + this.mBoatSet.getXform().getYPos().toFixed(2);
-            /*
-            "FishingLine X " + this.mFishingLine.getXform().getXPos().toFixed(2) +
-            " FishingLine Y " + this.mFishingLine.getXform().getYPos().toFixed(2) +
-            " FishingLine Height " + this.mFishingLine.getXform().getHeight().toFixed(2);
-            */
-            
-            
+            " Score: " + this.mScore.toFixed(0);      
     this.mMsg.setText(msg);
 };
