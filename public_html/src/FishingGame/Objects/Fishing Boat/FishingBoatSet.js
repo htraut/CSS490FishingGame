@@ -77,3 +77,19 @@ FishingBoatSet.prototype._updateMoveSet = function (){
         this.sizeDif.push(sDif);
     }
 };
+
+FishingBoatSet.prototype.getStatePos = function (){
+    return this.mFishingBoatState.getCenter();
+};
+
+FishingBoatSet.prototype.adjustSpeed = function(weight){
+    var reduce = this.mSpeed * (weight/(weight*3))/(weight/10);
+    this.mSpeed -= reduce;
+    if(this.mSpeed < 0.06){
+        this.mSpeed = 0.06;
+    }
+};
+
+FishingBoatSet.prototype.resetSpeed = function(){
+    this.mSpeed = 0.15;
+};

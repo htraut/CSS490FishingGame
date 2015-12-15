@@ -72,27 +72,4 @@ FishingBoat.prototype.update = function () {
                 0);
     this.mBoatLight.set2DPosition(pos);
     this.mBoat.updateAnimation();
-    //var hookX = hook.getXform().getXPos();
-    
-    //this.getXform().setXPos(hookX);
-    /*
-    var pos = this.mFishingBoatState.getCenter();
-    var x = pos[0];
-    var y = pos[1];
-    var nPos = vec2.create();
-    nPos[1] = y;
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
-        x -= this.kDelta;
-        nPos[0] = x;
-        this.mFishingBoatState.setCenter(nPos);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
-        x += this.kDelta;
-        nPos[0] = x;
-        this.mFishingBoatState.setCenter(nPos);
-    }
-    
-    this.mFishingBoatState.updateFishingBoatState();
-    this.getXform().setXPos(this.mFishingBoatState.getCenter()[0]);
-    */
 };

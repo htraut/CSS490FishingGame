@@ -61,7 +61,9 @@ function Camera(wcCenter, wcWidth, viewportArray, bound) {
         // SHOULD NOT be used except 
         // xform operations during the rendering
         // Client game should not access this!
-}
+        
+    this.mBg = null;
+};
 
 Camera.eViewport = Object.freeze({
     eOrgX: 0,
@@ -190,6 +192,14 @@ Camera.prototype.collideWCBound = function (aXform, zone) {
     return cameraBound.boundCollideStatus(bbox);
 };
 
+Camera.prototype.collideWCBoundSides = function(aXform, zone){
+    var bbox = new BoundingBox(aXform.getPosition(), aXform.getWidth(), aXform.getHeight());
+    var w = zone * this.getWCWidth();
+    var h = this.mBg.getXform().getHeight();
+    var cameraBound = new BoundingBox(this.getWCCenter(), w, h);
+    return cameraBound.boundCollideStatus(bbox);
+};
+
 // prevents the xform from moving outside of the WC boundary.
 // by clamping the aXfrom at the boundary of WC, 
 Camera.prototype.clampAtBoundary = function (aXform, zone) {
@@ -213,7 +223,7 @@ Camera.prototype.clampAtBoundary = function (aXform, zone) {
 };
 
 Camera.prototype.clampAtSides = function (aXform, zone) {
-    var status = this.collideWCBound(aXform, zone);
+    var status = this.collideWCBoundSides(aXform, zone);
     if (status !== BoundingBox.eboundCollideStatus.eInside) {
         var pos = aXform.getPosition();
         if ((status & BoundingBox.eboundCollideStatus.eCollideRight) !== 0) {
@@ -224,6 +234,16 @@ Camera.prototype.clampAtSides = function (aXform, zone) {
         }
     }
     return status;
+};
+
+Camera.prototype.clampAtSidesInterp = function (aPoint) {
+
+    if ((aPoint[0] - 25) < (this.getWCCenter()[0] - this.getWCWidth() / 2)) {
+        aPoint[0] = this.getWCCenter()[0] - this.getWCWidth() / 2 + 25;
+    }
+    if ((aPoint[0] + 25) > (this.getWCCenter()[0] + this.getWCWidth() / 2)) {
+        aPoint[0] = this.getWCCenter()[0] + this.getWCWidth() / 2 - 25;
+    }
 };
 
 Camera.prototype.clampCam = function (aXform) {

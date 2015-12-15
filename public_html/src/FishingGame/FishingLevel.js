@@ -60,9 +60,10 @@ function FishingLevel() {
     this.mScore = null;
     this.mInvuln = false;
     this.mCount = 0;
-    this.mSpawnLimit = 15;
-    this.mSpawnLimitAngler = 3;
-    this.mSpawnLimitShark = 3;
+    this.mSpawnLimit = 30;
+    this.mSpawnLimitAngler = 4;
+    this.mSpawnLimitShark = 20;
+    this.mSpawnLimitCloud = 7;
     this.mHooked = false;
     this.mPause = true;
     this.mDrawMini = true;
@@ -92,7 +93,7 @@ FishingLevel.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kParticleTexture);
     gEngine.Textures.loadTexture(this.kControlPanel);
     gEngine.AudioClips.loadAudio(this.kBgClip);
-    gEngine.AudioClips.loadAudio(this.kMotorBoat);
+    //gEngine.AudioClips.loadAudio(this.kMotorBoat);
     gEngine.AudioClips.loadAudio(this.kSharkBite);
 };
 
@@ -161,11 +162,10 @@ FishingLevel.prototype.initialize = function () {
     this.mCloudTextures.push(this.kParticleTexture);
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
-    this.mFish = this.mSpawner.populate(1, "Fish", this.mFishTextures);
-    //this.mHook = this.mSpawner.populate(1, "Hook", this.kHook);
-    this.mCloud = this.mSpawner.populate(5, "Cloud", this.mCloudTextures);
-    this.mShark = this.mSpawner.populate(1, "Shark", this.mSharkTextures);
-    this.mAngler = this.mSpawner.populate(3, "Angler", this.mAnglerTextures);
+    this.mFish = this.mSpawner.populate(this.mSpawnLimit, "Fish", this.mFishTextures);
+    this.mCloud = this.mSpawner.populate(this.mSpawnLimitCloud, "Cloud", this.mCloudTextures);
+    this.mShark = this.mSpawner.populate(this.mSpawnLimitShark, "Shark", this.mSharkTextures);
+    this.mAngler = this.mSpawner.populate(this.mSpawnLimitAngler, "Angler", this.mAnglerTextures);
     
     this.mBoat = new FishingBoat(this.kBoat);
     this.mHook = new Hook(this.kHook);
@@ -209,11 +209,8 @@ FishingLevel.prototype.initialize = function () {
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 FishingLevel.prototype.draw = function () {
-    //gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
     this.mCamera.setupViewProjection();
     this.mBG.draw(this.mCamera);
-    //this.mBoat.draw(this.mCamera);
-    //this.mHook.draw(this.mCamera);
     this.mBoatSet.draw(this.mCamera);
     var i;
     for(i = 0; i< this.mFish.length; i++){
@@ -237,8 +234,6 @@ FishingLevel.prototype.draw = function () {
     this.mMsg.draw(this.mCamera);
     gEngine.DefaultResources.setGlobalAmbientIntensity(0.0);
     
-    
-    
     if(this.mPause){
         gEngine.DefaultResources.setGlobalAmbientIntensity(3.0);
         this.mControlPanel.draw(this.mCamera);
@@ -248,8 +243,6 @@ FishingLevel.prototype.draw = function () {
     if(!this.mDrawMini)return;
     this.mMiniCam.setupViewProjection();
     this.mBG.draw(this.mMiniCam);
-    //this.mBoat.draw(this.mMiniCam);
-    //this.mHook.draw(this.mMiniCam);
     this.mBoatSet.draw(this.mMiniCam);
     var i;
     for(i = 0; i< this.mFish.length; i++){
@@ -270,7 +263,7 @@ FishingLevel.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
-    var result = vec2.create();
+
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
        if(this.mPause === true){
            this.mPause = false;
@@ -278,16 +271,11 @@ FishingLevel.prototype.update = function () {
            this.mPause = true;
        }
     }
+    
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)){
         gEngine.GameLoop.stop();
     }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
-        if(gEngine.AudioClips.isBackgroundAudioPlaying()){
-            gEngine.AudioClips.stopBackgroundAudio();
-        }else{
-            gEngine.AudioClips.playBackgroundAudio(this.kBgClip);
-        }
-    }
+    
     if(this.mPause === true){
         var camPos = this.mCamera.getWCCenter();
         this.mControlPanel.getXform().setPosition(camPos[0], camPos[1]);
@@ -315,61 +303,17 @@ FishingLevel.prototype.update = function () {
     this.mHook.update();
     this.mBoatSet.update(this.kMotorBoat);
     
-    this.mCamera.clampAtSides(this.mBoatSet.getXform(), 0.8);
+    this.mCamera.clampAtSidesInterp(this.mBoatSet.getStatePos());
     this.mBoatSet.moveSet();
     this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.update();
     this.mMiniCam.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mMiniCam.update();
-    
     var i;
-    for(i = 0; i < this.mFish.length; i++){
-        this.mFish[i].statusCheck(this.mBG, this.mHook);
-        this.mFish[i].update();
-        if(this.mFish[i].getBounces() > 2){
-            this.mFish.splice(i, 1);
-        }else if((this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
-                (this.mFish[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
-            this.mScore += this.mFish[i].getScore();
-            this.mFish.splice(i, 1);
-        }
-    }
     for(i = 0; i < this.mCloud.length; i++){
         this.mCloud[i].update();
     }
-    for(i = 0; i < this.mShark.length; i++){
-        if((this.mShark[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn){
-            if(this.mHook.pixelTouches(this.mShark[i], result)){
-                this.sharkHooked();
-                this.mShark[i].animSpeedSix();
-            }
-            if(this.mShark[i].despawn(this.mBG)){
-                this.mShark.splice(i, 1);
-            }
-        }else if((this.mShark[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked /*| Shark.eStatus.eChase*/){
-            this.mShark[i].resetStatus();
-            this.mShark[i].updateStatus(Fish.eStatus.eDespawn);
-            this.mShark[i].animSpeedSix();
-            this.sharkHooked();
-        }else{
-            this.mShark[i].chase(this.mBG, this.mHook);
-        }
-    }
-    
-    for(i = 0; i< this.mAngler.length; i++){
-        this.mAngler[i].statusCheck(this.mBG, this.mHook);
-        this.mAngler[i].update();
-        if(this.mAngler[i].getBounces() > 2){
-            this.mLightStorage.push(this.mAngler[i].getLight());
-            this.mAngler.splice(i, 1);
-        }else if((this.mAngler[i].getStatus() & Fish.eStatus.eDespawn) === Fish.eStatus.eDespawn && 
-                (this.mAngler[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
-            this.mScore += this.mAngler[i].getScore();
-            this.mLightStorage.push(this.mAngler[i].getLight());
-            this.mAngler.splice(i, 1);
-            this.mHook.setLineLength(this.mHook.getLineLength()*1.2);
-        }
-    }
+    this.updateAllFish();
     
     var msg = "";
     this.updateText(msg);
@@ -402,130 +346,4 @@ FishingLevel.prototype.updateText = function (msg) {
             
             
     this.mMsg.setText(msg);
-};
-
-FishingLevel.prototype.updateHooks = function(){
-    var textX = (this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth()/2)+ 3;
-    var textY = (this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight()/2) + 2.5;
-    var offset = 20;
-    
-    if(this.mLives < this.mHooks.length){
-        this.mHooks.pop();
-    }
-    
-    var i;
-    for(i = 0; i < this.mHooks.length; i++){
-        this.mHooks[i].getXform().setPosition(textX + offset, textY);
-        offset += 2;
-    }
-};
-
-FishingLevel.prototype.checkNPCcount = function(){
-    var batch = null;
-    var i = 0;
-    
-    if(this.mFish.length < (this.mSpawnLimit)){
-        var amount = this.mSpawnLimit - this.mFish.length;
-        batch = this.mSpawner.populate(amount, "Fish", this.mFishTextures);
-        for(i = 0; i < batch.length; i++){
-            this.mFish.push(batch[i]);
-            this.addAllLightsTo(batch[i].getRenderable());
-        }
-    }
-    
-    if(this.mShark.length < this.mSpawnLimitShark){
-        var amount = this.mSpawnLimitShark - this.mShark.length;
-        batch = this.mSpawner.populate(amount, "Shark", this.mSharkTextures);
-        for(i = 0; i < batch.length; i++){
-            this.mShark.push(batch[i]);
-            this.addAllLightsTo(batch[i].getRenderable());
-        }
-    }
-    
-    if(this.mAngler.length < this.mSpawnLimitAngler){
-        var amount = this.mSpawnLimitAngler - this.mAngler.length;
-        batch = this.mSpawner.populate(amount, "Angler", this.mAnglerTextures);
-        for(i = 0; i < batch.length; i++){
-            batch[i].setLight(this.mLightStorage.pop());
-            this.mAngler.push(batch[i]);
-            this.addAllLightsTo(batch[i].getRenderable());
-        }
-    }
-};
-
-FishingLevel.prototype.clearHook = function(){
-    var i = 0;
-    
-    for(i = 0; i < this.mFish.length; i++){
-        if((this.mFish[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
-            this.mFish.splice(i, 1);
-        }
-    }
-    
-    i = 0;
-    
-    for(i = 0; i < this.mAngler.length; i++){
-        if((this.mAngler[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
-            this.mLightStorage.push(this.mAngler[i].getLight());
-            this.mAngler.splice(i, 1);
-        }
-    }
-
-    var spawnPos = vec2.fromValues(this.mBoat.getXform().getXPos()-(this.mBoat.getXform().getWidth()/2), 0);
-    var hook = this.mBoatSet.getMember(1);
-    hook.getXform().setPosition(spawnPos[0], spawnPos[1]);
-    hook.setStatus(0);
-};
-
-FishingLevel.prototype.sharkHooked = function(){
-    if(!this.mInvuln){
-        this.mCamera.shake(-2, -2, 20, 30);
-        gEngine.AudioClips.playACue(this.kSharkBite);
-        this.mLives -= 1;
-        this.mInvuln = true;
-        this.clearHook();
-    }
-};
-
-// adds the light to everything except the clouds
-FishingLevel.prototype.addLightToAll = function (light){
-
-    this.mBG.getRenderable().addLight(light);
-    
-    var j;
-    
-    for(j = 0; j < this.mAngler.length; j++){
-        this.mAngler[j].getRenderable().addLight(light);
-    }
-    
-    for(j = 0; j < this.mBoatSet.size(); j++){
-        this.mBoatSet.getMember(j).getRenderable().addLight(light);
-    }
-        
-    for(j = 0; j < this.mShark.length; j++){
-        this.mShark[j].getRenderable().addLight(light);
-    }
-        
-    for(j = 0; j < this.mFish.length; j++){
-        this.mFish[j].getRenderable().addLight(light);
-    }
-    
-    for(j = 0; j < this.mCloud.length; j++){
-        this.mCloud[j].getRenderable().addLight(light);
-    }
-    
-    for(j = 0; j < this.mHooks.length; j++){
-        this.mHooks[j].getRenderable().addLight(light);
-    }
-};
-
-FishingLevel.prototype.addAllLightsTo = function(renderable){
-    var j;
-    
-    for(j = 0; j < this.mAngler.length; j++){
-        renderable.addLight(this.mAngler[j].getLight());
-    }
-    renderable.addLight(this.mBoat.getLight());
-    renderable.addLight(this.mDirectLight);
-    
 };
