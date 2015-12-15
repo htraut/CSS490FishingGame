@@ -77,3 +77,7 @@ FishingBoatSet.prototype._updateMoveSet = function (){
         this.sizeDif.push(sDif);
     }
 };
+
+FishingBoatSet.prototype.getStatePos = function (){
+    return this.mFishingBoatState.getCenter();
+};

@@ -236,6 +236,16 @@ Camera.prototype.clampAtSides = function (aXform, zone) {
     return status;
 };
 
+Camera.prototype.clampAtSidesInterp = function (aPoint) {
+
+    if ((aPoint[0] - 15) < (this.getWCCenter()[0] - this.getWCWidth() / 2)) {
+        aPoint[0] = this.getWCCenter()[0] - this.getWCWidth() / 2 + 15;
+    }
+    if ((aPoint[0] + 15) > (this.getWCCenter()[0] + this.getWCWidth() / 2)) {
+        aPoint[0] = this.getWCCenter()[0] + this.getWCWidth() / 2 - 15;
+    }
+};
+
 Camera.prototype.clampCam = function (aXform) {
     var camCenter = this.getWCCenter();
     var status = this.collideWCBound(aXform, 1);
