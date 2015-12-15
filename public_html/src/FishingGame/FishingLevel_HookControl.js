@@ -5,7 +5,7 @@
  * @brief: Control hook related tasks in FishingLevel
  */
 
-/* global FishingLevel, Fish, gEngine */
+/* global FishingLevel, Fish, gEngine, vec2 */
 
 'use strict';
 
@@ -34,8 +34,6 @@ FishingLevel.prototype.clearHook = function(){
         }
     }
     
-    i = 0;
-    
     for(i = 0; i < this.mAngler.length; i++){
         if((this.mAngler[i].getStatus() & Fish.eStatus.eHooked) === Fish.eStatus.eHooked){
             this.mLightStorage.push(this.mAngler[i].getLight());
@@ -47,6 +45,7 @@ FishingLevel.prototype.clearHook = function(){
     var hook = this.mBoatSet.getMember(1);
     hook.getXform().setPosition(spawnPos[0], spawnPos[1]);
     hook.setStatus(0);
+    hook.resetSpeed();
 };
 
 FishingLevel.prototype.sharkHooked = function(){

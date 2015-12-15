@@ -163,7 +163,6 @@ FishingLevel.prototype.initialize = function () {
     
     this.mSpawner = new Spawner(this.mBG, this.mCamera);
     this.mFish = this.mSpawner.populate(this.mSpawnLimit, "Fish", this.mFishTextures);
-    //this.mHook = this.mSpawner.populate(1, "Hook", this.kHook);
     this.mCloud = this.mSpawner.populate(this.mSpawnLimitCloud, "Cloud", this.mCloudTextures);
     this.mShark = this.mSpawner.populate(this.mSpawnLimitShark, "Shark", this.mSharkTextures);
     this.mAngler = this.mSpawner.populate(this.mSpawnLimitAngler, "Angler", this.mAnglerTextures);
@@ -264,7 +263,7 @@ FishingLevel.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 FishingLevel.prototype.update = function () {
-    //var result = vec2.create();
+
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)){
        if(this.mPause === true){
            this.mPause = false;
@@ -272,16 +271,11 @@ FishingLevel.prototype.update = function () {
            this.mPause = true;
        }
     }
+    
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)){
         gEngine.GameLoop.stop();
     }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)){
-        if(gEngine.AudioClips.isBackgroundAudioPlaying()){
-            gEngine.AudioClips.stopBackgroundAudio();
-        }else{
-            gEngine.AudioClips.playBackgroundAudio(this.kBgClip);
-        }
-    }
+    
     if(this.mPause === true){
         var camPos = this.mCamera.getWCCenter();
         this.mControlPanel.getXform().setPosition(camPos[0], camPos[1]);

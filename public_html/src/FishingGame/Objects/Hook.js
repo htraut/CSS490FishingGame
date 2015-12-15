@@ -24,8 +24,6 @@ function Hook(texture) {
 gEngine.Core.inheritPrototype(Hook, GameObject);
 
 Hook.prototype.update = function (){
-    //var boatX = boat.getXform().getXPos() - boat.getXform().getWidth()/2 + 0.75;
-    //this.getXform().setXPos(boatX);
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W) || this.mStatus === 1){
         if(this.getXform().getYPos() < 0){
@@ -43,27 +41,6 @@ Hook.prototype.update = function (){
             this.mStatus = 0;
         }
     }
-    /*
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)){
-        /*
-        var x = this.mHook.getXform().getXPos() - 100;
-        var y = this.mHook.getXform().getYPos();
-        var c = vec2.fromValues(x, y);
-        this.mBoatState.setCenter(c);
-        */
-       /*
-        this.getXform().incXPosBy(-this.mSpeed);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)){
-        /*
-        var x = this.mHook.getXform().getXPos() + 100;
-        var y = this.mHook.getXform().getYPos();
-        this.mBoatState.setCenter(x,y);
-        */
-       /*
-        this.getXform().incXPosBy(this.mSpeed);
-    }
-    */
 };
 
 Hook.prototype.setLineLength = function (length) {
@@ -73,6 +50,14 @@ Hook.prototype.setLineLength = function (length) {
 
 Hook.prototype.getLineLength = function () {
     return this.mLength;
+};
+
+Hook.prototype.adjustSpeed = function(weight){
+    this.mSpeed *= weight/(weight+1);
+};
+
+Hook.prototype.resetSpeed = function(){
+    this.mSpeed = 0.15;
 };
 
 Hook.prototype.getStatus = function () {
