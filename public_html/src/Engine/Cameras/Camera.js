@@ -238,10 +238,10 @@ Camera.prototype.clampAtSides = function (aXform, zone) {
 
 Camera.prototype.clampAtSidesInterp = function (aPoint) {
 
-    if ((aPoint[0] - 15) < (this.getWCCenter()[0] - this.getWCWidth() / 2)) {
+    if ((aPoint[0] - 25) < (this.getWCCenter()[0] - this.getWCWidth() / 2)) {
         aPoint[0] = this.getWCCenter()[0] - this.getWCWidth() / 2 + 25;
     }
-    if ((aPoint[0] + 15) > (this.getWCCenter()[0] + this.getWCWidth() / 2)) {
+    if ((aPoint[0] + 25) > (this.getWCCenter()[0] + this.getWCWidth() / 2)) {
         aPoint[0] = this.getWCCenter()[0] + this.getWCWidth() / 2 - 25;
     }
 };
