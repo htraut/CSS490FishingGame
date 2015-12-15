@@ -309,7 +309,7 @@ FishingLevel.prototype.update = function () {
     this.mHook.update();
     this.mBoatSet.update(this.kMotorBoat);
     
-    this.mCamera.clampAtSides(this.mBoatSet.getXform(), 0.8);
+    this.mCamera.clampAtSidesInterp(this.mBoatSet.getStatePos());
     this.mBoatSet.moveSet();
     this.mCamera.setWCCenter(this.mHook.getXform().getXPos(), this.mHook.getXform().getYPos());
     this.mCamera.update();
