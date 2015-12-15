@@ -75,7 +75,7 @@ Spawner.prototype.populate = function (amount, type, texturePack){
                 continue;
             case "Shark":
                 object = new Shark(texturePack[0], texturePack[1]);
-                object.setSpeed(0.15);
+                object.setSpeed(0.135);
                 objXform = object.getXform();
                 w = 15;
                 h = w / 4;

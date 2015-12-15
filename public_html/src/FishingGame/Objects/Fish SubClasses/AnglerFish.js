@@ -6,7 +6,6 @@
  *         a longer fishing line if caught.
  */
 
-
 /* global GameObject, gEngine, Fish, Light, vec3, SpriteAnimateRenderable, vec2 */
 
 'use strict';
@@ -30,19 +29,8 @@ function AnglerFish(texture, normal){
     this.mFish.getXform().setRotationInRad(0);
     this.mAnglerLight = null;
     
-    /*
-    var xform = this.getXform();
-    
-    // calculate the initial angle theta, to be used to keep the light in correct position
-    var numerator = (xform.getXPos() + (xform.getWidth()/2.3)) * (this.getCurrentFrontDir()[0]) +
-             xform.getYPos() + (xform.getHeight()/4.5) * (this.getCurrentFrontDir()[1]);
-    var denominator = Math.sqrt(((xform.getXPos() + (xform.getWidth()/2.3)) * (xform.getXPos() + (xform.getWidth()/2.3)))
-             + ((xform.getYPos() + (xform.getHeight()/4.5)) * (xform.getYPos() + (xform.getHeight()/4.5))));
-    this.mTheta = Math.cos((numerator/denominator));
-    */
-   // the angle above does not need to be computed at runtime, it is constant,
-   // pre-computed value:
-   this.mTheta = 0.56255858;
+    // pre-computed value:
+    this.mTheta = 0.56255858;
 }
 
 gEngine.Core.inheritPrototype(AnglerFish, Fish);
@@ -82,26 +70,9 @@ AnglerFish.prototype.setLight = function (light){
 AnglerFish.prototype.update = function (){
     Fish.prototype.update.call(this);
     var xform = this.getXform();
-    //var x = this.getCurrentFrontDir()[0];
-    //var y = this.getCurrentFrontDir()[1];
-    
-    //x += xform.getXPos() + (xform.getWidth()/2.3);
-    //y += xform.getYPos() + (xform.getHeight()/4.5);
     var pos = vec3.fromValues(0, 0, 0);
     pos = this._rotateLight(pos);
     this.mAnglerLight.set2DPosition(pos);
-    /*if(this.mStatus === Fish.eStatus.eDespawn){
-        this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
-    }else{
-        if(this.mStatus === Fish.eStatus.eCollideRight){
-            this.mSpeed *= -1;
-            this.mStatus = 0;
-        }else if(this.mStatus === Fish.eStatus.eCollideLeft){
-            this.mSpeed *= -1;
-            this.mStatus = 0;
-        }
-        this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
-    }*/
 };
 
 // calculate the new position for the light as the fish moves, is rotated

@@ -66,8 +66,6 @@ Fish.prototype.update = function () {
     if(Fish.eStatus.eHooked !== this.mStatus){
         this.mRenderComponent.getXform().incXPosBy(this.mSpeed);
     }
-    
-    //this.mFish.updateAnimation();
 };
 
 Fish.prototype.rotateObjPointTo = function (p, rate){
