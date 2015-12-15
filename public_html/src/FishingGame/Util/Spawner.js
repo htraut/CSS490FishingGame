@@ -63,7 +63,7 @@ Spawner.prototype.populate = function (amount, type, texturePack){
                     y = this._generateYPos(Math.round(Math.random()));
                 }
                 // fish size based on depth of fish
-                w = Math.floor((Math.random() * 3 + Math.abs(y/50) + 2));
+                w = Math.floor((Math.random() * 3 + Math.abs(y/35) + 2));
                 h = w / 2;
                 objXform.setSize(w, h);
                 object.setScore(w * h);

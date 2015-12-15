@@ -53,7 +53,7 @@ Hook.prototype.getLineLength = function () {
 };
 
 Hook.prototype.adjustSpeed = function(weight){
-    var reduce = this.mSpeed * (weight/(weight*3))/(weight/100);
+    var reduce = this.mSpeed * (weight/(weight*3))/(weight/10);
     this.mSpeed -= reduce;
     if(this.mSpeed < 0.06){
         this.mSpeed = 0.06;
