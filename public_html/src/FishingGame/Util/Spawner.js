@@ -56,16 +56,17 @@ Spawner.prototype.populate = function (amount, type, texturePack){
                 object = new Fish(texturePack[0], texturePack[1], texturePack[2], texturePack[3], texturePack[4]);
                 object.setSpeed(0.1);
                 objXform = object.getXform();
-                w = Math.floor((Math.random()*6) + 3);
-                h = w / 2;
-                objXform.setSize(w, h);
-                object.setScore(w * h);
                 x = this._generateXPos(Math.round(Math.random()));
                 if(this.mCamCenter[1] > (0-this.mCamHeight)){
                     y = this._generateYPos(0);
                 }else{
                     y = this._generateYPos(Math.round(Math.random()));
                 }
+                // fish size based on depth of fish
+                w = Math.floor((Math.random() * 3 + Math.abs(y/50) + 2));
+                h = w / 2;
+                objXform.setSize(w, h);
+                object.setScore(w * h);
                 objXform.setPosition(x, y);
                 population.push(object);
                 if(w > 3 * h){
