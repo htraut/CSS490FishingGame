@@ -18,7 +18,7 @@ FishingLevel.prototype.updateAllFish = function(){
 FishingLevel.prototype._updateBaseFish = function(){
     var i;
     for(i = 0; i < this.mFish.length; i++){
-        this.mFish[i].statusCheck(this.mBG, this.mHook);
+        this.mFish[i].statusCheck(this.mBG, this.mHook, this.mBoatSet);
         this.mFish[i].update();
         if(this.mFish[i].getBounces() > 2){
             this.mFish.splice(i, 1);
@@ -56,7 +56,7 @@ FishingLevel.prototype._updateShark = function(){
 FishingLevel.prototype._updateAngler = function(){
     var i;
     for(i = 0; i< this.mAngler.length; i++){
-        this.mAngler[i].statusCheck(this.mBG, this.mHook);
+        this.mAngler[i].statusCheck(this.mBG, this.mHook, this.mBoatSet);
         this.mAngler[i].update();
         if(this.mAngler[i].getBounces() > 2){
             this.mLightStorage.push(this.mAngler[i].getLight());

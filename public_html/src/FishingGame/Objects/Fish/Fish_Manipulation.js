@@ -10,7 +10,7 @@
 
 "use strict";
 
-Fish.prototype.statusCheck = function(theBG, theHook){
+Fish.prototype.statusCheck = function(theBG, theHook, theBoatSet){
 
     var result = vec2.create();
     var fishXform = null;
@@ -24,6 +24,7 @@ Fish.prototype.statusCheck = function(theBG, theHook){
         if(this.getStatus() !== Fish.eStatus.eHooked &&
                (this.getBBox().boundCollideStatus(theHook.getBBox()) !== BoundingBox.eboundCollideStatus.eOutside)){
            theHook.adjustSpeed(this.getScore());
+           theBoatSet.adjustSpeed(this.getScore());
         }
                
         this.updateStatus(Fish.eStatus.eHooked);
@@ -34,6 +35,7 @@ Fish.prototype.statusCheck = function(theBG, theHook){
         if(hookCenter[1] > -0.5){
             this.updateStatus(Fish.eStatus.eDespawn);
             theHook.resetSpeed();
+            theBoatSet.resetSpeed();
         }
     }
     this.bounce(theBG);

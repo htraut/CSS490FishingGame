@@ -37,7 +37,8 @@ function Shark(texture, normal){
     
     this.mChaseDist = 20;
     this.mRotateRate = 0.3;
-    this.mSpeed = 0.5;
+    this.mSpeed = 2;
+    this.setSpeed(this.mSpeed);
     this.mInPursuit = false;
 }
 gEngine.Core.inheritPrototype(Shark, Fish);
